@@ -40,7 +40,7 @@ public class GameGrid extends Actor
     public void addCandies(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
-                Candy c = new Candy();
+                Candy c = new Regular((int)Math.random()*4);
                 grid[i][j].setCandy(c);
                 getWorld().addObject(c, grid[i][j].getX(), grid[i][j].getY());
             }

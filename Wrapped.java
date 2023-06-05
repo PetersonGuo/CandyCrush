@@ -1,25 +1,25 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Candy here.
+ * Write a description of class Wrapper here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Candy extends Actor
+public class Wrapped extends Special
 {
-    protected GreenfootImage image;
-    protected int colour;
-    public Candy(int colour){
-        this.colour = colour;
+    public Wrapped(int colour){
+        super(colour);
     }
-    
     /**
-     * Act - do whatever the Candy wants to do. This method is called whenever
+     * Act - do whatever the Wrapper wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
     {
         // Add your action code here.
+    }
+    public void useAbility(){
+        
     }
 }
