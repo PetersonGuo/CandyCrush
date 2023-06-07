@@ -14,25 +14,9 @@ public class Striped extends Special
         super(colour);
         this.vertical = vertical;
         if(vertical){
-            if(colour == 0){//red
-                image = new GreenfootImage("Red_VStripe.png");
-            } else if (colour == 1) {//yellow
-                image = new GreenfootImage("Yellow_VStripe.png");
-            } else if (colour == 2) {//green
-                image = new GreenfootImage("Green_VStripe.png");
-            } else if (colour == 3) {//blue
-                image = new GreenfootImage("Blue_VStripe.png");
-            }
+            image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_VStripe.png");
         }else{
-            if(colour == 0){//red
-                image = new GreenfootImage("Red_HStripe.png");
-            } else if (colour == 1) {//yellow
-                image = new GreenfootImage("Yellow_HStripe.png");
-            } else if (colour == 2) {//green
-                image = new GreenfootImage("Green_HStripe.png");
-            } else if (colour == 3) {//blue
-                image = new GreenfootImage("Blue_HStripe.png");
-            }            
+            image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_HStripe.png");
         }
         setCandyImage();
     }

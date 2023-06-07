@@ -10,19 +10,7 @@ public class Regular extends Candy
 {
     public Regular(int colour){
         super(colour);
-        if(colour == 0){//red
-            image = new GreenfootImage("Red_Candy.png");
-        }else if (colour == 1){//orange
-            image = new GreenfootImage("Orange_Candy.png");
-        }else if (colour == 2){//yellow
-            image = new GreenfootImage("Yellow_Candy.png");
-        }else if (colour == 3){//green
-            image = new GreenfootImage("Green_Candy.png");
-        }else if (colour == 4){//blue
-            image = new GreenfootImage("Blue_Candy.png");
-        }else if (colour == 5){///purple
-            image = new GreenfootImage("Purple_Candy.png");            
-        }
+        image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_Candy.png");
         setCandyImage();
     }
 
