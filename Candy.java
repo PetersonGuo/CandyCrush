@@ -22,4 +22,21 @@ public abstract class Candy extends Actor
     {
         // Add your action code here.
     }
+    
+    protected void setCandyImage(){
+        image.scale(FINAL.CELL_SIZE, FINAL.CELL_SIZE);
+        setImage(image);        
+    }
+    
+    public Cell getCell(){
+        return (Cell)getOneIntersectingObject(Cell.class);
+    }
+    
+    public int getColour(){
+        return colour;
+    }
+    
+    public void destroy(){
+        
+    }
 }

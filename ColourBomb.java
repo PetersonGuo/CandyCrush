@@ -10,6 +10,8 @@ public class ColourBomb extends Special
 {
     public ColourBomb(){
         super(-1);
+        image = new GreenfootImage("Colour_Bomb.png");
+        setCandyImage();
     }
     /**
      * Act - do whatever the Choco wants to do. This method is called whenever
