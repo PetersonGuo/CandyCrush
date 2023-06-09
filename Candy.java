@@ -18,9 +18,9 @@ public abstract class Candy extends Actor
      * Act - do whatever the Candy wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act()
-    {
-        // Add your action code here.
+    public void act() {
+        if (Greenfoot.mouseClicked(this))
+            MainWorld.setClicked(this);
     }
     
     protected void setCandyImage(){
@@ -38,5 +38,9 @@ public abstract class Candy extends Actor
     
     public void destroy(){
         
+    }
+    
+    public boolean comp(Candy c) {
+        return this.colour == c.getColour();
     }
 }

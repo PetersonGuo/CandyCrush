@@ -14,4 +14,6 @@ comment5.params=
 comment5.target=int\ getColour()
 comment6.params=
 comment6.target=void\ destroy()
-numComments=7
+comment7.params=c
+comment7.target=boolean\ comp(Candy)
+numComments=8

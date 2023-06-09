@@ -11,8 +11,7 @@ public class Cell extends Actor
     private Candy candy;
     private int size;
     private GreenfootImage img;
-    public Cell(Candy c){
-        candy = c;
+    public Cell(){
         size = FINAL.CELL_SIZE;
         img = new GreenfootImage(size, size);
         img.setColor(new Color(150,150,150));
@@ -23,20 +22,15 @@ public class Cell extends Actor
         setImage(img);
     }
     
-    /**
-     * Act - do whatever the Cell wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
-    {
-        // Add your action code here.
-    }
-    
     public void setCandy(Candy c){
         candy = c;
     }
     
     public Candy getCandy(){
         return candy;
+    }
+    
+    public boolean comp(Cell c) {
+        return candy.comp(c.getCandy());
     }
 }

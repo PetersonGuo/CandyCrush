@@ -13,9 +13,4 @@ public abstract class Special extends Candy
     }
 
     protected abstract void useAbility();
-
-    public void act()
-    {
-        // Add your action code here.
-    }
 }
