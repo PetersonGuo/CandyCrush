@@ -15,8 +15,13 @@ public class Wrapped extends Special
         setCandyImage();
     }
     public void useAbility(){ //explodes in a 3 x 3 square about the origin
-         for(Candy c: getObjectsInRange(FINAL.CELL_SIZE * 3 / 2, Candy.class)){
-             c.destroy();
-         }
+        Candy[] explodeCandies = grid.getExploGrid(this);
+        for(Candy c: explodeCandies){
+            c.destroy();
+        }
+        destroyed = true;
+    }
+    public void destroy(){
+        
     }
 }

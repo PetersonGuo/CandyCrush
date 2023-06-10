@@ -13,4 +13,8 @@ public class Regular extends Candy
         image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_Candy.png");
         setCandyImage();
     }
+    
+    public void destroy(){
+        
+    }
 }

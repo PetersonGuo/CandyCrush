@@ -15,6 +15,17 @@ public class ColourBomb extends Special
     }
     
     public void useAbility(){
+        //somehow detect what candy the colour bomb interacts with
+        //colour variable represents the colour that the bomb swaps with
+        for(Candy c: grid.getGrid()){
+            if(colour == c.getColour()){
+                c.destroy();
+            }
+        }
+        destroyed = true;        
+    }
+    
+    public void destroy(){
         
     }
 }

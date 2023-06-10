@@ -29,6 +29,21 @@ public class Striped extends Special
         // Add your action code here.
     }
     public void useAbility(){
+        if(vertical){
+            Candy[] column = grid.getColumn(this);
+            for(Candy c: column){
+                c.destroy();
+            }
+        } else {
+            Candy[] row = grid.getRow(this);
+            for(Candy c: row){
+                c.destroy();
+            }
+        }
+        destroyed = true;        
+    }
+    
+    public void destroy(){
         
     }
 }

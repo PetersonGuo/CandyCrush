@@ -10,7 +10,10 @@ import java.util.*;
 public class GameGrid extends Actor {
     private Candy[][] candies;
     private Cell[][] cells;
+    private int width, height;
     public GameGrid(int width, int height){
+        this.width = width;
+        this.height = height;
         candies = new Candy[height][width];
         cells = new Cell[height][width];
         GreenfootImage img = new GreenfootImage(1,1);
@@ -24,7 +27,7 @@ public class GameGrid extends Actor {
                 cells[i][j] = new Cell();
                 int shiftAmountX = (w.getWidth())/2 - (candies[i].length * FINAL.CELL_SIZE)/2 + FINAL.CELL_SIZE/2; 
                 int shiftAmountY = (w.getHeight())/2 - (candies.length * FINAL.CELL_SIZE)/2 + FINAL.CELL_SIZE/2; 
-                getWorld().addObject(cells[i][j], FINAL.CELL_SIZE*i + shiftAmountX, FINAL.CELL_SIZE*j + shiftAmountY);
+                w.addObject(cells[i][j], FINAL.CELL_SIZE*i + shiftAmountX, FINAL.CELL_SIZE*j + shiftAmountY);
             }
         }
     }
@@ -73,7 +76,7 @@ public class GameGrid extends Actor {
         return arr;
     }
     
-    public Candy[] getExplocandies(Candy c){
+    public Candy[] getExploGrid(Candy c){
         int x = -1, y = -1;
         for(int i = 0; i < candies.length; i++){
             for(int j = 0; j < candies[i].length; j++){
@@ -96,11 +99,23 @@ public class GameGrid extends Actor {
         return arr;
     }
     
+    public Candy[] getGrid(){
+        Candy[] arr = new Candy[width * height];
+        int index = 0;
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                arr[index] = candies[i][j];
+                index++;
+            }
+        }
+        return arr;
+    }
+    
     /**
      * Check the candies to see if there are any possible matches
      * Assumes all matches are already destroyed
      */
-    private boolean checkcandies() {
+    private boolean checkCandies() {
         // For every 3x3 box, check if centre candy has another candy of the same type in the x dir or y dir then check corners of opposite side
         for (int i = 0; i < candies.length; i++) {
             for (int j = 0; j < candies[i].length; j++) {
