@@ -32,7 +32,6 @@ public class GameGrid extends Actor {
         }
     }
 
-    
     /**
      * Act - do whatever the Gamecandies wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -45,72 +44,12 @@ public class GameGrid extends Actor {
     public void addCandies(){
         for(int i = 0; i < candies.length; i++){
             for(int j = 0; j < candies[i].length; j++){
-                Candy c = new Regular((int)(Math.random()*6));
-                candies[i][j] = c;
-                getWorld().addObject(c, cells[i][j].getX(), cells[i][j].getY());
+                candies[i][j] = new Regular((int)(Math.random()*6));
+                getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
         }
     }
-    
-    public Candy[] getRow(Candy c){
-        int rowNum = -1;
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
-                if(candies[i][j].equals(c)) rowNum = i;
-            }
-        }
-        return candies[rowNum];
-    }
-    
-    public Candy[] getColumn(Candy c){
-        int columnNum = -1;
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
-                if(candies[i][j].equals(c)) columnNum = j;
-            }
-        }
-        Candy[] arr = new Candy[candies.length];
-        for(int i = 0; i < candies.length; i++){
-            arr[i] = candies[i][columnNum];
-        }
-        return arr;
-    }
-    
-    public Candy[] getExploGrid(Candy c){
-        int x = -1, y = -1;
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
-                if(candies[i][j].equals(c)){
-                    x = i;
-                    y = j;
-                }
-            }
-        }   
-        Candy[] arr = new Candy[9];
-        int arrIndex = 0;
-        for(int i = x-1; i <= x+1; i++){
-            for(int j = y-1; j <= y+1; j++){
-                if (validCoor(i, j)) {
-                    arr[arrIndex] = candies[i][j];
-                    arrIndex++;
-                }
-            }
-        }  
-        return arr;
-    }
-    
-    public Candy[] getGrid(){
-        Candy[] arr = new Candy[width * height];
-        int index = 0;
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
-                arr[index] = candies[i][j];
-                index++;
-            }
-        }
-        return arr;
-    }
-    
+        
     /**
      * Check the candies to see if there are any possible matches
      * Assumes all matches are already destroyed
@@ -229,6 +168,33 @@ public class GameGrid extends Actor {
         return new Pair(-1,-1);
     }
     
+    public void drop(){
+        Pair candyNullCoor = checkNullCandy();
+        while(candyNullCoor != null){
+            moveDown(candyNullCoor.x, candyNullCoor.y);
+            candyNullCoor = checkNullCandy();
+        }
+    }
+    
+    private Pair checkNullCandy(){
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                if(candies[i][j] == null){
+                    return new Pair(i,j);
+                }
+            }
+        }
+        return null;        
+    }
+    
+    private void moveDown(int row, int col){
+        if(row == 0){
+            candies[row][col] = new Regular((int)(Math.random()*6));
+        }else{
+            swap(new Pair(row, col), new Pair(row-1, col));
+        }        
+    }
+    
     /**
      * Helper function
      */
@@ -237,4 +203,64 @@ public class GameGrid extends Actor {
         candies[a.x][a.y] = candies[b.x][b.y];
         candies[b.x][b.y] = temp;
     }
+
+    //getters
+    public Candy[] getRow(Candy c){
+        int rowNum = -1;
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                if(candies[i][j].equals(c)) rowNum = i;
+            }
+        }
+        return candies[rowNum];
+    }
+    
+    public Candy[] getColumn(Candy c){
+        int columnNum = -1;
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                if(candies[i][j].equals(c)) columnNum = j;
+            }
+        }
+        Candy[] arr = new Candy[candies.length];
+        for(int i = 0; i < candies.length; i++){
+            arr[i] = candies[i][columnNum];
+        }
+        return arr;
+    }
+    
+    public Candy[] getExploGrid(Candy c){
+        int x = -1, y = -1;
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                if(candies[i][j].equals(c)){
+                    x = i;
+                    y = j;
+                }
+            }
+        }   
+        Candy[] arr = new Candy[9];
+        int arrIndex = 0;
+        for(int i = x-1; i <= x+1; i++){
+            for(int j = y-1; j <= y+1; j++){
+                if (validCoor(i, j)) {
+                    arr[arrIndex] = candies[i][j];
+                    arrIndex++;
+                }
+            }
+        }  
+        return arr;
+    }
+    
+    public Candy[] getCandies(){
+        Candy[] arr = new Candy[width * height];
+        int index = 0;
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                arr[index] = candies[i][j];
+                index++;
+            }
+        }
+        return arr;
+    }        
 }
