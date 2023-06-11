@@ -47,6 +47,7 @@ public class GameGrid extends Actor {
         for(int i = 0; i < candies.length; i++){
             for(int j = 0; j < candies[i].length; j++){
                 candies[i][j] = new Regular((int)(Math.random()*6));
+                cells[i][j].setCandy(candies[i][j]);
                 getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
         }
@@ -54,7 +55,6 @@ public class GameGrid extends Actor {
         if(checkMatching()){
             System.out.println(matchedCandies.size());
             for(Pair p : matchedCandies){
-                System.out.println(p.x +", " + p.y);
                 getWorld().removeObject(candies[p.x][p.y]);
                 candies[p.x][p.y] = null;
                 printArray();
@@ -202,10 +202,6 @@ public class GameGrid extends Actor {
         }
     }
     
-    private void dropGraphics(Candy c){
-        c.setLocation(c.getX(), c.getY()+FINAL.CELL_SIZE);
-    }
-    
     private Pair checkNullCandy(){
         for(int i = 0; i < candies.length; i++){
             for(int j = 0; j < candies[i].length; j++){
@@ -220,9 +216,10 @@ public class GameGrid extends Actor {
     private void moveDown(int row, int col){
         if(row == 0){
             candies[row][col] = new Regular((int)(Math.random()*6));
+            getWorld().addObject(candies[row][col], cells[row][col].getX(), cells[row][col].getY());
         }else{
             swap(new Pair(row, col), new Pair(row-1, col));
-            //dropGraphics(candies[row-1] [col]);
+            swapGraphics(new Pair(row, col), new Pair(row-1, col));
         }   
         printArray();
     }
@@ -237,13 +234,8 @@ public class GameGrid extends Actor {
     }
     
     private void swapGraphics(Pair a, Pair b){
-        System.out.println(a.x + "," + a.y + "   " + b.x + "," + b.y);
-        int aXLocation = cells[b.x][b.y].getX();
-        int aYLocation = cells[b.x][b.y].getY();
-        System.out.println(candies[b.x][b.y].getX() + "," + candies[b.x][b.y].getY());
-        System.out.println(aXLocation + "," + aYLocation);
-        candies[a.x][a.y].setLocation(cells[a.x][a.y].getX(), cells[a.x][a.y].getY());
-        candies[b.x][b.y].setLocation(aXLocation, aYLocation);
+        if(candies[a.x][a.y] != null)candies[a.x][a.y].setLocation(cells[a.x][a.y].getX(), cells[a.x][a.y].getY());
+        if(candies[b.x][b.y] != null)candies[b.x][b.y].setLocation(cells[b.x][b.y].getX(), cells[b.x][b.y].getY());
     }
 
     //getters
