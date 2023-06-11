@@ -118,28 +118,29 @@ public class GameGrid extends Actor {
     private int match(int i, int j, boolean dir) {
         int c = 1;
         if (dir) {
-            int y = j;
+            int y = j+1;
             while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) {
                 c++;
                 y++;
             }
-            y = j;
+            y = j-1;
             while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) {
                 c++;
                 y--;
             }            
         } else {
-            int x = i;
+            int x = i+1;
             while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) {
                 c++;
                 x++;
             }
-            x = i;
+            x = i-1;
             while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) {
                 c++;
                 x--;
             }            
         }
+        System.out.println(c);
         return c;
     }
     
@@ -155,8 +156,10 @@ public class GameGrid extends Actor {
      */
     public void validSwap(Pair a, Pair b) {
         swap(a, b);
-        if (destroyMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)))
+        if (destroyMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))){
+            swapGraphics(a,b);
             return;
+        }
         swap(a, b);
     }
     
@@ -202,7 +205,6 @@ public class GameGrid extends Actor {
         Candy temp = candies[a.x][a.y];
         candies[a.x][a.y] = candies[b.x][b.y];
         candies[b.x][b.y] = temp;
-        swapGraphics(a, b);
     }
     
     private void swapGraphics(Pair a, Pair b){
