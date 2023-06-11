@@ -41,4 +41,8 @@ public abstract class Candy extends Actor
     public boolean comp(Candy c) {
         return this.colour == c.getColour();
     }
+    
+    public String toString(){
+        return FINAL.CANDY_COLOUR[colour];
+    }
 }

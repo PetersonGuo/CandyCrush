@@ -11,11 +11,13 @@ public class GameGrid extends Actor {
     private Candy[][] candies;
     private Cell[][] cells;
     private int width, height;
+    private ArrayList<Pair> matchedCandies;
     public GameGrid(int width, int height){
         this.width = width;
         this.height = height;
         candies = new Candy[height][width];
         cells = new Cell[height][width];
+        matchedCandies = new ArrayList<Pair>();
         GreenfootImage img = new GreenfootImage(1,1);
         img.setTransparency(0);
         setImage(img);
@@ -27,7 +29,7 @@ public class GameGrid extends Actor {
                 cells[i][j] = new Cell();
                 int shiftAmountX = (w.getWidth())/2 - (candies[i].length * FINAL.CELL_SIZE)/2 + FINAL.CELL_SIZE/2; 
                 int shiftAmountY = (w.getHeight())/2 - (candies.length * FINAL.CELL_SIZE)/2 + FINAL.CELL_SIZE/2; 
-                w.addObject(cells[i][j], FINAL.CELL_SIZE*i + shiftAmountX, FINAL.CELL_SIZE*j + shiftAmountY);
+                w.addObject(cells[i][j], FINAL.CELL_SIZE*j + shiftAmountX, FINAL.CELL_SIZE*i + shiftAmountY);
             }
         }
     }
@@ -47,6 +49,19 @@ public class GameGrid extends Actor {
                 candies[i][j] = new Regular((int)(Math.random()*6));
                 getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
+        }
+        printArray();
+        if(checkMatching()){
+            System.out.println(matchedCandies.size());
+            for(Pair p : matchedCandies){
+                System.out.println(p.x +", " + p.y);
+                getWorld().removeObject(candies[p.x][p.y]);
+                candies[p.x][p.y] = null;
+                printArray();
+            }
+            matchedCandies.clear();
+            drop();
+            printArray();
         }
     }
         
@@ -80,13 +95,13 @@ public class GameGrid extends Actor {
      * Check through the candies to destroy any currently matching candies
      * Dumb algorithm to iterate over everything
      */
-    private boolean destroyMatching() {return destroyMatching(0, candies[0].length-1, candies.length-1);}
+    private boolean checkMatching() {return checkMatching(0, candies[0].length-1, candies.length-1);}
     
     /**
      * Check through the candies to destroy any currently matching candies
      * Smart algorithm to only destroy all matching within a bound
      */
-    private boolean destroyMatching(int lowX, int highX, int y) {
+    private boolean checkMatching(int lowX, int highX, int y) {
         boolean matched = false;
         for (int j = y; j >= 0; j--) {
             for (int i = lowX; i <= highX; i++) {
@@ -140,7 +155,11 @@ public class GameGrid extends Actor {
                 x--;
             }            
         }
-        System.out.println(c);
+        if(c > 2) {
+            Pair p = getGridCoor(candies[i][j]);
+            matchedCandies.add(p);
+            System.out.println(p.x + "," + p.y);
+        }
         return c;
     }
     
@@ -151,24 +170,28 @@ public class GameGrid extends Actor {
         return i >= 0 && i < candies.length && j >= 0 && j < candies[i].length;
     }
     
+    public void printArray(){
+        for(int i = 0; i < candies.length; i++){
+            for(int j = 0; j < candies[i].length; j++){
+                System.out.print(candies[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        System.out.println("---------------------------------------------------");
+    }
+    
     /**
      * Check if user made a valid swap and swap back if not valid
      */
     public void validSwap(Pair a, Pair b) {
         swap(a, b);
-        if (destroyMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))){
+        printArray();
+        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))){
             swapGraphics(a,b);
             return;
         }
         swap(a, b);
-    }
-    
-    public Pair getGridCoor(Candy c) {
-        for (int i = 0; i < candies.length; i++)
-            for (int j = 0; j < candies[i].length; j++)
-                if (candies[i][j].equals(c))
-                    return new Pair(i, j);
-        return new Pair(-1,-1);
+        printArray();
     }
     
     public void drop(){
@@ -177,6 +200,10 @@ public class GameGrid extends Actor {
             moveDown(candyNullCoor.x, candyNullCoor.y);
             candyNullCoor = checkNullCandy();
         }
+    }
+    
+    private void dropGraphics(Candy c){
+        c.setLocation(c.getX(), c.getY()+FINAL.CELL_SIZE);
     }
     
     private Pair checkNullCandy(){
@@ -195,7 +222,9 @@ public class GameGrid extends Actor {
             candies[row][col] = new Regular((int)(Math.random()*6));
         }else{
             swap(new Pair(row, col), new Pair(row-1, col));
-        }        
+            //dropGraphics(candies[row-1] [col]);
+        }   
+        printArray();
     }
     
     /**
@@ -208,9 +237,12 @@ public class GameGrid extends Actor {
     }
     
     private void swapGraphics(Pair a, Pair b){
-        int aXLocation = candies[a.x][a.y].getX();
-        int aYLocation = candies[a.x][a.y].getY();
-        candies[a.x][a.y].setLocation(candies[b.x][b.y].getX(), candies[b.x][b.y].getY());
+        System.out.println(a.x + "," + a.y + "   " + b.x + "," + b.y);
+        int aXLocation = cells[b.x][b.y].getX();
+        int aYLocation = cells[b.x][b.y].getY();
+        System.out.println(candies[b.x][b.y].getX() + "," + candies[b.x][b.y].getY());
+        System.out.println(aXLocation + "," + aYLocation);
+        candies[a.x][a.y].setLocation(cells[a.x][a.y].getX(), cells[a.x][a.y].getY());
         candies[b.x][b.y].setLocation(aXLocation, aYLocation);
     }
 
@@ -273,4 +305,12 @@ public class GameGrid extends Actor {
         }
         return arr;
     }        
+    
+    public Pair getGridCoor(Candy c) {
+        for (int i = 0; i < candies.length; i++)
+            for (int j = 0; j < candies[i].length; j++)
+                if (candies[i][j].equals(c))
+                    return new Pair(i, j);
+        return new Pair(-1,-1);
+    }
 }
