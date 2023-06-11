@@ -28,7 +28,8 @@ public class MainWorld extends World {
     
     public static void setClicked(Candy c) {
         if (clicked != null) {
-            if ((Math.abs(c.getX() - clicked.getX()) <= FINAL.CELL_SIZE && c.getX() != clicked.getX()) || (Math.abs(c.getY() - clicked.getY()) <= FINAL.CELL_SIZE && c.getY() != clicked.getY())) {
+            if ((Math.abs(c.getX() - clicked.getX()) <= FINAL.CELL_SIZE && c.getX() != clicked.getX() && c.getY() == clicked.getY()) || 
+                (Math.abs(c.getY() - clicked.getY()) <= FINAL.CELL_SIZE && c.getY() != clicked.getY() && c.getX() == clicked.getX())) {
                 grid.validSwap(grid.getGridCoor(c), grid.getGridCoor(clicked));
                 clicked = null;
             } else clicked = c;

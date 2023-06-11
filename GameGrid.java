@@ -127,7 +127,7 @@ public class GameGrid extends Actor {
             while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) {
                 c++;
                 y--;
-            }
+            }            
         } else {
             int x = i;
             while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) {
@@ -138,7 +138,7 @@ public class GameGrid extends Actor {
             while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) {
                 c++;
                 x--;
-            }
+            }            
         }
         return c;
     }
@@ -202,6 +202,14 @@ public class GameGrid extends Actor {
         Candy temp = candies[a.x][a.y];
         candies[a.x][a.y] = candies[b.x][b.y];
         candies[b.x][b.y] = temp;
+        swapGraphics(a, b);
+    }
+    
+    private void swapGraphics(Pair a, Pair b){
+        int aXLocation = candies[a.x][a.y].getX();
+        int aYLocation = candies[a.x][a.y].getY();
+        candies[a.x][a.y].setLocation(candies[b.x][b.y].getX(), candies[b.x][b.y].getY());
+        candies[b.x][b.y].setLocation(aXLocation, aYLocation);
     }
 
     //getters
