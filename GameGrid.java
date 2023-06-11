@@ -43,26 +43,47 @@ public class GameGrid extends Actor {
         // Add your action code here.
     }
     
+    private void addCandy(int i, int j){
+        candies[i][j] = new Regular((int)(Math.random()*6));
+        cells[i][j].setCandy(candies[i][j]);
+        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
+    }
+    
     public void addCandies(){
         for(int i = 0; i < candies.length; i++){
             for(int j = 0; j < candies[i].length; j++){
-                candies[i][j] = new Regular((int)(Math.random()*6));
-                cells[i][j].setCandy(candies[i][j]);
-                getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+                addCandy(i,j);
+                // candies[i][j] = new Regular((int)(Math.random()*6));
+                // cells[i][j].setCandy(candies[i][j]);
+                // getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
         }
         printArray();
-        if(checkMatching()){
-            System.out.println(matchedCandies.size());
+        
+        removeMatching();
+        // while(checkMatching()){
+            // System.out.println(matchedCandies.size());
+            // for(Pair p : matchedCandies){
+                // getWorld().removeObject(candies[p.x][p.y]);
+                // candies[p.x][p.y] = null;
+            // }
+            // matchedCandies.clear();
+            // drop();
+            // printArray();
+        // }
+    }
+    
+    public void removeMatching(){
+        while(checkMatching()){
+            //System.out.println(matchedCandies.size());
             for(Pair p : matchedCandies){
                 getWorld().removeObject(candies[p.x][p.y]);
                 candies[p.x][p.y] = null;
-                printArray();
             }
             matchedCandies.clear();
             drop();
             printArray();
-        }
+        }        
     }
         
     /**
@@ -158,7 +179,7 @@ public class GameGrid extends Actor {
         if(c > 2) {
             Pair p = getGridCoor(candies[i][j]);
             matchedCandies.add(p);
-            System.out.println(p.x + "," + p.y);
+            //System.out.println(p.x + "," + p.y);
         }
         return c;
     }
@@ -185,13 +206,14 @@ public class GameGrid extends Actor {
      */
     public void validSwap(Pair a, Pair b) {
         swap(a, b);
-        printArray();
+        //printArray();
         if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))){
             swapGraphics(a,b);
+            removeMatching();
             return;
         }
         swap(a, b);
-        printArray();
+        //printArray();
     }
     
     public void drop(){
@@ -215,13 +237,13 @@ public class GameGrid extends Actor {
     
     private void moveDown(int row, int col){
         if(row == 0){
-            candies[row][col] = new Regular((int)(Math.random()*6));
-            getWorld().addObject(candies[row][col], cells[row][col].getX(), cells[row][col].getY());
+            addCandy(row, col);
+            //candies[row][col] = new Regular((int)(Math.random()*6));
+            //getWorld().addObject(candies[row][col], cells[row][col].getX(), cells[row][col].getY());
         }else{
             swap(new Pair(row, col), new Pair(row-1, col));
             swapGraphics(new Pair(row, col), new Pair(row-1, col));
         }   
-        printArray();
     }
     
     /**
@@ -234,8 +256,14 @@ public class GameGrid extends Actor {
     }
     
     private void swapGraphics(Pair a, Pair b){
-        if(candies[a.x][a.y] != null)candies[a.x][a.y].setLocation(cells[a.x][a.y].getX(), cells[a.x][a.y].getY());
-        if(candies[b.x][b.y] != null)candies[b.x][b.y].setLocation(cells[b.x][b.y].getX(), cells[b.x][b.y].getY());
+        if(candies[a.x][a.y] != null){
+            cells[a.x][a.y].setCandy(candies[a.x][a.y]);
+            //candies[a.x][a.y].setLocation(cells[a.x][a.y].getX(), cells[a.x][a.y].getY());
+        }
+        if(candies[b.x][b.y] != null){
+            cells[b.x][b.y].setCandy(candies[b.x][b.y]);
+            //candies[b.x][b.y].setLocation(cells[b.x][b.y].getX(), cells[b.x][b.y].getY());
+        }
     }
 
     //getters
