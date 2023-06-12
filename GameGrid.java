@@ -53,29 +53,15 @@ public class GameGrid extends Actor {
         for(int i = 0; i < candies.length; i++){
             for(int j = 0; j < candies[i].length; j++){
                 addCandy(i,j);
-                // candies[i][j] = new Regular((int)(Math.random()*6));
-                // cells[i][j].setCandy(candies[i][j]);
-                // getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
         }
         printArray();
         
         removeMatching();
-        // while(checkMatching()){
-            // System.out.println(matchedCandies.size());
-            // for(Pair p : matchedCandies){
-                // getWorld().removeObject(candies[p.x][p.y]);
-                // candies[p.x][p.y] = null;
-            // }
-            // matchedCandies.clear();
-            // drop();
-            // printArray();
-        // }
     }
     
     public void removeMatching(){
         while(checkMatching()){
-            //System.out.println(matchedCandies.size());
             for(Pair p : matchedCandies){
                 getWorld().removeObject(candies[p.x][p.y]);
                 candies[p.x][p.y] = null;
@@ -179,7 +165,6 @@ public class GameGrid extends Actor {
         if(c > 2) {
             Pair p = getGridCoor(candies[i][j]);
             matchedCandies.add(p);
-            //System.out.println(p.x + "," + p.y);
         }
         return c;
     }
@@ -206,14 +191,12 @@ public class GameGrid extends Actor {
      */
     public void validSwap(Pair a, Pair b) {
         swap(a, b);
-        //printArray();
         if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))){
             swapGraphics(a,b);
             removeMatching();
             return;
         }
         swap(a, b);
-        //printArray();
     }
     
     public void drop(){
@@ -238,8 +221,6 @@ public class GameGrid extends Actor {
     private void moveDown(int row, int col){
         if(row == 0){
             addCandy(row, col);
-            //candies[row][col] = new Regular((int)(Math.random()*6));
-            //getWorld().addObject(candies[row][col], cells[row][col].getX(), cells[row][col].getY());
         }else{
             swap(new Pair(row, col), new Pair(row-1, col));
             swapGraphics(new Pair(row, col), new Pair(row-1, col));
@@ -258,7 +239,6 @@ public class GameGrid extends Actor {
     private void swapGraphics(Pair a, Pair b){
         if(candies[a.x][a.y] != null){
             cells[a.x][a.y].setCandy(candies[a.x][a.y]);
-            //candies[a.x][a.y].setLocation(cells[a.x][a.y].getX(), cells[a.x][a.y].getY());
         }
         if(candies[b.x][b.y] != null){
             cells[b.x][b.y].setCandy(candies[b.x][b.y]);
@@ -267,6 +247,10 @@ public class GameGrid extends Actor {
     }
 
     //getters
+    public Candy[] getRow(int row){
+        return candies[row];
+    }
+    
     public Candy[] getRow(Candy c){
         int rowNum = -1;
         for(int i = 0; i < candies.length; i++){

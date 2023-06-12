@@ -1,11 +1,13 @@
 #BlueJ class context
 comment0.target=MainWorld
 comment0.text=\n\ Write\ a\ description\ of\ class\ MyWorld\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=
-comment1.target=MainWorld()
-comment1.text=\n\ Constructor\ for\ objects\ of\ class\ MyWorld.\n
+comment1.params=objective
+comment1.target=MainWorld(int)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ MyWorld.\n\ \n
 comment2.params=
 comment2.target=void\ act()
 comment3.params=c
 comment3.target=void\ setClicked(Candy)
-numComments=4
+comment4.params=
+comment4.target=void\ objectiveCompleted()
+numComments=5

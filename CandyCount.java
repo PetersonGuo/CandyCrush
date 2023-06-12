@@ -11,32 +11,26 @@ public class CandyCount extends Objectives
     private int counter;
     private int totalCandy;
     private int colour;
-    public CandyCount(){
+    public CandyCount(int colour){
         objComplete = false;
-        double doubleRandomNumber = Math.random() * 4;
-        int randomNumber = (int)doubleRandomNumber;
-        if (randomNumber == 0){
-            colour = 0;
-        }else if (randomNumber == 1){
-            colour = 1;
-        }else if (randomNumber == 2){
-            colour = 2;
-        }else if (randomNumber == 3){
-            colour = 3;
-        }
+        this.colour = colour;
     }
     
     public void act()
     {
-        if (true){ //candy of that number is destroyed
-            counter++;
+        if(checkObj()){
+            MainWorld.objectiveCompleted();
         }
     }
     
     public boolean checkObj(){
-        if (counter == totalCandy){
+        if (counter >= totalCandy){
             objComplete = true;
         }
         return objComplete;
+    }
+    
+    public void increaseCandyCounter(int add){
+        counter += add;
     }
 }

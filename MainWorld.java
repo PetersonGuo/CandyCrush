@@ -8,21 +8,24 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class MainWorld extends World
 {
-    private GameGrid grid;
+    private static GameGrid grid;
+    private static Candy clicked;
     //Candy Count variables
     private int counter;
     private int totalCandy;
     private int colour;
     
+    private int objective;
     private static boolean objComplete;
+    private Objectives obj;
     
     //Ingredients variables
-    private int totalIngredients;
+    //private int totalIngredients;
     /**
      * Constructor for objects of class MyWorld.
      * 
      */
-    public MainWorld()
+    public MainWorld(int objective)
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 800, 1); 
@@ -30,58 +33,43 @@ public class MainWorld extends World
         addObject(grid, 400, 400);
         grid.addCandies();
         
+        clicked = null;
         objComplete = false;
         
-        double doubleRandomNumber = Math.random() * 4;
-        int randomNumber = (int)doubleRandomNumber;
-        if (randomNumber == 0){
-            colour = 0;
-        }else if (randomNumber == 1){
-            colour = 1;
-        }else if (randomNumber == 2){
-            colour = 2;
-        }else if (randomNumber == 3){
-            colour = 3;
+        this.objective = objective;
+        if(objective == 1){
+            obj = new CandyCount((int)(Math.random()*6));
+        }else if(objective == 2){
+            obj = new DropIngredients(2);
         }
-        
-        totalIngredients = 2;
+        //totalIngredients = 2;
     }
     
     public void act(){
-        if (true){ //if the objective is candy count
-            if (true){ //candy of that number is destroyed
-                counter++;
-            }
+        if (obj instanceof CandyCount){ //if the objective is candy count
+            //something
         }
-        if (true){ //if the objective is getting ingredients
-            for (int i = 1; i < 9; i++){
-                for (Object obj : getObjectsAt(GameGrid.getCellX(i, 8), GameGrid.getCellY(i, 8), Actor.class))
-                {
-                    if (obj instanceof Candy)
-                    {
-                        totalIngredients--;
-                    }
+        if (obj instanceof DropIngredients){ //if the objective is getting ingredients
+            for(Candy c : grid.getRow(9)){
+                if(c instanceof Ingredient){
+                    ((Ingredient)c).destroy();
+                    ((DropIngredients)obj).decreaseIngredients();
                 }
             }
-            if (checkObj2() == true){
-                //getWorld().nextWorld(WinScreen);
-            }
         }
     }
     
-    public boolean checkObj1(){
-        if (counter == totalCandy){
-            objComplete = true;
-        }
-        return objComplete;
+    public static void setClicked(Candy c) {
+        if (clicked != null) {
+            if ((Math.abs(c.getX() - clicked.getX()) <= FINAL.CELL_SIZE && c.getX() != clicked.getX() && c.getY() == clicked.getY()) || 
+                (Math.abs(c.getY() - clicked.getY()) <= FINAL.CELL_SIZE && c.getY() != clicked.getY() && c.getX() == clicked.getX())) {
+                grid.validSwap(grid.getGridCoor(c), grid.getGridCoor(clicked));
+                clicked = null;
+            } else clicked = c;
+        } else clicked = c;
     }
     
-    public boolean checkObj2(){
-        if (totalIngredients == 0){
-            objComplete = true;
-        }else{
-            objComplete = false;
-        }
-        return objComplete;
+    public static void objectiveCompleted(){
+        objComplete = true;
     }
 }
