@@ -32,6 +32,8 @@ public abstract class Candy extends Actor
             int offX = Math.abs(m.getX() - x), offY = Math.abs(m.getY() - y);
             if (offX > FINAL.CELL_SIZE || offY > FINAL.CELL_SIZE)
                 setLocation(x, y);
+                // if (offX > offY) setLocation(x + FINAL.CELL_SIZE * (m.getX() > x ? 1 : -1), y);
+                // else setLocation(x, y + FINAL.CELL_SIZE * (m.getY() > y ? 1 : -1));
             else if (offX >= FINAL.CELL_SIZE / 2)
                 setLocation(m.getX(), y);
             else if (offY >= FINAL.CELL_SIZE / 2)

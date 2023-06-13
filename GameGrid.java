@@ -12,7 +12,10 @@ public class GameGrid extends Actor {
     private Cell[][] cells;
     private int width, height;
     private ArrayList<Pair> matchedCandies;
-    public GameGrid(int width, int height){
+    enum Specials {
+        Wrapped, Striped, ColourBomb;
+    }
+    public GameGrid(int width, int height) {
         this.width = width;
         this.height = height;
         candies = new Candy[height][width];
@@ -23,9 +26,9 @@ public class GameGrid extends Actor {
         setImage(img);
     }
     
-    public void addedToWorld(World w){
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
+    public void addedToWorld(World w) {
+        for(int i = 0; i < candies.length; i++) {
+            for(int j = 0; j < candies[i].length; j++) {
                 cells[i][j] = new Cell();
                 int shiftAmountX = (w.getWidth())/2 - (candies[i].length * FINAL.CELL_SIZE)/2 + FINAL.CELL_SIZE/2; 
                 int shiftAmountY = (w.getHeight())/2 - (candies.length * FINAL.CELL_SIZE)/2 + FINAL.CELL_SIZE/2; 
@@ -49,6 +52,18 @@ public class GameGrid extends Actor {
         getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }
     
+    private void addCandy(int i, int j, Specials type) {
+        switch (type) {
+            case ColourBomb: 
+                candies[i][j] = new ColourBomb();
+                break;
+            case Striped:
+            case Wrapped:
+        }
+        cells[i][j].setCandy(candies[i][j]);
+        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
+    }
+    
     public void addCandies() {
         for(int i = 0; i < candies.length; i++)
             for(int j = 0; j < candies[i].length; j++)
@@ -56,9 +71,9 @@ public class GameGrid extends Actor {
         removeMatching();
     }
     
-    public void removeMatching(){
-        while(checkMatching()){
-            for(Pair p : matchedCandies){
+    public void removeMatching() {
+        while(checkMatching()) {
+            for(Pair p : matchedCandies) {
                 getWorld().removeObject(candies[p.x][p.y]);
                 candies[p.x][p.y] = null;
             }
@@ -155,8 +170,8 @@ public class GameGrid extends Actor {
      */
     private boolean validCoor(int i, int j) {return i >= 0 && i < candies.length && j >= 0 && j < candies[i].length;}
     
-    public void printArray(){
-        for(int i = 0; i < candies.length; i++){
+    public void printArray() {
+        for(int i = 0; i < candies.length; i++) {
             for(int j = 0; j < candies[i].length; j++)
                 System.out.print(candies[i][j] + "\t");
             System.out.println();
@@ -169,7 +184,7 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair a, Pair b) {
         swap(a, b);
-        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))){
+        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
             swapGraphics(a,b);
             removeMatching();
             return true;
@@ -180,13 +195,13 @@ public class GameGrid extends Actor {
     
     public void drop() {
         Pair candyNullCoor = checkNullCandy();
-        while(candyNullCoor != null){
+        while(candyNullCoor != null) {
             moveDown(candyNullCoor.x, candyNullCoor.y);
             candyNullCoor = checkNullCandy();
         }
     }
     
-    private Pair checkNullCandy(){
+    private Pair checkNullCandy() {
         for(int i = 0; i < candies.length; i++)
             for(int j = 0; j < candies[i].length; j++)
                 if(candies[i][j] == null)
@@ -194,7 +209,7 @@ public class GameGrid extends Actor {
         return null;
     }
     
-    private void moveDown(int row, int col){
+    private void moveDown(int row, int col) {
         if(row == 0)
             addCandy(row, col);
         else{
@@ -220,9 +235,9 @@ public class GameGrid extends Actor {
     }
 
     //getters
-    public Candy[] getRow(int row){return candies[row];}
+    public Candy[] getRow(int row) {return candies[row];}
     
-    public Candy[] getRow(Candy c){
+    public Candy[] getRow(Candy c) {
         int rowNum = -1;
         for(int i = 0; i < candies.length; i++)
             for(int j = 0; j < candies[i].length; j++)
@@ -230,7 +245,7 @@ public class GameGrid extends Actor {
         return candies[rowNum];
     }
     
-    public Candy[] getColumn(Candy c){
+    public Candy[] getColumn(Candy c) {
         int columnNum = -1;
         for(int i = 0; i < candies.length; i++)
             for(int j = 0; j < candies[i].length; j++)
@@ -241,11 +256,11 @@ public class GameGrid extends Actor {
         return arr;
     }
     
-    public Candy[] getExploGrid(Candy c){
+    public Candy[] getExploGrid(Candy c) {
         int x = -1, y = -1;
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
-                if(candies[i][j].equals(c)){
+        for(int i = 0; i < candies.length; i++) {
+            for(int j = 0; j < candies[i].length; j++) {
+                if(candies[i][j].equals(c)) {
                     x = i;
                     y = j;
                 }
@@ -253,8 +268,8 @@ public class GameGrid extends Actor {
         }   
         Candy[] arr = new Candy[9];
         int arrIndex = 0;
-        for(int i = x-1; i <= x+1; i++){
-            for(int j = y-1; j <= y+1; j++){
+        for(int i = x-1; i <= x+1; i++) {
+            for(int j = y-1; j <= y+1; j++) {
                 if (validCoor(i, j)) {
                     arr[arrIndex] = candies[i][j];
                     arrIndex++;
@@ -264,11 +279,11 @@ public class GameGrid extends Actor {
         return arr;
     }
     
-    public Candy[] getCandies(){
+    public Candy[] getCandies() {
         Candy[] arr = new Candy[width * height];
         int index = 0;
-        for(int i = 0; i < candies.length; i++){
-            for(int j = 0; j < candies[i].length; j++){
+        for(int i = 0; i < candies.length; i++) {
+            for(int j = 0; j < candies[i].length; j++) {
                 arr[index] = candies[i][j];
                 index++;
             }
