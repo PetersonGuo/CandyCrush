@@ -69,4 +69,8 @@ public class MainWorld extends World {
     public static void objectiveCompleted(){
         objComplete = true;
     }
+    
+    public static GameGrid getGrid() {
+        return grid;
+    }
 }

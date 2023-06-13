@@ -65,7 +65,7 @@ public class GameGrid extends Actor {
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
         switch (type) {
-            case ColourBomb: 
+            case ColourBomb:
                 candies[i][j] = new ColourBomb();
                 break;
             case Striped:
@@ -73,6 +73,9 @@ public class GameGrid extends Actor {
                 break;
             case Wrapped:
                 candies[i][j] = new Wrapped(c);
+                break;
+            default:
+                candies[i][j] = new Striped(c, vertical);
                 break;
         }
         cells[i][j].setCandy(candies[i][j]);
@@ -90,6 +93,7 @@ public class GameGrid extends Actor {
         while(checkMatching()) {
             for(Map.Entry entry : matchedCandies.entrySet()) {
                 Clear c = (Clear) entry.getValue();
+                Colour col = c.dir ? candies[c.x][(Integer) entry.getKey()].getColour() : candies[(Integer) entry.getKey()][c.x].getColour();
                 for (int i = c.x; i <= c.y; i++) {
                     if (c.dir)  {
                         getWorld().removeObject(candies[i][(Integer)entry.getKey()]);
@@ -98,6 +102,13 @@ public class GameGrid extends Actor {
                         getWorld().removeObject(candies[(Integer)entry.getKey()][i]);
                         candies[(Integer)entry.getKey()][i] = null;
                     }
+                }
+                if (c.y-c.x >= 4)
+                    if (c.dir) addCandy(c.x, (Integer) entry.getKey(), Specials.ColourBomb, col, false);
+                    else addCandy((Integer) entry.getKey(), c.x, Specials.ColourBomb, col, false);
+                else if (c.y-c.x >= 3) {
+                    if (c.dir) addCandy(c.x, (Integer) entry.getKey(), Specials.Striped, col, !c.dir);
+                    else addCandy((Integer) entry.getKey(), c.x, Specials.Striped, col, !c.dir);
                 }
             }
             matchedCandies.clear();

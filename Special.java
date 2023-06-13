@@ -13,7 +13,7 @@ public abstract class Special extends Candy
     
     public Special(Colour colour){
         super(colour);
-        grid = (getWorld().getObjects(GameGrid.class)).get(0);
+        grid = MainWorld.getGrid();
     }
     
     public void act() {
