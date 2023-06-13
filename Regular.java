@@ -14,6 +14,10 @@ public class Regular extends Candy
         setCandyImage();
     }
     
+    public void useAbility() {
+        
+    }
+    
     public void destroy(){
         
     }

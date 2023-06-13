@@ -19,6 +19,4 @@ public abstract class Special extends Candy
     public void act() {
         super.act();
     }
-
-    protected abstract void useAbility();
 }

@@ -16,6 +16,9 @@ public class Ingredient extends Candy
     {
     }
     
+    public void useAbility() {
+        
+    }
     
     public void destroy(){
         getWorld().removeObject(this);

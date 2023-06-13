@@ -85,7 +85,7 @@ public class GameGrid extends Actor {
     public void addCandies() {
         for(int i = 0; i < candies.length; i++)
             for(int j = 0; j < candies[i].length; j++)
-                addCandy(i,j);
+                addCandy(i, j);
         removeMatching();
     }
     
@@ -96,9 +96,11 @@ public class GameGrid extends Actor {
                 Colour col = c.dir ? candies[c.x][(Integer) entry.getKey()].getColour() : candies[(Integer) entry.getKey()][c.x].getColour();
                 for (int i = c.x; i <= c.y; i++) {
                     if (c.dir)  {
+                        candies[i][(Integer)entry.getKey()].useAbility();
                         getWorld().removeObject(candies[i][(Integer)entry.getKey()]);
                         candies[i][(Integer)entry.getKey()] = null;
                     } else {
+                        candies[(Integer)entry.getKey()][i].useAbility();
                         getWorld().removeObject(candies[(Integer)entry.getKey()][i]);
                         candies[(Integer)entry.getKey()][i] = null;
                     }
@@ -267,26 +269,43 @@ public class GameGrid extends Actor {
     }
 
     //getters
+    public void clearRow(Candy c) {
+        for (int i = 0; i < candies.length; i++) {
+            for (int j = 0; j < candies[i].length; j++)
+                if (candies[i][j] != null && candies[i][j].equals(c)) {
+                    clearRow(i);
+                    return;
+                }
+        }
+    }
+    
+    public void clearRow(int row) {
+        for (int i = 0; i < candies[row].length; i++) {
+            getWorld().removeObject(candies[row][i]);
+            candies[row][i] = null;
+            addCandy(row, i);
+        }
+    }
+    
+    public void clearCol(Candy c) {
+        for (int i = 0; i < candies.length; i++) {
+            for (int j = 0; j < candies[i].length; j++)
+                if (candies[i][j] != null && candies[i][j].equals(c)) {
+                    clearCol(j);
+                    return;
+                }
+        }
+    }
+    
+    public void clearCol(int col) {
+        for (int i = 0; i < candies.length; i++) {
+            getWorld().removeObject(candies[i][col]);
+            candies[i][col] = null;
+            addCandy(i, col);
+        }
+    }
+    
     public Candy[] getRow(int row) {return candies[row];}
-    
-    public Candy[] getRow(Candy c) {
-        int rowNum = -1;
-        for(int i = 0; i < candies.length; i++)
-            for(int j = 0; j < candies[i].length; j++)
-                if(candies[i][j].equals(c)) rowNum = i;
-        return candies[rowNum];
-    }
-    
-    public Candy[] getColumn(Candy c) {
-        int columnNum = -1;
-        for(int i = 0; i < candies.length; i++)
-            for(int j = 0; j < candies[i].length; j++)
-                if(candies[i][j].equals(c)) columnNum = j;
-        Candy[] arr = new Candy[candies.length];
-        for(int i = 0; i < candies.length; i++)
-            arr[i] = candies[i][columnNum];
-        return arr;
-    }
     
     public Candy[] getExploGrid(Candy c) {
         int x = -1, y = -1;

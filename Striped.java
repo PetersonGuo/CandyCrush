@@ -19,26 +19,20 @@ public class Striped extends Special
             image = new GreenfootImage(colour + "_HStripe.png");
         setCandyImage();
     }
+    
     /**
      * Act - do whatever the Stripe wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act()
-    {
+    public void act() {
         super.act();
     }
     
     public void useAbility(){
-        if(vertical){
-            Candy[] column = grid.getColumn(this);
-            for(Candy c: column){
-                c.destroy();
-            }
+        if (vertical) {
+            grid.clearCol(this);
         } else {
-            Candy[] row = grid.getRow(this);
-            for(Candy c: row){
-                c.destroy();
-            }
+            grid.clearRow(this);
         }
         destroyed = true;        
     }

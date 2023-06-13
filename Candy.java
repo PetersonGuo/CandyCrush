@@ -26,6 +26,9 @@ public abstract class Candy extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        if (Greenfoot.mouseClicked(this)) {
+            MainWorld.setClicked(this);
+        }
         if (Greenfoot.mouseDragged(this)) {
             MainWorld.setClicked(this);
             MouseInfo m = Greenfoot.getMouseInfo();
@@ -48,6 +51,8 @@ public abstract class Candy extends Actor
                 setLocation(x, y);
         }
     }
+    
+    public abstract void useAbility();
     
     protected void setCandyImage() {
         image.scale(FINAL.CELL_SIZE, FINAL.CELL_SIZE);
