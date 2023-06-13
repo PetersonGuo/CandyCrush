@@ -57,19 +57,23 @@ public class GameGrid extends Actor {
         // Add your action code here.
     }
     
-    private void addCandy(int i, int j) {
+    private void addCandy(int i, int j) { //basic candy
         candies[i][j] = new Regular(Colour.random());
         cells[i][j].setCandy(candies[i][j]);
         getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }
     
-    private void addCandy(int i, int j, Specials type) {
+    private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
         switch (type) {
             case ColourBomb: 
                 candies[i][j] = new ColourBomb();
                 break;
             case Striped:
+                candies[i][j] = new Striped(c, vertical);
+                break;
             case Wrapped:
+                candies[i][j] = new Wrapped(c);
+                break;
         }
         cells[i][j].setCandy(candies[i][j]);
         getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
