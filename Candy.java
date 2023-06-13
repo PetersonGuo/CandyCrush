@@ -10,8 +10,15 @@ public abstract class Candy extends Actor
 {
     protected GreenfootImage image;
     protected int colour;
-    public Candy(int colour){
+    private int x, y;
+    private boolean dir;
+    public Candy(int colour) {
         this.colour = colour;
+    }
+    
+    public void addedToWorld(World w) {
+        x = getX();
+        y = getY();
     }
     
     /**
@@ -19,20 +26,37 @@ public abstract class Candy extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        if (Greenfoot.mouseClicked(this))
+        if (Greenfoot.mouseDragged(this)) {
             MainWorld.setClicked(this);
+            MouseInfo m = Greenfoot.getMouseInfo();
+            int offX = Math.abs(m.getX() - x), offY = Math.abs(m.getY() - y);
+            if (offX > FINAL.CELL_SIZE || offY > FINAL.CELL_SIZE)
+                setLocation(x, y);
+            else if (offX >= FINAL.CELL_SIZE / 2)
+                setLocation(m.getX(), y);
+            else if (offY >= FINAL.CELL_SIZE / 2)
+                setLocation(x, m.getY());
+            else
+                setLocation(x, y);
+        } else if (Greenfoot.mouseDragEnded(this)) {
+            Candy overlap = (Candy) getOneIntersectingObject(Candy.class);
+            if (overlap != null) {
+                if (MainWorld.setClicked(overlap)) setLocation(x, y);
+            } else
+                setLocation(x, y);
+        }
     }
     
-    protected void setCandyImage(){
+    protected void setCandyImage() {
         image.scale(FINAL.CELL_SIZE, FINAL.CELL_SIZE);
         setImage(image);        
     }
     
-    public Cell getCell(){
+    public Cell getCell() {
         return (Cell)getOneIntersectingObject(Cell.class);
     }
     
-    public int getColour(){
+    public int getColour() {
         return colour;
     }
     
@@ -42,7 +66,16 @@ public abstract class Candy extends Actor
         return this.colour == c.getColour();
     }
     
-    public String toString(){
+    public String toString() {
         return FINAL.CANDY_COLOUR[colour];
+    }
+    
+    public void setOrigin(Pair p) {
+        x = p.x;
+        y = p.y;
+    }
+    
+    public Pair getOrigin() {
+        return new Pair(x, y);
     }
 }

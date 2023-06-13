@@ -6,16 +6,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class MainWorld extends World
-{
+public class MainWorld extends World {
     private static GameGrid grid;
     private static Candy clicked;
     //Candy Count variables
-    private int counter;
-    private int totalCandy;
-    private int colour;
-    
-    private int objective;
+    private static int counter, totalCandy, colour, objective;
     private static boolean objComplete;
     private Objectives obj;
     
@@ -25,8 +20,7 @@ public class MainWorld extends World
      * Constructor for objects of class MyWorld.
      * 
      */
-    public MainWorld(int objective)
-    {    
+    public MainWorld() {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 800, 1); 
         grid = new GameGrid(10,10);
@@ -36,7 +30,7 @@ public class MainWorld extends World
         clicked = null;
         objComplete = false;
         
-        this.objective = objective;
+        objective = (int)(Math.random() * 2);
         if(objective == 1){
             obj = new CandyCount((int)(Math.random()*6));
         }else if(objective == 2){
@@ -59,14 +53,17 @@ public class MainWorld extends World
         }
     }
     
-    public static void setClicked(Candy c) {
-        if (clicked != null) {
+    public static boolean setClicked(Candy c) {
+        boolean valid = false;
+        if (clicked == null || c == null) clicked = c;
+        else {
             if ((Math.abs(c.getX() - clicked.getX()) <= FINAL.CELL_SIZE && c.getX() != clicked.getX() && c.getY() == clicked.getY()) || 
                 (Math.abs(c.getY() - clicked.getY()) <= FINAL.CELL_SIZE && c.getY() != clicked.getY() && c.getX() == clicked.getX())) {
-                grid.validSwap(grid.getGridCoor(c), grid.getGridCoor(clicked));
+                valid = grid.validSwap(grid.getGridCoor(c), grid.getGridCoor(clicked));
                 clicked = null;
             } else clicked = c;
-        } else clicked = c;
+        }
+        return valid;
     }
     
     public static void objectiveCompleted(){

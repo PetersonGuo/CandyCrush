@@ -25,6 +25,7 @@ public class Cell extends Actor
     public void setCandy(Candy c){
         candy = c;
         candy.setLocation(getX(), getY());
+        candy.setOrigin(new Pair(getX(), getY()));
     }
     
     public Candy getCandy(){
