@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Ingredient extends Candy
 {    
     public Ingredient(int totalIngredients){
-        super(-1);
+        super(null);
     }
     
     public void act()

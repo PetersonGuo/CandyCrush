@@ -11,16 +11,27 @@ public class GameGrid extends Actor {
     private Candy[][] candies;
     private Cell[][] cells;
     private int width, height;
-    private ArrayList<Pair> matchedCandies;
+    private Map<Integer, Clear> matchedCandies;
     enum Specials {
         Wrapped, Striped, ColourBomb;
     }
+    
+    private class Clear {
+        int x, y;
+        boolean dir;
+        public Clear(int x, int y, boolean dir) {
+            this.x = x;
+            this.y = y;
+            this.dir = dir;
+        }
+    }
+    
     public GameGrid(int width, int height) {
         this.width = width;
         this.height = height;
         candies = new Candy[height][width];
         cells = new Cell[height][width];
-        matchedCandies = new ArrayList<Pair>();
+        matchedCandies = new HashMap<>();
         GreenfootImage img = new GreenfootImage(1,1);
         img.setTransparency(0);
         setImage(img);
@@ -73,9 +84,17 @@ public class GameGrid extends Actor {
     
     public void removeMatching() {
         while(checkMatching()) {
-            for(Pair p : matchedCandies) {
-                getWorld().removeObject(candies[p.x][p.y]);
-                candies[p.x][p.y] = null;
+            for(Map.Entry entry : matchedCandies.entrySet()) {
+                Clear c = (Clear) entry.getValue();
+                for (int i = c.x; i <= c.y; i++) {
+                    if (c.dir)  {
+                        getWorld().removeObject(candies[i][(Integer)entry.getKey()]);
+                        candies[i][(Integer)entry.getKey()] = null;
+                    } else {
+                        getWorld().removeObject(candies[(Integer)entry.getKey()][i]);
+                        candies[(Integer)entry.getKey()][i] = null;
+                    }
+                }
             }
             matchedCandies.clear();
             drop();
@@ -120,7 +139,7 @@ public class GameGrid extends Actor {
             for (int i = lowX; i <= highX; i++) {
                 if (match(i, j, false) > 2)
                     matched = true;
-                else if (match(i, j, true) > 2)
+                if (match(i, j, true) > 2)
                     matched = true;
             }
         }
@@ -137,32 +156,30 @@ public class GameGrid extends Actor {
      * @return int The length of the chain of matching candies
      */
     private int match(int i, int j, boolean dir) {
-        int c = 1;
+        Pair p = new Pair(-1, -1);
+        int c = 0;
         if (dir) {
             int y = j+1;
-            while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) {
-                c++;
+            while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
                 y++;
-            }
+            p.y = y-1;
             y = j-1;
-            while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) {
-                c++;
+            while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
                 y--;
-            }            
+            p.x = y+1;
+            if (p.y-p.x >= 2) matchedCandies.put(i, new Clear(p.x, p.y, false));
         } else {
             int x = i+1;
-            while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) {
-                c++;
+            while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
                 x++;
-            }
+            p.y = x-1;
             x = i-1;
-            while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) {
-                c++;
+            while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
                 x--;
-            }            
+            p.x = x+1;
+            if (p.y-p.x >= 2) matchedCandies.put(j, new Clear(p.x, p.y, true));
         }
-        if (c > 2) matchedCandies.add(new Pair(i, j));
-        return c;
+        return p.y-p.x+1;
     }
     
     /**
@@ -212,7 +229,7 @@ public class GameGrid extends Actor {
     private void moveDown(int row, int col) {
         if(row == 0)
             addCandy(row, col);
-        else{
+        else {
             swap(new Pair(row, col), new Pair(row-1, col));
             swapGraphics(new Pair(row, col), new Pair(row-1, col));
         }
