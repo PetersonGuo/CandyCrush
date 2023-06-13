@@ -6,8 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class ColourBomb extends Special
-{
+public class ColourBomb extends Special {
     public ColourBomb() {
         super(null);
         image = new GreenfootImage("Colour_Bomb.png");

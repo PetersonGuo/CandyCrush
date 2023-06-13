@@ -84,4 +84,8 @@ public abstract class Candy extends Actor {
     public Pair<Integer, Integer> getOrigin() {
         return new Pair(x, y);
     }
+    
+    public static Candy getSelected() {
+        return start;
+    }
 }
