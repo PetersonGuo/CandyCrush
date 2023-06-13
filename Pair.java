@@ -1,12 +1,13 @@
 /**
  * Write a description of class Pair here.
  * 
- * @author (your name) 
+ * @author Peterson
  * @version (a version number or a date)
  */
-public class Pair {
-    public int x, y;
-    public Pair(int x, int y) {
+public class Pair<T, U> {
+    public T x;
+    public U y;
+    public Pair(T x, U y) {
         this.x = x;
         this.y = y;
     }

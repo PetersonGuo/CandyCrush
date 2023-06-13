@@ -6,12 +6,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Candy extends Actor
-{
+public abstract class Candy extends Actor {
     protected GreenfootImage image;
     protected Colour colour;
     private int x, y;
-    private boolean dir;
+    private static Candy start;
     public Candy(Colour colour) {
         this.colour = colour;
     }
@@ -26,30 +25,30 @@ public abstract class Candy extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        if (Greenfoot.mouseClicked(this)) {
+        if (Greenfoot.mousePressed(this)) {
+            start = this;
             MainWorld.setClicked(this);
-        }
-        if (Greenfoot.mouseDragged(this)) {
-            MainWorld.setClicked(this);
+        } else if (Greenfoot.mouseDragged(this)) {
             MouseInfo m = Greenfoot.getMouseInfo();
             int offX = Math.abs(m.getX() - x), offY = Math.abs(m.getY() - y);
-            if (offX > FINAL.CELL_SIZE * 5 / 4 || offY > FINAL.CELL_SIZE * 5 / 4)
-                setLocation(x, y);
-                // if (offX > offY) setLocation(x + FINAL.CELL_SIZE * (m.getX() > x ? 1 : -1), y);
-                // else setLocation(x, y + FINAL.CELL_SIZE * (m.getY() > y ? 1 : -1));
-            else if (offX >= FINAL.CELL_SIZE / 2)
-                setLocation(m.getX(), y);
-            else if (offY >= FINAL.CELL_SIZE / 2)
-                setLocation(x, m.getY());
+            if (offX >= offY)
+                if (offX > FINAL.CELL_SIZE)
+                    setLocation(m.getX() > x ? x + FINAL.CELL_SIZE : x - FINAL.CELL_SIZE, y);
+                else
+                    setLocation(m.getX(), y);
+            else if (offY > offX)
+                if (offY > FINAL.CELL_SIZE)
+                    setLocation(x, m.getY() > y ? y + FINAL.CELL_SIZE : y - FINAL.CELL_SIZE);
+                else
+                    setLocation(x, m.getY());
             else
                 setLocation(x, y);
-        } else if (Greenfoot.mouseDragEnded(this)) {
+        } else if (Greenfoot.mouseClicked(null) && this.equals(start)) {
             Candy overlap = (Candy) getOneIntersectingObject(Candy.class);
-            if (overlap != null) {
-                if (MainWorld.setClicked(overlap)) setLocation(x, y);
-            } else
+            if (overlap == null || !MainWorld.setClicked(overlap))
                 setLocation(x, y);
-        }
+        } else if (Greenfoot.mouseClicked(this))
+            MainWorld.setClicked(this);
     }
     
     public abstract void useAbility();
@@ -77,12 +76,12 @@ public abstract class Candy extends Actor
         return colour.toString();
     }
     
-    public void setOrigin(Pair p) {
+    public void setOrigin(Pair<Integer, Integer> p) {
         x = p.x;
         y = p.y;
     }
     
-    public Pair getOrigin() {
+    public Pair<Integer, Integer> getOrigin() {
         return new Pair(x, y);
     }
 }
