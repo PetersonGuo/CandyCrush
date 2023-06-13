@@ -8,9 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Regular extends Candy
 {
-    public Regular(int colour){
+    public Regular(Colour colour){
         super(colour);
-        image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_Candy.png");
+        image = new GreenfootImage(colour + "_Candy.png");
         setCandyImage();
     }
     

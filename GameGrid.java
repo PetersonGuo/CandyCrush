@@ -44,7 +44,7 @@ public class GameGrid extends Actor {
     }
     
     private void addCandy(int i, int j) {
-        candies[i][j] = new Regular((int)(Math.random()*6));
+        candies[i][j] = new Regular(Colour.random());
         cells[i][j].setCandy(candies[i][j]);
         getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }

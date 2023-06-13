@@ -11,9 +11,13 @@ public abstract class Special extends Candy
     protected GameGrid grid;
     protected boolean destroyed = false;
     
-    public Special(int colour){
+    public Special(Colour colour){
         super(colour);
         grid = (getWorld().getObjects(GameGrid.class)).get(0);
+    }
+    
+    public void act() {
+        super.act();
     }
 
     protected abstract void useAbility();

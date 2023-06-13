@@ -10,14 +10,13 @@ public class Striped extends Special
 {
     private boolean vertical;
     
-    public Striped(int colour, boolean vertical){
+    public Striped(Colour colour, boolean vertical){
         super(colour);
         this.vertical = vertical;
-        if(vertical){
-            image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_VStripe.png");
-        }else{
-            image = new GreenfootImage(FINAL.CANDY_COLOUR[colour] + "_HStripe.png");
-        }
+        if(vertical)
+            image = new GreenfootImage(colour + "_VStripe.png");
+        else
+            image = new GreenfootImage(colour + "_HStripe.png");
         setCandyImage();
     }
     /**
@@ -26,8 +25,9 @@ public class Striped extends Special
      */
     public void act()
     {
-        // Add your action code here.
+        super.act();
     }
+    
     public void useAbility(){
         if(vertical){
             Candy[] column = grid.getColumn(this);

@@ -9,5 +9,4 @@ public interface FINAL
     int WORLD_HEIGHT = 600;
     int WORLD_WIDTH = 800;
     int CELL_SIZE = 50;
-    String[] CANDY_COLOUR = {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
 }

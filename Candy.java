@@ -9,10 +9,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public abstract class Candy extends Actor
 {
     protected GreenfootImage image;
-    protected int colour;
+    protected Colour colour;
     private int x, y;
     private boolean dir;
-    public Candy(int colour) {
+    public Candy(Colour colour) {
         this.colour = colour;
     }
     
@@ -56,7 +56,7 @@ public abstract class Candy extends Actor
         return (Cell)getOneIntersectingObject(Cell.class);
     }
     
-    public int getColour() {
+    public Colour getColour() {
         return colour;
     }
     
@@ -67,7 +67,7 @@ public abstract class Candy extends Actor
     }
     
     public String toString() {
-        return FINAL.CANDY_COLOUR[colour];
+        return colour.toString();
     }
     
     public void setOrigin(Pair p) {
