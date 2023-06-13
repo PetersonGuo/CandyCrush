@@ -54,8 +54,8 @@ public abstract class Candy extends Actor {
     public abstract void useAbility();
     
     protected void setCandyImage() {
-        image.scale(FINAL.CELL_SIZE, FINAL.CELL_SIZE);
-        setImage(image);        
+        image.scale(FINAL.CELL_SIZE-5, FINAL.CELL_SIZE-5);
+        setImage(image);
     }
     
     public Cell getCell() {
