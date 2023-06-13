@@ -60,7 +60,7 @@ public class GameGrid extends Actor {
     private void addCandy(int i, int j) { //basic candy
         candies[i][j] = new Regular(Colour.random());
         cells[i][j].setCandy(candies[i][j]);
-        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
+        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
@@ -285,6 +285,7 @@ public class GameGrid extends Actor {
             candies[row][i] = null;
             addCandy(row, i);
         }
+        removeMatching();
     }
     
     public void clearCol(Candy c) {
@@ -303,6 +304,7 @@ public class GameGrid extends Actor {
             candies[i][col] = null;
             addCandy(i, col);
         }
+        removeMatching();
     }
     
     public Candy[] getRow(int row) {return candies[row];}
