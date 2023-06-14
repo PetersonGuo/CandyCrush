@@ -73,7 +73,7 @@ public abstract class Candy extends Actor {
     }
     
     public String toString() {
-        return colour.toString();
+        return (this instanceof ColourBomb) ? "Bomb" : colour.toString();
     }
     
     public void setOrigin(Pair<Integer, Integer> p) {

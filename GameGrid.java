@@ -85,16 +85,20 @@ public class GameGrid extends Actor {
             for(Map.Entry entry : matchedCandies.entrySet()) {
                 Triple<Integer, Integer, Boolean> t = (Triple) entry.getValue();
                 Colour col = null;
-                /*
                 boolean wrapper = false;
+                Pair wrappedLocation = new Pair(-1,-1);
                 if(t.z){ //vertical
                     int x = (Integer)entry.getKey();
                     int y1 = t.x;
                     int y2 = t.y;
                     
+                    printArray();
                     for(int i = y1; i <= y2; i++){
-                        System.out.println("Horizontal length: " + match(x, i, !t.z));
-                        if(match(x, i, !t.z) > 2){
+                        System.out.println(i + "," + x);
+                        System.out.println("Horizontal length: " + match(i, x, t.z));
+                        if(match(i, x, t.z) > 2){
+                            col = candies[i][x].getColour();
+                            wrappedLocation = new Pair(i,x);
                             wrapper = true;
                         }
                     }
@@ -102,16 +106,18 @@ public class GameGrid extends Actor {
                     int y = (Integer)entry.getKey();
                     int x1 = t.x;
                     int x2 = t.y;
-                    
+
+                    printArray();                    
                     for(int i = x1; i <= x2; i++){
-                        System.out.println("Vertical length: " + match(i, y, !t.z));
-                        if(match(i, y, !t.z) > 2){
+                        System.out.println(y + "," + i);
+                        System.out.println("Vertical length: " + match(y, i, t.z));
+                        if(match(y, i, t.z) > 2){
                             wrapper = true;
                         }
                     }
                 }
                 System.out.println(wrapper);
-                */
+                
                 for (int i = t.x; i <= t.y; i++) {
                     if (t.z)  {
                         if (candies[i][(Integer)entry.getKey()] != null) {
@@ -132,13 +138,16 @@ public class GameGrid extends Actor {
                 if (t.y-t.x >= 4)
                     if (t.z) addCandy(t.x, (Integer) entry.getKey(), Specials.ColourBomb, col, false);
                     else addCandy((Integer) entry.getKey(), t.x, Specials.ColourBomb, col, false);
-                else if (t.y-t.x >= 3) {
+                else if(wrapper)
+                    addCandy((int)(wrappedLocation.x), (int)(wrappedLocation.y), Specials.Wrapped, col, false);
+                else if(t.y-t.x >= 3) 
                     if (t.z) addCandy(t.x, (Integer) entry.getKey(), Specials.Striped, col, !t.z);
                     else addCandy((Integer) entry.getKey(), t.x, Specials.Striped, col, !t.z);
-                }
+                
+                printArray();
+                drop();
             }
             matchedCandies.clear();
-            drop();
         }        
     }
         
@@ -232,8 +241,9 @@ public class GameGrid extends Actor {
     
     public void printArray() {
         for(int i = 0; i < candies.length; i++) {
-            for(int j = 0; j < candies[i].length; j++)
-                System.out.print(candies[i][j] + "\t");
+            for(int j = 0; j < candies[i].length; j++){
+                //System.out.print(i + "," + j);
+                System.out.print(candies[i][j] + "\t");}
             System.out.println();
         }
         System.out.println("---------------------------------------------------");
