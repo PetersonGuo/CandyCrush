@@ -85,8 +85,6 @@ public class GameGrid extends Actor {
     
     public void removeMatching() {
         while (checkMatching()) {
-            System.out.println(horizontal.size());
-            System.out.println(vertical.size());
             for (Triple<Integer, Integer, Integer> entry : horizontal) {
                 for (int i = entry.y; i <= entry.z; i++) {
                     if (candies[entry.x][i] != null) {
@@ -98,6 +96,7 @@ public class GameGrid extends Actor {
                 if (entry.z-entry.y >= 4)       addCandy(entry.x, entry.y, Specials.ColourBomb, Colour.random(), false);
                 else if (entry.z-entry.y >= 3)  addCandy(entry.x, entry.y, Specials.Striped, Colour.random(), true);
             }
+            horizontal.clear();
             for (Triple<Integer, Integer, Integer> entry : vertical) {
                 for (int i = entry.y; i <= entry.z; i++) {
                     if (candies[i][entry.x] != null) {
@@ -109,11 +108,10 @@ public class GameGrid extends Actor {
                 if (entry.z-entry.y >= 4)       addCandy(entry.y, entry.x, Specials.ColourBomb, Colour.random(), false);
                 else if (entry.z-entry.y >= 3)  addCandy(entry.y, entry.x, Specials.Striped, Colour.random(), false);
             }
+            vertical.clear();
             for (Triple<Integer, Integer, Colour> t : wraps)
                 addCandy(t.x, t.y, Specials.Wrapped, t.z, false);
             wraps.clear();
-            horizontal.clear();
-            vertical.clear();
             drop();
         }
     }
@@ -291,7 +289,6 @@ public class GameGrid extends Actor {
             candies[row][i] = null;
             drop();
         }
-        removeMatching();
     }
     
     public void clearCol(Candy c) {
@@ -310,7 +307,6 @@ public class GameGrid extends Actor {
             candies[i][col] = null;
             drop();
         }
-        removeMatching();
     }
     
     public Candy[] getRow(int row) {return candies[row];}
@@ -321,7 +317,6 @@ public class GameGrid extends Actor {
             for(int j = 0; j < candies[i].length; j++) {
                 if (candies[i][j] != null && candies[i][j].getColour() == c) {
                     colouredCandies.add(candies[i][j]);
-                    
                     getWorld().removeObject(candies[i][j]);
                     candies[i][j] = null;
                     drop();
