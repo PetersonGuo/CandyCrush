@@ -6,10 +6,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Special extends Candy
-{
+public abstract class Special extends Candy {
     protected GameGrid grid;
-    protected boolean destroyed = false;
     
     public Special(Colour colour){
         super(colour);

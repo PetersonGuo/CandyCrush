@@ -13,16 +13,11 @@ public class ColourBomb extends Special {
         setCandyImage();
     }
     
-    public void useAbility(){
-        usePower(Colour.random());
-        destroyed = true;        
+    public void useAbility() {
+        grid.clearColour(Colour.random());
     }
     
-    public void usePower(Colour c){
+    public void usePower(Colour c) {
         grid.clearColour(c);
-    }
-    
-    public void destroy() {
-        
     }
 }

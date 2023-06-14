@@ -6,8 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Striped extends Special
-{
+public class Striped extends Special {
     private boolean vertical;
     
     public Striped(Colour colour, boolean vertical){
@@ -34,10 +33,5 @@ public class Striped extends Special
         } else {
             grid.clearRow(this);
         }
-        destroyed = true;        
-    }
-    
-    public void destroy(){
-        
     }
 }

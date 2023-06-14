@@ -63,9 +63,7 @@ public abstract class Candy extends Actor {
     public Colour getColour() {
         return colour;
     }
-    
-    public abstract void destroy();
-    
+        
     public boolean comp(Candy c) {
         return this.colour == c.getColour();
     }

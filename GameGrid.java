@@ -12,7 +12,6 @@ public class GameGrid extends Actor {
     private Cell[][] cells;
     private int width, height;
     private Set<Triple<Integer, Integer, Colour>> wraps;
-    private Set<Triple<Candy, Integer, Integer>> shift;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
     private enum Specials {
         Wrapped, Striped, ColourBomb;
@@ -25,7 +24,6 @@ public class GameGrid extends Actor {
         cells = new Cell[height][width];
         horizontal = new HashSet<>();
         vertical = new HashSet<>();
-        shift = new HashSet<>();
         wraps = new HashSet<>();
         GreenfootImage img = new GreenfootImage(1,1);
         img.setTransparency(0);
@@ -86,27 +84,31 @@ public class GameGrid extends Actor {
     public void removeMatching() {
         while (checkMatching()) {
             for (Triple<Integer, Integer, Integer> entry : horizontal) {
+                Colour col = null;
                 for (int i = entry.y; i <= entry.z; i++) {
                     if (candies[entry.x][i] != null) {
+                        col = candies[i][entry.x].getColour();
                         candies[entry.x][i].useAbility();
                         getWorld().removeObject(candies[entry.x][i]);
                         candies[entry.x][i] = null;
                     }
                 }
-                if (entry.z-entry.y >= 4)       addCandy(entry.x, entry.y, Specials.ColourBomb, Colour.random(), false);
-                else if (entry.z-entry.y >= 3)  addCandy(entry.x, entry.y, Specials.Striped, Colour.random(), true);
+                if (entry.z-entry.y >= 4)       addCandy(entry.x, entry.y, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)  addCandy(entry.x, entry.y, Specials.Striped, col, true);
             }
             horizontal.clear();
             for (Triple<Integer, Integer, Integer> entry : vertical) {
+                Colour col = null;
                 for (int i = entry.y; i <= entry.z; i++) {
                     if (candies[i][entry.x] != null) {
+                        col = candies[i][entry.x].getColour();
                         candies[i][entry.x].useAbility();
                         getWorld().removeObject(candies[i][entry.x]);
                         candies[i][entry.x] = null;
                     }
                 }
-                if (entry.z-entry.y >= 4)       addCandy(entry.y, entry.x, Specials.ColourBomb, Colour.random(), false);
-                else if (entry.z-entry.y >= 3)  addCandy(entry.y, entry.x, Specials.Striped, Colour.random(), false);
+                if (entry.z-entry.y >= 4)       addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)  addCandy(entry.y, entry.x, Specials.Striped, col, false);
             }
             vertical.clear();
             for (Triple<Integer, Integer, Colour> t : wraps)
@@ -223,27 +225,27 @@ public class GameGrid extends Actor {
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
         boolean hasColourBomb;
-        Pair colourBomb = null;
-        Pair candy = null;
-        if(getCandy(a) instanceof ColourBomb){
+        Pair<Integer, Integer> bomb = null, candy = null;
+        if (candies[a.x][a.y] instanceof ColourBomb){
             hasColourBomb = true;
-            colourBomb = a;
+            bomb = a;
             candy = b;
-        } else if (getCandy(b) instanceof ColourBomb){
+        } else if (candies[b.x][b.y] instanceof ColourBomb){
             hasColourBomb = true;
-            colourBomb = b;
+            bomb = b;
             candy = a;
         } else { 
             hasColourBomb = false;
-        } 
+        }
+        
         if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)) || hasColourBomb) {
             swapGraphics(a,b);
             if(hasColourBomb){
-                ((ColourBomb)getCandy(colourBomb)).usePower(getCandy(candy).getColour());
-                getWorld().removeObject(getCandy(colourBomb));
-                getWorld().removeObject(getCandy(candy));
-                candies[(int)colourBomb.x][(int)colourBomb.y] = null;
-                candies[(int)candy.x][(int)candy.y] = null;
+                ((ColourBomb)candies[bomb.x][bomb.y]).usePower(candies[candy.x][candy.y].getColour());
+                getWorld().removeObject(candies[bomb.x][bomb.y]);
+                getWorld().removeObject(candies[candy.x][candy.y]);
+                candies[bomb.x][bomb.y] = null;
+                candies[candy.x][candy.y] = null;
                 drop();
             }
             removeMatching();
@@ -381,9 +383,5 @@ public class GameGrid extends Actor {
                 if (candies[i][j].equals(c))
                     return new Pair(i, j);
         return new Pair(-1,-1);
-    }
-    
-    public Candy getCandy(Pair p){
-        return candies[(int)p.x][(int)p.y];
     }
 }
