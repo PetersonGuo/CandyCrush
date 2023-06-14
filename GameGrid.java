@@ -86,16 +86,15 @@ public class GameGrid extends Actor {
                 Triple<Integer, Integer, Boolean> t = (Triple) entry.getValue();
                 Colour col = null;
                 boolean wrapper = false;
-                Pair wrappedLocation = new Pair(-1,-1);
+                Pair<Integer, Integer> wrappedLocation = new Pair(-1,-1);
                 if(t.z){ //vertical
                     int x = (Integer)entry.getKey();
                     int y1 = t.x;
                     int y2 = t.y;
                     
-                    printArray();
                     for(int i = y1; i <= y2; i++){
-                        System.out.println(i + "," + x);
-                        System.out.println("Horizontal length: " + match(i, x, t.z));
+                        //System.out.println(i + "," + x);
+                        //System.out.println("Horizontal length: " + match(i, x, t.z));
                         if(match(i, x, t.z) > 2){
                             col = candies[i][x].getColour();
                             wrappedLocation = new Pair(i,x);
@@ -107,16 +106,17 @@ public class GameGrid extends Actor {
                     int x1 = t.x;
                     int x2 = t.y;
 
-                    printArray();                    
                     for(int i = x1; i <= x2; i++){
-                        System.out.println(y + "," + i);
-                        System.out.println("Vertical length: " + match(y, i, t.z));
+                        //System.out.println(y + "," + i);
+                        //System.out.println("Vertical length: " + match(y, i, t.z));
                         if(match(y, i, t.z) > 2){
+                            col = candies[y][i].getColour();
+                            wrappedLocation = new Pair(y,i);
                             wrapper = true;
                         }
                     }
                 }
-                System.out.println(wrapper);
+                //System.out.println(wrapper);
                 
                 for (int i = t.x; i <= t.y; i++) {
                     if (t.z)  {
@@ -143,8 +143,6 @@ public class GameGrid extends Actor {
                 else if(t.y-t.x >= 3) 
                     if (t.z) addCandy(t.x, (Integer) entry.getKey(), Specials.Striped, col, !t.z);
                     else addCandy((Integer) entry.getKey(), t.x, Specials.Striped, col, !t.z);
-                
-                printArray();
                 drop();
             }
             matchedCandies.clear();
@@ -384,15 +382,16 @@ public class GameGrid extends Actor {
     public Candy[] getRow(int row) {return candies[row];}
     
     public Candy[] getExploGrid(Candy c) {
-        int x = -1, y = -1;
-        for(int i = 0; i < candies.length; i++) {
-            for(int j = 0; j < candies[i].length; j++) {
-                if(candies[i][j].equals(c)) {
-                    x = i;
-                    y = j;
-                }
-            }
-        }   
+        Pair<Integer, Integer> p = getGridCoor(c);
+        int x = p.x, y = p.y;
+        // for(int i = 0; i < candies.length; i++) {
+            // for(int j = 0; j < candies[i].length; j++) {
+                // if(candies[i][j].equals(c)) {
+                    // x = i;
+                    // y = j;
+                // }
+            // }
+        // }   
         Candy[] arr = new Candy[9];
         int arrIndex = 0;
         for(int i = x-1; i <= x+1; i++) {

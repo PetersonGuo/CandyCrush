@@ -15,6 +15,7 @@ public class Wrapped extends Special
         setCandyImage();
     }
     public void useAbility(){ //explodes in a 3 x 3 square about the origin
+        System.out.println("wrapped");
         Candy[] explodeCandies = grid.getExploGrid(this);
         for(Candy c: explodeCandies)
             c.destroy();
