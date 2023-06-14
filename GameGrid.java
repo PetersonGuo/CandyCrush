@@ -85,6 +85,33 @@ public class GameGrid extends Actor {
             for(Map.Entry entry : matchedCandies.entrySet()) {
                 Triple<Integer, Integer, Boolean> t = (Triple) entry.getValue();
                 Colour col = null;
+                /*
+                boolean wrapper = false;
+                if(t.z){ //vertical
+                    int x = (Integer)entry.getKey();
+                    int y1 = t.x;
+                    int y2 = t.y;
+                    
+                    for(int i = y1; i <= y2; i++){
+                        System.out.println("Horizontal length: " + match(x, i, !t.z));
+                        if(match(x, i, !t.z) > 2){
+                            wrapper = true;
+                        }
+                    }
+                } else { //horizontal
+                    int y = (Integer)entry.getKey();
+                    int x1 = t.x;
+                    int x2 = t.y;
+                    
+                    for(int i = x1; i <= x2; i++){
+                        System.out.println("Vertical length: " + match(i, y, !t.z));
+                        if(match(i, y, !t.z) > 2){
+                            wrapper = true;
+                        }
+                    }
+                }
+                System.out.println(wrapper);
+                */
                 for (int i = t.x; i <= t.y; i++) {
                     if (t.z)  {
                         if (candies[i][(Integer)entry.getKey()] != null) {
@@ -172,26 +199,28 @@ public class GameGrid extends Actor {
     private int match(int i, int j, boolean dir) {
         Pair<Integer, Integer> p = new Pair(-1, -1);
         int c = 0;
-        if (dir) {
-            int y = j+1;
-            while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
-                y++;
-            p.y = y-1;
-            y = j-1;
-            while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
-                y--;
-            p.x = y+1;
-            if (p.y-p.x >= 2) matchedCandies.put(i, new Triple(p.x, p.y, false));
-        } else {
-            int x = i+1;
-            while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
-                x++;
-            p.y = x-1;
-            x = i-1;
-            while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
-                x--;
-            p.x = x+1;
-            if (p.y-p.x >= 2) matchedCandies.put(j, new Triple(p.x, p.y, true));
+        if(candies[i][j] != null){
+            if (dir) {
+                int y = j+1;
+                while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
+                    y++;
+                p.y = y-1;
+                y = j-1;
+                while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
+                    y--;
+                p.x = y+1;
+                if (p.y-p.x >= 2) matchedCandies.put(i, new Triple(p.x, p.y, false));
+            } else {
+                int x = i+1;
+                while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
+                    x++;
+                p.y = x-1;
+                x = i-1;
+                while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
+                    x--;
+                p.x = x+1;
+                if (p.y-p.x >= 2) matchedCandies.put(j, new Triple(p.x, p.y, true));
+            }
         }
         return p.y-p.x+1;
     }
@@ -215,8 +244,30 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
+        boolean hasColourBomb;
+        Pair colourBomb = null;
+        Pair candy = null;
+        if(getCandy(a) instanceof ColourBomb){
+            hasColourBomb = true;
+            colourBomb = a;
+            candy = b;
+        } else if (getCandy(b) instanceof ColourBomb){
+            hasColourBomb = true;
+            colourBomb = b;
+            candy = a;
+        } else { 
+            hasColourBomb = false;
+        } 
+        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)) || hasColourBomb) {
             swapGraphics(a,b);
+            if(hasColourBomb){
+                ((ColourBomb)getCandy(colourBomb)).usePower(getCandy(candy).getColour());
+                getWorld().removeObject(getCandy(colourBomb));
+                getWorld().removeObject(getCandy(candy));
+                candies[(int)colourBomb.x][(int)colourBomb.y] = null;
+                candies[(int)candy.x][(int)candy.y] = null;
+                drop();
+            }
             removeMatching();
             return true;
         }
@@ -280,7 +331,7 @@ public class GameGrid extends Actor {
         for (int i = 0; i < candies[row].length; i++) {
             getWorld().removeObject(candies[row][i]);
             candies[row][i] = null;
-            addCandy(row, i);
+            drop();
         }
         removeMatching();
     }
@@ -299,7 +350,23 @@ public class GameGrid extends Actor {
         for (int i = 0; i < candies.length; i++) {
             getWorld().removeObject(candies[i][col]);
             candies[i][col] = null;
-            addCandy(i, col);
+            drop();
+        }
+        removeMatching();
+    }
+    
+    public void clearColour(Colour c){
+        ArrayList<Candy> colouredCandies = new ArrayList<Candy>();
+        for(int i = 0; i < candies.length; i++) {
+            for(int j = 0; j < candies[i].length; j++) {
+                if (candies[i][j] != null && candies[i][j].getColour() == c) {
+                    colouredCandies.add(candies[i][j]);
+                    
+                    getWorld().removeObject(candies[i][j]);
+                    candies[i][j] = null;
+                    drop();
+                }
+            }
         }
         removeMatching();
     }
@@ -347,5 +414,9 @@ public class GameGrid extends Actor {
                 if (candies[i][j].equals(c))
                     return new Pair(i, j);
         return new Pair(-1,-1);
+    }
+    
+    public Candy getCandy(Pair p){
+        return candies[(int)p.x][(int)p.y];
     }
 }
