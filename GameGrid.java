@@ -12,6 +12,7 @@ public class GameGrid extends Actor {
     private Cell[][] cells;
     private int width, height;
     private Map<Integer, Triple<Integer, Integer, Boolean>> matchedCandies;
+    private List<Pair<Integer, Integer>> wraps;
     private Set<Triple<Candy, Integer, Integer>> shift;
     private enum Specials {
         Wrapped, Striped, ColourBomb;
@@ -24,6 +25,7 @@ public class GameGrid extends Actor {
         cells = new Cell[height][width];
         matchedCandies = new HashMap<>();
         shift = new HashSet<>();
+        wraps = new ArrayList<>();
         GreenfootImage img = new GreenfootImage(1,1);
         img.setTransparency(0);
         setImage(img);
@@ -82,34 +84,34 @@ public class GameGrid extends Actor {
     
     public void removeMatching() {
         while(checkMatching()) {
-            for(Map.Entry entry : matchedCandies.entrySet()) {
-                Triple<Integer, Integer, Boolean> t = (Triple) entry.getValue();
+            for(Map.Entry<Integer, Triple<Integer, Integer, Boolean>> entry : matchedCandies.entrySet()) {
                 Colour col = null;
-                for (int i = t.x; i <= t.y; i++) {
-                    if (t.z)  {
-                        if (candies[i][(Integer)entry.getKey()] != null) {
-                            col = candies[i][(Integer)entry.getKey()].getColour();
-                            candies[i][(Integer)entry.getKey()].useAbility();
-                            getWorld().removeObject(candies[i][(Integer)entry.getKey()]);
-                            candies[i][(Integer)entry.getKey()] = null;
+                for (int i = entry.getValue().x; i <= entry.getValue().y; i++) {
+                    if (entry.getValue().z)  {
+                        if (candies[i][entry.getKey()] != null) {
+                            col = candies[i][entry.getKey()].getColour();
+                            candies[i][entry.getKey()].useAbility();
+                            getWorld().removeObject(candies[i][entry.getKey()]);
+                            candies[i][entry.getKey()] = null;
                         }
                     } else {
-                        if (candies[(Integer)entry.getKey()][i] != null) {
-                            col = candies[(Integer)entry.getKey()][i].getColour();
-                            candies[(Integer)entry.getKey()][i].useAbility();
-                            getWorld().removeObject(candies[(Integer)entry.getKey()][i]);
-                            candies[(Integer)entry.getKey()][i] = null;
+                        if (candies[entry.getKey()][i] != null) {
+                            col = candies[entry.getKey()][i].getColour();
+                            candies[entry.getKey()][i].useAbility();
+                            getWorld().removeObject(candies[entry.getKey()][i]);
+                            candies[entry.getKey()][i] = null;
                         }
                     }
                 }
-                if (t.y-t.x >= 4)
-                    if (t.z) addCandy(t.x, (Integer) entry.getKey(), Specials.ColourBomb, col, false);
-                    else addCandy((Integer) entry.getKey(), t.x, Specials.ColourBomb, col, false);
-                else if (t.y-t.x >= 3) {
-                    if (t.z) addCandy(t.x, (Integer) entry.getKey(), Specials.Striped, col, !t.z);
-                    else addCandy((Integer) entry.getKey(), t.x, Specials.Striped, col, !t.z);
+                if (entry.getValue().y-entry.getValue().x >= 4)
+                    if (entry.getValue().z) addCandy(entry.getValue().x,  entry.getKey(), Specials.ColourBomb, col, false);
+                    else addCandy(entry.getKey(), entry.getValue().x, Specials.ColourBomb, col, false);
+                else if (entry.getValue().y-entry.getValue().x >= 3) {
+                    if (entry.getValue().z) addCandy(entry.getValue().x,  entry.getKey(), Specials.Striped, col, !entry.getValue().z);
+                    else addCandy(entry.getKey(), entry.getValue().x, Specials.Striped, col, !entry.getValue().z);
                 }
             }
+            wraps.clear();
             matchedCandies.clear();
             drop();
         }        
@@ -148,16 +150,18 @@ public class GameGrid extends Actor {
      * Smart algorithm to only destroy all matching within a bound
      */
     private boolean checkMatching(int lowX, int highX, int y) {
-        boolean matched = false;
+        boolean ver = false, hor = false;
         for (int j = y; j >= 0; j--) {
             for (int i = lowX; i <= highX; i++) {
                 if (match(i, j, false) > 2)
-                    matched = true;
+                    ver = true;
                 if (match(i, j, true) > 2)
-                    matched = true;
+                    hor = true;
+                if (ver && hor)
+                    wraps.add(new Pair(i, j));
             }
         }
-        return matched;
+        return ver || hor;
     }
     
     /**
@@ -174,22 +178,18 @@ public class GameGrid extends Actor {
         int c = 0;
         if (dir) {
             int y = j+1;
-            while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
-                y++;
+            while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) y++;
             p.y = y-1;
             y = j-1;
-            while (validCoor(i, y) && candies[i][j].comp(candies[i][y]))
-                y--;
+            while (validCoor(i, y) && candies[i][j].comp(candies[i][y])) y--;
             p.x = y+1;
             if (p.y-p.x >= 2) matchedCandies.put(i, new Triple(p.x, p.y, false));
         } else {
             int x = i+1;
-            while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
-                x++;
+            while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) x++;
             p.y = x-1;
             x = i-1;
-            while (validCoor(x, j) && candies[i][j].comp(candies[x][j]))
-                x--;
+            while (validCoor(x, j) && candies[i][j].comp(candies[x][j])) x--;
             p.x = x+1;
             if (p.y-p.x >= 2) matchedCandies.put(j, new Triple(p.x, p.y, true));
         }
