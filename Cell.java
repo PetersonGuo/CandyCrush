@@ -26,7 +26,7 @@ public class Cell extends Actor {
     }
     
     public void act() {
-        if (Candy.getSelected() != null && Candy.getSelected().equals(candy))
+        if (MainWorld.getClicked() != null && MainWorld.getClicked().equals(candy))
             draw(selected);
         else draw(normal);
     }

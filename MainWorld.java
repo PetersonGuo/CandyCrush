@@ -73,4 +73,8 @@ public class MainWorld extends World {
     public static GameGrid getGrid() {
         return grid;
     }
+    
+    public static Candy getClicked() {
+        return clicked;
+    }
 }

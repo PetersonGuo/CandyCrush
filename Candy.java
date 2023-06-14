@@ -10,7 +10,6 @@ public abstract class Candy extends Actor {
     protected GreenfootImage image;
     protected Colour colour;
     private int x, y;
-    private static Candy start;
     public Candy(Colour colour) {
         this.colour = colour;
     }
@@ -26,7 +25,6 @@ public abstract class Candy extends Actor {
      */
     public void act() {
         if (Greenfoot.mousePressed(this)) {
-            start = this;
             MainWorld.setClicked(this);
         } else if (Greenfoot.mouseDragged(this)) {
             MouseInfo m = Greenfoot.getMouseInfo();
@@ -43,7 +41,7 @@ public abstract class Candy extends Actor {
                     setLocation(x, m.getY());
             else
                 setLocation(x, y);
-        } else if (Greenfoot.mouseClicked(null) && this.equals(start)) {
+        } else if (Greenfoot.mouseClicked(null) && this.equals(MainWorld.getClicked())) {
             Candy overlap = (Candy) getOneIntersectingObject(Candy.class);
             if (overlap == null || !MainWorld.setClicked(overlap))
                 setLocation(x, y);
@@ -83,9 +81,5 @@ public abstract class Candy extends Actor {
     
     public Pair<Integer, Integer> getOrigin() {
         return new Pair(x, y);
-    }
-    
-    public static Candy getSelected() {
-        return start;
     }
 }
