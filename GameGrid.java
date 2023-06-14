@@ -222,8 +222,30 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
+        boolean hasColourBomb;
+        Pair colourBomb = null;
+        Pair candy = null;
+        if(getCandy(a) instanceof ColourBomb){
+            hasColourBomb = true;
+            colourBomb = a;
+            candy = b;
+        } else if (getCandy(b) instanceof ColourBomb){
+            hasColourBomb = true;
+            colourBomb = b;
+            candy = a;
+        } else { 
+            hasColourBomb = false;
+        } 
+        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)) || hasColourBomb) {
             swapGraphics(a,b);
+            if(hasColourBomb){
+                ((ColourBomb)getCandy(colourBomb)).usePower(getCandy(candy).getColour());
+                getWorld().removeObject(getCandy(colourBomb));
+                getWorld().removeObject(getCandy(candy));
+                candies[(int)colourBomb.x][(int)colourBomb.y] = null;
+                candies[(int)candy.x][(int)candy.y] = null;
+                drop();
+            }
             removeMatching();
             return true;
         }
@@ -323,19 +345,11 @@ public class GameGrid extends Actor {
                 }
             }
         }
-        removeMatching();
     }
     
     public Candy[] getExploGrid(Candy c) {
-        int x = -1, y = -1;
-        for (int i = 0; i < candies.length; i++) {
-            for (int j = 0; j < candies[i].length; j++) {
-                if(candies[i][j].equals(c)) {
-                    x = i;
-                    y = j;
-                }
-            }
-        }   
+        Pair<Integer, Integer> p = getGridCoor(c);
+        int x = p.x, y = p.y;
         Candy[] arr = new Candy[9];
         int arrIndex = 0;
         for (int i = x-1; i <= x+1; i++) {
@@ -367,5 +381,9 @@ public class GameGrid extends Actor {
                 if (candies[i][j].equals(c))
                     return new Pair(i, j);
         return new Pair(-1,-1);
+    }
+    
+    public Candy getCandy(Pair p){
+        return candies[(int)p.x][(int)p.y];
     }
 }
