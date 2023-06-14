@@ -11,6 +11,7 @@ public class GameGrid extends Actor {
     private Candy[][] candies;
     private Cell[][] cells;
     private int width, height;
+    private boolean init;
     private Set<Triple<Integer, Integer, Colour>> wraps;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
     private enum Specials {
@@ -22,6 +23,7 @@ public class GameGrid extends Actor {
         this.height = height;
         candies = new Candy[height][width];
         cells = new Cell[height][width];
+        init = true;
         horizontal = new HashSet<>();
         vertical = new HashSet<>();
         wraps = new HashSet<>();
@@ -52,7 +54,7 @@ public class GameGrid extends Actor {
     private void addCandy(int i, int j) { //basic candy
         candies[i][j] = new Regular(Colour.random());
         cells[i][j].setCandy(candies[i][j]);
-        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
@@ -79,6 +81,10 @@ public class GameGrid extends Actor {
             for (int j = 0; j < candies[i].length; j++)
                 addCandy(i, j);
         removeMatching();
+        for (int i = 0; i < candies.length; i++)
+            for (int j = 0; j < candies[i].length; j++)
+                getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+        init = false;
     }
     
     public void removeMatching() {
