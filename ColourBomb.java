@@ -16,8 +16,4 @@ public class ColourBomb extends Special {
     public void useAbility() {
         grid.clearColour(Colour.random());
     }
-    
-    public void usePower(Colour c) {
-        grid.clearColour(c);
-    }
 }

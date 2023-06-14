@@ -222,24 +222,19 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        boolean hasColourBomb;
         Pair<Integer, Integer> bomb = null, candy = null;
         if (candies[a.x][a.y] instanceof ColourBomb){
-            hasColourBomb = true;
             bomb = a;
             candy = b;
         } else if (candies[b.x][b.y] instanceof ColourBomb){
-            hasColourBomb = true;
             bomb = b;
             candy = a;
-        } else { 
-            hasColourBomb = false;
         }
         
-        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)) || hasColourBomb) {
+        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)) || bomb != null) {
             swapGraphics(a,b);
-            if(hasColourBomb){
-                ((ColourBomb)candies[bomb.x][bomb.y]).usePower(candies[candy.x][candy.y].getColour());
+            if (bomb != null) {
+                clearColour(candies[candy.x][candy.y].getColour());
                 removeFromWorld(bomb);
                 removeFromWorld(candy);
                 drop();
@@ -378,6 +373,6 @@ public class GameGrid extends Actor {
             for (int j = 0; j < candies[i].length; j++)
                 if (candies[i][j] != null && candies[i][j].equals(c))
                     return new Pair(i, j);
-        return new Pair(-1,-1);
+        return null;
     }
 }
