@@ -243,25 +243,44 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        if ((candies[a.x][a.y].getType() == Specials.ColourBomb) && (candies[b.x][b.y].getType() == Specials.ColourBomb)) clearAll();
-        else if ((candies[a.x][a.y].getType() ==  Specials.ColourBomb) || (candies[b.x][b.y].getType() ==  Specials.ColourBomb)) {
-            if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
-                clearColour(candies[b.x][b.y].getColour());
-                removeFromWorld(a);
-            } else if (candies[b.x][b.y].getType() == Specials.ColourBomb) {
-                clearColour(candies[a.x][a.y].getColour());
-                removeFromWorld(b);
-            }
+        if (candies[a.x][a.y].getType() == Specials.ColourBomb && candies[b.x][b.y].getType() == Specials.ColourBomb) {
+            clearAll();
+            removeMatching();
+            return true;
+        } else if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
+            clearColour(candies[b.x][b.y].getColour());
+            removeFromWorld(a);
             drop();
             removeMatching();
             return true;
-        }
-        else {
-            if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
-                swapGraphics(a,b);
-                removeMatching();
-                return true;
+        } else if (candies[b.x][b.y].getType() == Specials.ColourBomb) {
+            clearColour(candies[a.x][a.y].getColour());
+            removeFromWorld(b);
+            drop();
+            removeMatching();
+            return true;
+        } else if (candies[a.x][a.y].getType() == Specials.Wrapped) {
+            if (candies[b.x][b.y].getType() == Specials.Striped) {
+                for (int i = -1; i < 2; i++) {
+                    if (validCoor(b.x+i,b.y+i)) {
+                        clearRow(b.x+i);
+                        clearCol(b.y+i);
+                    }
+                }
             }
+        } else if (candies[b.x][b.y].getType() == Specials.Wrapped) {
+            if (candies[b.x][b.y].getType() == Specials.Striped) {
+                for (int i = -1; i < 2; i++) {
+                    if (validCoor(b.x+i,b.y+i)) {
+                        clearRow(b.x+i);
+                        clearCol(b.y+i);
+                    }
+                }
+            }
+        } else if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
+            swapGraphics(a,b);
+            removeMatching();
+            return true;
         }
         swap(a, b);
         return false;
