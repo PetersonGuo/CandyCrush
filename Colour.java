@@ -21,6 +21,10 @@ public enum Colour  {
         return values[(int)(Math.random() * values.length)];
     }
     
+    public static Colour[] getColours(){
+        return values;
+    }
+    
     @Override
     public String toString(){
         return colour;

@@ -73,7 +73,7 @@ public class GameGrid extends Actor {
                 break;
         }
         cells[i][j].setCandy(candies[i][j]);
-        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
+        if(!init)getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }
     
     public void addCandies() {
@@ -82,8 +82,28 @@ public class GameGrid extends Actor {
                 addCandy(i, j);
         removeMatching();
         for (int i = 0; i < candies.length; i++)
-            for (int j = 0; j < candies[i].length; j++)
+            for (int j = 0; j < candies[i].length; j++){
+                if(candies[i][j] instanceof Special && !FINAL.CHEAT){
+                    printArray();
+                    System.out.println(i + "," + j);
+                    if(candies[i][j].getColour() != null){
+                        candies[i][j] = new Regular(candies[i][j].getColour());
+                        cells[i][j].setCandy(candies[i][j]);
+                    }else{
+                        ArrayList<Colour> colours = new ArrayList<Colour>();
+                        for(Colour c : Colour.getColours())
+                            colours.add(c);
+                        if(validCoor(i,j+1)) colours.remove(candies[i][j+1].getColour());
+                        if(validCoor(i,j-1)) colours.remove(candies[i][j-1].getColour());
+                        if(validCoor(i+1,j)) colours.remove(candies[i+1][j].getColour());
+                        if(validCoor(i-1,j)) colours.remove(candies[i-1][j].getColour());
+                        candies[i][j] = new Regular(colours.get((int)(Math.random() * colours.size())));
+                        cells[i][j].setCandy(candies[i][j]);
+                    }
+                    printArray();
+                }
                 getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+            }
         init = false;
     }
     
