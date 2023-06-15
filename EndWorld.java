@@ -1,14 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.IOException;
-import java.util.Scanner;
-import java.io.File;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.io.FileNotFoundException;
-import java.util.NoSuchElementException;
-import java.util.Collections;
+import java.io.*;
+import java.util.*;
 
 /**
  * Write a description of class EndWorld here.
@@ -18,8 +10,7 @@ import java.util.Collections;
  * 
  * Background: Same creator as previosly mentioned in StartWorld, edited by Jett M.
  */
-public class EndWorld extends Worlds
-{
+public class EndWorld extends Worlds {
     GreenfootImage background;
     Text endResult, score, hScore1, hScore2, hScore3;
     
@@ -35,8 +26,7 @@ public class EndWorld extends Worlds
      * 
      */
     
-    public EndWorld()
-    {
+    public EndWorld() {
         background = new GreenfootImage("CandyEndScreen.png");
         background.scale(FINAL.WORLD_WIDTH, FINAL.WORLD_HEIGHT);
         setBackground(background);
@@ -61,7 +51,7 @@ public class EndWorld extends Worlds
     
     public void act() {
         if(Greenfoot.isKeyDown("space")) {
-            Greenfoot.setWorld(new SelectScreen());
+            Greenfoot.setWorld(new StartWorld());
         }
     }
     
@@ -79,8 +69,7 @@ public class EndWorld extends Worlds
     public void displayScore() {
         try {
             scan = new Scanner(new File("score.txt"));
-        }
-        catch(FileNotFoundException e){
+        } catch(FileNotFoundException e){
         }
         while(linesLeft){
             try {
@@ -113,7 +102,6 @@ public class EndWorld extends Worlds
         catch(IndexOutOfBoundsException e){
             hScore3 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);
         }
-        
         
         addObject(hScore1, FINAL.WORLD_WIDTH / 2, FINAL.WORLD_HEIGHT / 2);
         addObject(hScore2, FINAL.WORLD_WIDTH / 2, FINAL.WORLD_HEIGHT / 2 + 40);
