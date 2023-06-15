@@ -48,10 +48,11 @@ public class GameGrid extends Actor {
     public void act() {
         if (!checkCandies())
             reshuffle();
-        getWorld().removeObjects(getWorld().getObjects(Candy.class));
+        //getWorld().removeObjects(getWorld().getObjects(Candy.class));
         for (int i = 0; i < candies.length; i++)
             for (int j = 0; j < candies[i].length; j++)
-                getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+                if(candies[i][j].getIntersectingCandy() != null && candies[i][j].atOrigin() && candies[i][j].getIntersectingCandy().atOrigin()) getWorld().removeObject(candies[i][j].getIntersectingCandy());
+                //getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j) { //basic candy
