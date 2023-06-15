@@ -22,7 +22,7 @@ public class Striped extends Special {
      *                  the stripe is horizontal
      */
     public Striped(Colour colour, boolean vertical){
-        super(colour);
+        super((colour == null) ? Colour.random() : colour);
         this.vertical = vertical;
         if(vertical)
             image = new GreenfootImage(colour + "_VStripe.png");

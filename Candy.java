@@ -41,6 +41,11 @@ public abstract class Candy extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        if(getY() < y) setLocation(getX(), getY()+((y-getY())/5)+1);
+        else if(getY() > y) setLocation(getX(), getY()-5);
+        if(getX() < x) setLocation(getX()+5, getY());
+        else if(getX() > x) setLocation(getX()-5, getY());
+
         if (Greenfoot.mousePressed(this)) {
             MainWorld.setClicked(this);
         } else if (Greenfoot.mouseDragged(this)) {

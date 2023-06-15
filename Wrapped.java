@@ -16,7 +16,7 @@ public class Wrapped extends Special {
      * wrapper candy and sets its image.
      */
     public Wrapped(Colour colour) {
-        super(colour);
+        super((colour == null) ? Colour.random() : colour);
         image = new GreenfootImage(colour + "_Wrapper.png");
         setCandyImage();
         type = Specials.Wrapped;
