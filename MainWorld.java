@@ -58,7 +58,7 @@ public class MainWorld extends World {
         
         objective = (int)(Math.random() * 2);
         if(objective == 1){
-            obj = new CandyCount((int)(Math.random()*6));
+            obj = new CandyCount(Colour.random());
         }else if(objective == 2){
             obj = new DropIngredients(2);
         }

@@ -5,7 +5,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * a storage for candies but also a visual representation of the game grid.
  * Cells have easy access to the candies that it contains.
  * 
- * @author Kelby To, Isaac Chan
+ * @author Kelby To, Isaac Chan, Peterson Guo
  * @version June 15, 2023
  */
 public class Cell extends Actor {
@@ -62,6 +62,7 @@ public class Cell extends Actor {
      * A setter method that sets the candy within this cell to another candy.
      * 
      * @param c     The candy being put into this cell
+	 * @return Candy   The candy that this cell contains
      */
     public Candy getCandy(){
         return candy;

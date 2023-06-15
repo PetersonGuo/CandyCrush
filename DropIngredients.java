@@ -8,10 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author Kevin Luo, Kelby To 
  * @version June 15, 2023
  */
-public class DropIngredients extends Objectives
-{
-    private static int totalIngredients;
-    
+public class DropIngredients extends Objectives {
+    private static int totalIngredients;    
     /**
      * A constructor method that takes an integer of the total ingredients 
      * required to drop to complete the objective.
@@ -27,15 +25,15 @@ public class DropIngredients extends Objectives
      * Act - do whatever the DropIngredients wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act()
-    {
-        if(checkObj()){
+    public void act() {
+        if (checkObj())
             MainWorld.objectiveCompleted();
-        }
     }
     
     /**
      * A method that checks if teh objective is completed or not.
+     * 
+     * @return 
      */
     public boolean checkObj(){
         if (totalIngredients == 0){
