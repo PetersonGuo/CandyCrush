@@ -243,8 +243,9 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        if ((candies[a.x][a.y].getType() == Specials.ColourBomb) && (candies[b.x][b.y].getType() == Specials.ColourBomb)) clearAll();
-        else if ((candies[a.x][a.y].getType() ==  Specials.ColourBomb) || (candies[b.x][b.y].getType() ==  Specials.ColourBomb)) {
+        if ((candies[a.x][a.y].getType() == Specials.ColourBomb) && (candies[b.x][b.y].getType() == Specials.ColourBomb)) {
+            clearAll();
+        }else if ((candies[a.x][a.y].getType() ==  Specials.ColourBomb) || (candies[b.x][b.y].getType() ==  Specials.ColourBomb)) {
             if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
                 clearColour(candies[b.x][b.y].getColour());
                 removeFromWorld(a);
@@ -269,6 +270,7 @@ public class GameGrid extends Actor {
     
     private void removeFromWorld(Pair<Integer, Integer> p) {
         getWorld().removeObject(candies[p.x][p.y]);
+        if(!init)MainWorld.addPoints(100);
         candies[p.x][p.y] = null;
     }
     

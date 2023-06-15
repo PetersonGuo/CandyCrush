@@ -10,6 +10,7 @@ public class MainWorld extends World {
     private static GameGrid grid;
     private static Candy clicked;
     //Candy Count variables
+    private static Counter score, moves;
     private static int counter, totalCandy, colour, objective;
     private static boolean objComplete;
     private Objectives obj;
@@ -23,9 +24,18 @@ public class MainWorld extends World {
     public MainWorld() {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 800, 1); 
+
+        score = new Counter("Score: ");
+        moves = new Counter("Moves: ");
+        moves.setValue(25);
+        
+        addObject(score, 100, 50);
+        addObject(moves, 300, 50);
+        
         grid = new GameGrid(10,10);
         addObject(grid, 400, 400);
         grid.addCandies();
+        
         
         clicked = null;
         objComplete = false;
@@ -40,6 +50,9 @@ public class MainWorld extends World {
     }
     
     public void act(){
+        if(moves.getValue() == 0){
+            //nextWorld
+        }
         if (obj instanceof CandyCount){ //if the objective is candy count
             //something
         }
@@ -63,7 +76,16 @@ public class MainWorld extends World {
                 clicked = null;
             } else clicked = c;
         }
+        if(valid) decreaseMoves();
         return valid;
+    }
+    
+    public static void addPoints(int pts){
+        score.changeValue(pts);
+    }
+    
+    public static void decreaseMoves(){
+        moves.changeValue(-1);
     }
     
     public static void objectiveCompleted(){
