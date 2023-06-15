@@ -1,8 +1,8 @@
 /**
- * Write a description of class FINAL here.
+ * An interface that contains all constant variables in the program.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Peterson Guo
+ * @version June 15, 2023
  */
 public interface FINAL  
 {
