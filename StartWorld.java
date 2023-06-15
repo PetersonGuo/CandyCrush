@@ -12,27 +12,33 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class StartWorld extends Worlds {
     private Text candy, ingredient;
+    private int screen;
     /**
      * Constructor for objects of class StartWorld.
      */
     public StartWorld() {
+        this(0);
+    }
+    
+    public StartWorld(int screen) {
         GreenfootImage background = new GreenfootImage("StartBackground2.png");
         background.scale(FINAL.WORLD_WIDTH, FINAL.WORLD_HEIGHT);
         setBackground(background);
-        drawScreen();
+        if (screen == 0) drawScreen();
+        else if (screen == 1) drawSelection();
     }
     
     public void act() {
         if (Greenfoot.isKeyDown("i")) //opens up instructions
             drawInstructions();        
         else if (Greenfoot.isKeyDown("enter")) //checks to see if user starts the game
-            drawSelection();
+            screen = 1;
         else if (Greenfoot.mouseClicked(candy))
             Greenfoot.setWorld(new MainWorld(true));
         else if (Greenfoot.mouseClicked(ingredient))
             Greenfoot.setWorld(new MainWorld(false));
-        else
-            drawScreen();
+        else if (screen == 0) drawScreen();
+        else if (screen == 1) drawSelection();
     }
     
     private void drawScreen() {
