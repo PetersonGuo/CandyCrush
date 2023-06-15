@@ -1,15 +1,24 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class DropIngredients here.
+ * A subclass called DropIngredients that is an objective that requires
+ * the player to drop an ingredient from the top of the screen to the bottom.
+ * If the player manages to complete the objective they win the game.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Kevin Luo, Kelby To 
+ * @version June 15, 2023
  */
 public class DropIngredients extends Objectives
 {
     private static int totalIngredients;
     
+    /**
+     * A constructor method that takes an integer of the total ingredients 
+     * required to drop to complete the objective.
+     * 
+     * @param totalIngredients  The total number of ingredients required to 
+     *                          drop
+     */
     public DropIngredients(int totalIngredients){
         this.totalIngredients = totalIngredients;
     }
@@ -25,6 +34,9 @@ public class DropIngredients extends Objectives
         }
     }
     
+    /**
+     * A method that checks if teh objective is completed or not.
+     */
     public boolean checkObj(){
         if (totalIngredients == 0){
             objComplete = true;
@@ -34,6 +46,9 @@ public class DropIngredients extends Objectives
         return objComplete;
     }
     
+    /**
+     * A method that counts down the number of ingredients required
+     */
     public void decreaseIngredients(){
         totalIngredients--;
     }

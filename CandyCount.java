@@ -1,21 +1,34 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class CandyCount here.
+ * A subclass called CandyCount that is an objective that requires
+ * the player to break a certain number of candies of a given colour. 
+ * If the player manages to complete the objective they win.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Kevin Luo, Kelby To
+ * @version June 15, 2023
  */
 public class CandyCount extends Objectives
 {
     private int counter;
     private int totalCandy;
     private int colour;
+    /**
+     * A constructor method that takes the colour of the required colour
+     * that must be destroyed to complete the objective.
+     * 
+     * @param colour    The required colour that is destroyed for the 
+     *                  objective
+     */
     public CandyCount(int colour){
         objComplete = false;
         this.colour = colour;
     }
     
+    /**
+     * Act - do whatever the CandyCount wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
     public void act()
     {
         if(checkObj()){
@@ -23,6 +36,9 @@ public class CandyCount extends Objectives
         }
     }
     
+    /**
+     * A method that checks if the objective is completed or not.
+     */
     public boolean checkObj(){
         if (counter >= totalCandy){
             objComplete = true;
@@ -30,6 +46,12 @@ public class CandyCount extends Objectives
         return objComplete;
     }
     
+    /**
+     * A method that adds to a counter that keeps track of the number of
+     * candies destroyed.
+     * 
+     * @param add   The number of candies destroyed
+     */
     public void increaseCandyCounter(int add){
         counter += add;
     }
