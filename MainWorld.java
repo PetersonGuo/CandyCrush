@@ -23,7 +23,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author Peterson Guo, Kevin Luo, Kelby To 
  * @version June 15, 2023
  */
-public class MainWorld extends World {
+public class MainWorld extends Worlds {
     private static GameGrid grid;
     private static Candy clicked;
     //Candy Count variables
@@ -38,10 +38,7 @@ public class MainWorld extends World {
     /**
      * Constructor for objects of class MyWorld.
      */
-    public MainWorld() {
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(800, 800, 1); 
-        
+    public MainWorld(boolean choice) {
         score = new Counter("Score: ");
         moves = new Counter("Moves: ");
         moves.setValue(25);
@@ -133,6 +130,10 @@ public class MainWorld extends World {
         objComplete = true;
     }
     
+    public static boolean isObjectiveCompleted(){
+        return objComplete;
+    }
+    
     /**
      * A method that returns the world's GameGrid
      * 
@@ -151,4 +152,7 @@ public class MainWorld extends World {
         return clicked;
     }
     
+    public static int getPoints() {
+        return score.getValue();
+    }
 }
