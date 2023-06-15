@@ -10,8 +10,8 @@ public class Pair<T, U> {
     /**
      * A constructor that takes 2 generic types and sets them as x and y.
      * 
-     * @param x     One generic type (generally in integer)
-     * @param y     Another generic type (generally an integer)
+     * @param x     One generic type
+     * @param y     Another generic type
      */
     public Pair(T x, U y) {
         this.x = x;

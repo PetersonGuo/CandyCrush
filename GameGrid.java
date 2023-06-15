@@ -1,11 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
- * Write a description of class Gamecandies here.
+ * Write a description of class GameGrid here.
  * For efficiency only check x dir and upwards y direction of box of lowest changed candy
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Peterson Guo, Kelby To 
+ * @version June 15, 2023
  */
 public class GameGrid extends Actor {
     private Candy[][] candies;

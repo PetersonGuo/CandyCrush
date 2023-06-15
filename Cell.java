@@ -62,7 +62,7 @@ public class Cell extends Actor {
      * A setter method that sets the candy within this cell to another candy.
      * 
      * @param c     The candy being put into this cell
-	 * @return Candy   The candy that this cell contains
+     * @return Candy   The candy that this cell contains
      */
     public Candy getCandy(){
         return candy;
