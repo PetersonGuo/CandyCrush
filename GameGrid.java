@@ -56,8 +56,8 @@ public class GameGrid extends Actor {
     
     private void addCandy(int i, int j) { //basic candy
         candies[i][j] = new Regular(Colour.random());
+        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY()-50);
         cells[i][j].setCandy(candies[i][j]);
-        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
@@ -75,8 +75,8 @@ public class GameGrid extends Actor {
                 candies[i][j] = new Striped(c, vertical);
                 break;
         }
+        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY()-50);        
         cells[i][j].setCandy(candies[i][j]);
-        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }
     
     public void addCandies() {
@@ -304,6 +304,7 @@ public class GameGrid extends Actor {
     
     private void removeFromWorld(Pair<Integer, Integer> p) {
         getWorld().removeObject(candies[p.x][p.y]);
+        if(!init)MainWorld.addPoints(100);
         candies[p.x][p.y] = null;
     }
     
