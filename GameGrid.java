@@ -376,20 +376,18 @@ public class GameGrid extends Actor {
         }
     }
     
-    public Candy[] getExploGrid(Candy c) {
-        Pair<Integer, Integer> p = getGridCoor(c);
-        int x = p.x, y = p.y;
-        Candy[] arr = new Candy[9];
-        int arrIndex = 0;
-        for (int i = x-1; i <= x+1; i++) {
-            for (int j = y-1; j <= y+1; j++) {
+    public void getExploGrid(Candy c) {
+        Pair p = getGridCoor(c);   
+        for (int i = (int)p.x - 1; i <= (int)p.x + 1; i++) {
+            for (int j = (int)p.y - 1; j <= (int)p.y + 1; j++) {
                 if (validCoor(i, j)) {
-                    arr[arrIndex] = candies[i][j];
-                    arrIndex++;
+                    getWorld().removeObject(candies[i][j]);
+                    candies[i][j] = null;
+                    drop();
                 }
             }
-        }  
-        return arr;
+        }
+        removeMatching();
     }
     
     public Candy[] getCandies() {

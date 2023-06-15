@@ -25,7 +25,7 @@ public class Wrapped extends Special {
      * A method that allows this candy to break a 3x3 grid about
      * the wrapped candy.
      */
-    public void useAbility(){ // explodes in a 3 x 3 square about the origin
-        Candy[] explodeCandies = grid.getExploGrid(this);
+    public void useAbility(){
+        grid.getExploGrid(this);
     }
 }
