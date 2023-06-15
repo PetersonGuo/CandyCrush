@@ -31,6 +31,7 @@ public class MainWorld extends World {
     private static int counter, totalCandy, colour, objective;
     private static boolean objComplete;
     private Objectives obj;
+    private Sound ingredient;
     
     //Ingredients variables
     //private int totalIngredients;
@@ -80,6 +81,8 @@ public class MainWorld extends World {
                 if(c instanceof Ingredient){
                     ((Ingredient)c).destroy();
                     ((DropIngredients)obj).decreaseIngredients();
+                    ingredient = new Sound("ingredient.mp3");
+                    ingredient.play();
                 }
             }
         }

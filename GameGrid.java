@@ -15,6 +15,7 @@ public class GameGrid extends Actor {
     private Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> swap;
     private Set<Triple<Integer, Integer, Colour>> wraps;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
+    private Sound match, colourBomb, stripe, wrapper, background;
     
     public GameGrid(int width, int height) {
         this.width = width;
@@ -39,8 +40,14 @@ public class GameGrid extends Actor {
                 w.addObject(cells[i][j], FINAL.CELL_SIZE*j + shiftAmountX, FINAL.CELL_SIZE*i + shiftAmountY);
             }
         }
+        background = new Sound("background.mp3");
+        background.loop();
     }
 
+    public void stopped(){
+        background.stop();
+    }
+    
     /**
      * Act - do whatever the Gamecandies wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -63,15 +70,23 @@ public class GameGrid extends Actor {
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
         switch (type) {
             case ColourBomb:
+                colourBomb = new Sound("colourbomb.mp3");
+                colourBomb.play();
                 candies[i][j] = new ColourBomb();
                 break;
             case Striped:
+                stripe = new Sound("stripe.mp3");
+                stripe.play();
                 candies[i][j] = new Striped(c, vertical);
                 break;
             case Wrapped:
+                wrapper = new Sound("wrapper.mp3");
+                wrapper.play();
                 candies[i][j] = new Wrapped(c);
                 break;
             default:
+                stripe = new Sound("stripe.mp3");
+                stripe.play();
                 candies[i][j] = new Striped(c, vertical);
                 break;
         }
@@ -134,6 +149,8 @@ public class GameGrid extends Actor {
                     addCandy(entry.x, entry.y, Specials.ColourBomb, col, false);
                 else if (entry.z-entry.y >= 3)
                     addCandy(entry.x, entry.y, Specials.Striped, col, true);
+                match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
+                match.play();
             }
             horizontal.clear();
             for (Triple<Integer, Integer, Integer> entry : vertical) {
@@ -161,6 +178,8 @@ public class GameGrid extends Actor {
                     addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
                 else if (entry.z-entry.y >= 3)
                     addCandy(entry.y, entry.x, Specials.Striped, col, true);
+                match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
+                match.play();
             }
             vertical.clear();
             for (Triple<Integer, Integer, Colour> t : wraps)
