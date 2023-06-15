@@ -55,11 +55,10 @@ public class GameGrid extends Actor {
     public void act() {
         if (!checkCandies())
             reshuffle();
-        //getWorld().removeObjects(getWorld().getObjects(Candy.class));
         for (int i = 0; i < candies.length; i++)
             for (int j = 0; j < candies[i].length; j++)
-                if(candies[i][j].getIntersectingCandy() != null && candies[i][j].atOrigin() && candies[i][j].getIntersectingCandy().atOrigin()) getWorld().removeObject(candies[i][j].getIntersectingCandy());
-                //getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+                if (candies[i][j].getIntersectingCandy() != null && candies[i][j].atOrigin() && candies[i][j].getIntersectingCandy().atOrigin())
+                    getWorld().removeObject(candies[i][j].getIntersectingCandy());
     }
     
     private void addCandy(int i, int j) { //basic candy
@@ -167,18 +166,18 @@ public class GameGrid extends Actor {
                     if (entry.z-entry.y >= 4)
                         addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
                     else if (entry.z-entry.y >= 3)
-                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
+                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, false);
                     swap = null;
                 } else if (swap != null && entry.y <= swap.x.x && swap.x.x <= entry.z && swap.x.y == entry.x) {
                     if (entry.z-entry.y >= 4)
-                        addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
+                        addCandy(swap.x.x, swap.x.y, Specials.ColourBomb, col, false);
                     else if (entry.z-entry.y >= 3)
-                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
+                        addCandy(swap.x.x, swap.x.y, Specials.Striped, col, false);
                     swap = null;
                 } else if (entry.z-entry.y >= 4)
                     addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
                 else if (entry.z-entry.y >= 3)
-                    addCandy(entry.y, entry.x, Specials.Striped, col, true);
+                    addCandy(entry.y, entry.x, Specials.Striped, col, false);
                 match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
                 match.play();
             }
@@ -242,7 +241,8 @@ public class GameGrid extends Actor {
                 } else if (vertLen.z - vertLen.y >= 4) {
                     vertical.add(vertLen);
                     ver = true;
-                } else if (horLen.z - horLen.y >= 2 && vertLen.z - vertLen.y >= 2) wraps.add(new Triple(i, j, candies[i][j].getColour()));
+                } else if (horLen.z - horLen.y >= 2 && vertLen.z - vertLen.y >= 2)
+                    wraps.add(new Triple(i, j, candies[i][j].getColour()));
                 else if (horLen.z - horLen.y >= 2) {
                     horizontal.add(horLen);
                     hor = true;
