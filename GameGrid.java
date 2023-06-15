@@ -71,22 +71,22 @@ public class GameGrid extends Actor {
         switch (type) {
             case ColourBomb:
                 colourBomb = new Sound("colourbomb.mp3");
-                colourBomb.play();
+                if(!init) colourBomb.play();
                 candies[i][j] = new ColourBomb();
                 break;
             case Striped:
                 stripe = new Sound("stripe.mp3");
-                stripe.play();
+                if(!init) stripe.play();
                 candies[i][j] = new Striped(c, vertical);
                 break;
             case Wrapped:
                 wrapper = new Sound("wrapper.mp3");
-                wrapper.play();
+                if(!init) wrapper.play();
                 candies[i][j] = new Wrapped(c);
                 break;
             default:
                 stripe = new Sound("stripe.mp3");
-                stripe.play();
+                if(!init) stripe.play();
                 candies[i][j] = new Striped(c, vertical);
                 break;
         }
@@ -150,7 +150,7 @@ public class GameGrid extends Actor {
                 else if (entry.z-entry.y >= 3)
                     addCandy(entry.x, entry.y, Specials.Striped, col, true);
                 match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
-                match.play();
+                if(!init) match.play();
             }
             horizontal.clear();
             for (Triple<Integer, Integer, Integer> entry : vertical) {
@@ -179,7 +179,7 @@ public class GameGrid extends Actor {
                 else if (entry.z-entry.y >= 3)
                     addCandy(entry.y, entry.x, Specials.Striped, col, false);
                 match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
-                match.play();
+                if(!init) match.play();
             }
             vertical.clear();
             for (Triple<Integer, Integer, Colour> t : wraps)
