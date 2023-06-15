@@ -64,6 +64,10 @@ public abstract class Candy extends Actor {
                 setLocation(x, y);
         } else if (Greenfoot.mouseClicked(this))
             MainWorld.setClicked(this);
+            
+        if(getY() != y) setLocation(getX(), getY()+5);
+        if(getX() < x) setLocation(getX()+5, getY());
+        else if(getX() > x) setLocation(getX()-5, getY());
     }
     
     /**
