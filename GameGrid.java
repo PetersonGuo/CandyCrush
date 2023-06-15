@@ -12,6 +12,7 @@ public class GameGrid extends Actor {
     private Cell[][] cells;
     private int width, height;
     private boolean init;
+    private Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> swap;
     private Set<Triple<Integer, Integer, Colour>> wraps;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
     
@@ -47,6 +48,10 @@ public class GameGrid extends Actor {
     public void act() {
         if (!checkCandies())
             reshuffle();
+        getWorld().removeObjects(getWorld().getObjects(Candy.class));
+        for (int i = 0; i < candies.length; i++)
+            for (int j = 0; j < candies[i].length; j++)
+                getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j) { //basic candy
@@ -113,8 +118,22 @@ public class GameGrid extends Actor {
                         removeFromWorld(new Pair(entry.x, i));
                     }
                 }
-                if (entry.z-entry.y >= 4)       addCandy(entry.x, entry.y, Specials.ColourBomb, col, false);
-                else if (entry.z-entry.y >= 3)  addCandy(entry.x, entry.y, Specials.Striped, col, true);
+                if (swap != null && swap.y.x == entry.x && entry.y <= swap.y.y && swap.y.y <= entry.z) {
+                    if (entry.z-entry.y >= 4)
+                        addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
+                    else if (entry.z-entry.y >= 3)
+                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
+                    swap = null;
+                } else if (swap != null && swap.x.x == entry.x && entry.y <= swap.x.y && swap.x.y <= entry.z) {
+                    if (entry.z-entry.y >= 4)
+                        addCandy(swap.x.x, swap.x.y, Specials.ColourBomb, col, false);
+                    else if (entry.z-entry.y >= 3)
+                        addCandy(swap.x.x, swap.x.y, Specials.Striped, col, true);
+                    swap = null;
+                } else if (entry.z-entry.y >= 4)
+                    addCandy(entry.x, entry.y, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)
+                    addCandy(entry.x, entry.y, Specials.Striped, col, true);
             }
             horizontal.clear();
             for (Triple<Integer, Integer, Integer> entry : vertical) {
@@ -126,8 +145,22 @@ public class GameGrid extends Actor {
                         removeFromWorld(new Pair(i, entry.x));
                     }
                 }
-                if (entry.z-entry.y >= 4)       addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
-                else if (entry.z-entry.y >= 3)  addCandy(entry.y, entry.x, Specials.Striped, col, false);
+                if (swap != null && entry.y <= swap.y.x && swap.y.x <= entry.z && swap.y.y == entry.x) {
+                    if (entry.z-entry.y >= 4)
+                        addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
+                    else if (entry.z-entry.y >= 3)
+                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
+                    swap = null;
+                } else if (swap != null && entry.y <= swap.x.x && swap.x.x <= entry.z && swap.x.y == entry.x) {
+                    if (entry.z-entry.y >= 4)
+                        addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
+                    else if (entry.z-entry.y >= 3)
+                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
+                    swap = null;
+                } else if (entry.z-entry.y >= 4)
+                    addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)
+                    addCandy(entry.y, entry.x, Specials.Striped, col, true);
             }
             vertical.clear();
             for (Triple<Integer, Integer, Colour> t : wraps)
@@ -242,6 +275,7 @@ public class GameGrid extends Actor {
      * Check if user made a valid swap and swap back if not valid
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
+        swap = new Pair(a, b);
         swap(a, b);
         if (candies[a.x][a.y].getType() == Specials.ColourBomb && candies[b.x][b.y].getType() == Specials.ColourBomb) {
             clearAll();
@@ -259,24 +293,6 @@ public class GameGrid extends Actor {
             drop();
             removeMatching();
             return true;
-        } else if (candies[a.x][a.y].getType() == Specials.Wrapped) {
-            if (candies[b.x][b.y].getType() == Specials.Striped) {
-                for (int i = -1; i < 2; i++) {
-                    if (validCoor(b.x+i,b.y+i)) {
-                        clearRow(b.x+i);
-                        clearCol(b.y+i);
-                    }
-                }
-            }
-        } else if (candies[b.x][b.y].getType() == Specials.Wrapped) {
-            if (candies[b.x][b.y].getType() == Specials.Striped) {
-                for (int i = -1; i < 2; i++) {
-                    if (validCoor(b.x+i,b.y+i)) {
-                        clearRow(b.x+i);
-                        clearCol(b.y+i);
-                    }
-                }
-            }
         } else if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
             swapGraphics(a,b);
             removeMatching();
