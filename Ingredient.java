@@ -45,4 +45,12 @@ public class Ingredient extends Candy
     public void destroy(){
         getWorld().removeObject(this);
     }
+    
+    public int getXLocation(){
+        return this.getX();
+    }
+    
+    public int getYLocation(){
+        return this.getY();
+    }
 }

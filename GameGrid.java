@@ -67,8 +67,9 @@ public class GameGrid extends Actor {
     }
     
     public void addIngredient(){
-        int j = (int) (Math.random() * 8);
+        int j = (int) (Math.random() * 9);
         addIngredient(0, j);
+        getWorld().removeObject(candies[0][j]);
     }
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {

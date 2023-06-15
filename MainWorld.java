@@ -53,9 +53,8 @@ public class MainWorld extends World {
         addObject(grid, 400, 400);
         
         new DropIngredients(2);
-        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() < 1){
-            grid.addIngredient();
-        }
+        
+        grid.addIngredient();
         grid.addCandies();
         
         clicked = null;
@@ -84,13 +83,13 @@ public class MainWorld extends World {
         if (obj instanceof DropIngredients){ //if the objective is getting ingredients
             for(Candy c : grid.getRow(9)){
                 if(c instanceof Ingredient){
+                    count++;
                     ((Ingredient)c).destroy();
                     ((DropIngredients)obj).decreaseIngredients();
-                    count++;
                 }
             }
         }
-        if (count < 2 && getObjects(Ingredient.class).size() < 1){
+        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() < 1){
             grid.addIngredient();
         }
     }
