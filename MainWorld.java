@@ -66,7 +66,7 @@ public class MainWorld extends Worlds {
      * Act - do whatever the MainWorld wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act(){
+    public void act() {
         if(moves.getValue() == 0){
             //nextWorld
         }
