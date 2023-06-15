@@ -71,7 +71,12 @@ public class GameGrid extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        if(!Candy.isMoving() && checkMatching())removeMatching();
+        if(Candy.isMoving() && checkMatching()){
+            removeMatching();
+            horizontal.clear();
+            vertical.clear();
+            wraps.clear();
+        }
         if (!checkCandies())
             reshuffle();
         for (int i = 0; i < candies.length; i++)
@@ -287,7 +292,7 @@ public class GameGrid extends Actor {
      * @param y the highest y value to start from
      */
     private boolean checkMatching(int lowX, int highX, int y) {
-        boolean ver = false, hor = false;
+        boolean ver = false, hor = false, wrap = false;
         for (int j = y; j >= 0; j--) {
             for (int i = lowX; i <= highX; i++) {
                 Triple<Integer, Integer, Integer> vertLen = match(i, j, false), horLen = match(i, j, true);
@@ -297,9 +302,10 @@ public class GameGrid extends Actor {
                 } else if (vertLen.z - vertLen.y >= 4) {
                     vertical.add(vertLen);
                     ver = true;
-                } else if (horLen.z - horLen.y >= 2 && vertLen.z - vertLen.y >= 2)
+                } else if (horLen.z - horLen.y >= 2 && vertLen.z - vertLen.y >= 2){
                     wraps.add(new Triple<>(i, j, candies[i][j].getColour()));
-                else if (horLen.z - horLen.y >= 2) {
+                    wrap = true;
+                }else if (horLen.z - horLen.y >= 2) {
                     horizontal.add(horLen);
                     hor = true;
                 } else if (vertLen.z - vertLen.y >= 2) {
@@ -308,7 +314,7 @@ public class GameGrid extends Actor {
                 }
             }
         }
-        return ver || hor;
+        return ver || hor || wrap;
     }
     
     /**

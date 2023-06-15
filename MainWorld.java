@@ -41,7 +41,6 @@ public class MainWorld extends World {
     public MainWorld() {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 800, 1); 
-        
         score = new Counter("Score: ");
         moves = new Counter("Moves: ");
         moves.setValue(25);

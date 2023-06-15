@@ -25,6 +25,7 @@ public abstract class Candy extends Actor {
     public Candy(Colour colour) {
         this.colour = colour;
         moving = false;
+        notMovingCounter = 0;
     }
     
     /**
@@ -44,6 +45,7 @@ public abstract class Candy extends Actor {
      */
     public void act() {
         moving = !atOrigin();
+        
         if(getY() < y) setLocation(getX(), getY()+((y-getY())/5)+1);
         else if(getY() > y) setLocation(getX(), getY()-5);
         if(getX() < x) setLocation(getX()+5, getY());
