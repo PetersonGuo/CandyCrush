@@ -48,7 +48,8 @@ public class GameGrid extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        // Add your action code here.
+        if (!checkCandies())
+            reshuffle();
     }
     
     private void addCandy(int i, int j) { //basic candy
@@ -162,6 +163,15 @@ public class GameGrid extends Actor {
             }
         }
         return false;
+    }
+    
+    private void reshuffle() {
+        List<Candy> list = new ArrayList<>(Arrays.asList(getCandies()));
+        Collections.shuffle(list);
+        int counter = 0;
+        for (Candy i : list)
+            candies[counter/candies.length][counter%candies.length] = i;
+        removeMatching();
     }
     
     /**
