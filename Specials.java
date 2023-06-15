@@ -1,8 +1,8 @@
 /**
- * Write a description of class Specials here.
+ * A set of enumerations that categorize special candies.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Peterson Guo
+ * @version June 15, 2023
  */
 public enum Specials   {
     Striped, ColourBomb, Wrapped, Normal;

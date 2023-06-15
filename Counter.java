@@ -12,7 +12,10 @@ public class Counter extends Actor
     private int target = 0;
     private String text;
     private int stringLength;
-
+    
+    /**
+     * A constructer method that creates a counter.
+     */
     public Counter()
     {
         this("");
@@ -29,9 +32,6 @@ public class Counter extends Actor
         image.setColor(Color.BLACK);
         
         updateImage();
-    }
-    
-    public void act() {
     }
 
     public void changeValue(int change)
