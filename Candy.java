@@ -15,6 +15,7 @@ public abstract class Candy extends Actor {
     protected Colour colour;
     private int x, y;
     protected Specials type;
+    protected static boolean moving;
     
     /**
      * A constructor method that creates any type of candy based on its defined colour.
@@ -23,6 +24,7 @@ public abstract class Candy extends Actor {
      */
     public Candy(Colour colour) {
         this.colour = colour;
+        moving = false;
     }
     
     /**
@@ -41,6 +43,7 @@ public abstract class Candy extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        moving = !atOrigin();
         if(getY() < y) setLocation(getX(), getY()+((y-getY())/5)+1);
         else if(getY() > y) setLocation(getX(), getY()-5);
         if(getX() < x) setLocation(getX()+5, getY());
@@ -136,11 +139,11 @@ public abstract class Candy extends Actor {
         y = p.y;
     }
     
-	/**
-	 * A getter method that checks if the candy is at is expected coordinate.
-	 *
-	 * @return boolean  True if the candy is at its expected coordinate,
-	 */
+    /**
+     * A getter method that checks if the candy is at is expected coordinate.
+     *
+     * @return boolean  True if the candy is at its expected coordinate,
+     */
     public boolean atOrigin(){
         return getX() == x && getY() == y;
     }
@@ -155,27 +158,31 @@ public abstract class Candy extends Actor {
         return new Pair<>(x, y);
     }
     
-	/**
-	 * A getter method that returns the type of this candy.
-	 *
-	 * @return Specials The type of this candy
-	 * @see Specials
-	 * @see Ingredient
-	 * @see Regular
-	 * @see ColourBomb
-	 * @see Wrapped
-	 * @see Striped
-	 */
+    /**
+     * A getter method that returns the type of this candy.
+     *
+     * @return Specials The type of this candy
+     * @see Specials
+     * @see Ingredient
+     * @see Regular
+     * @see ColourBomb
+     * @see Wrapped
+     * @see Striped
+     */
     public Specials getType() {
         return type;
     }
     
-	/**
-	 * A getter method that returns the candy that is intersecting with this candy.
-	 *
-	 * @return Candy    The candy that is intersecting with this candy
-	 */
+    /**
+     * A getter method that returns the candy that is intersecting with this candy.
+     *
+     * @return Candy    The candy that is intersecting with this candy
+     */
     public Candy getIntersectingCandy(){
         return (Candy)getOneIntersectingObject(Candy.class);
+    }
+    
+    public static boolean isMoving(){
+        return moving;
     }
 }
