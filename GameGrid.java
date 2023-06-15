@@ -256,13 +256,34 @@ public class GameGrid extends Actor {
             drop();
             removeMatching();
             return true;
-        }
-        else {
-            if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
-                swapGraphics(a,b);
-                removeMatching();
-                return true;
+        } else if (candies[b.x][b.y].getType() == Specials.ColourBomb) {
+            clearColour(candies[a.x][a.y].getColour());
+            removeFromWorld(b);
+            drop();
+            removeMatching();
+            return true;
+        } else if (candies[a.x][a.y].getType() == Specials.Wrapped) {
+            if (candies[b.x][b.y].getType() == Specials.Striped) {
+                for (int i = -1; i < 2; i++) {
+                    if (validCoor(b.x+i,b.y+i)) {
+                        clearRow(b.x+i);
+                        clearCol(b.y+i);
+                    }
+                }
             }
+        } else if (candies[b.x][b.y].getType() == Specials.Wrapped) {
+            if (candies[b.x][b.y].getType() == Specials.Striped) {
+                for (int i = -1; i < 2; i++) {
+                    if (validCoor(b.x+i,b.y+i)) {
+                        clearRow(b.x+i);
+                        clearCol(b.y+i);
+                    }
+                }
+            }
+        } else if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
+            swapGraphics(a,b);
+            removeMatching();
+            return true;
         }
         swap(a, b);
         return false;
