@@ -19,6 +19,7 @@ public class Wrapped extends Special {
         super(colour);
         image = new GreenfootImage(colour + "_Wrapper.png");
         setCandyImage();
+        type = Specials.Wrapped;
     }
     
     /**

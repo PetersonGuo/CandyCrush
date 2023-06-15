@@ -14,6 +14,7 @@ public abstract class Candy extends Actor {
     protected GreenfootImage image;
     protected Colour colour;
     private int x, y;
+    protected Specials type;
     
     /**
      * A constructor method that creates any type of candy based on its defined colour.
@@ -138,5 +139,9 @@ public abstract class Candy extends Actor {
      */
     public Pair<Integer, Integer> getOrigin() {
         return new Pair(x, y);
+    }
+    
+    public Specials getType() {
+        return type;
     }
 }

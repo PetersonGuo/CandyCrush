@@ -14,9 +14,6 @@ public class GameGrid extends Actor {
     private boolean init;
     private Set<Triple<Integer, Integer, Colour>> wraps;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
-    private enum Specials {
-        Wrapped, Striped, ColourBomb;
-    }
     
     public GameGrid(int width, int height) {
         this.width = width;
@@ -74,7 +71,7 @@ public class GameGrid extends Actor {
                 break;
         }
         cells[i][j].setCandy(candies[i][j]);
-        if(!init)getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
+        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }
     
     public void addCandies() {
@@ -85,8 +82,6 @@ public class GameGrid extends Actor {
         for (int i = 0; i < candies.length; i++)
             for (int j = 0; j < candies[i].length; j++){
                 if(candies[i][j] instanceof Special && !FINAL.CHEAT){
-                    printArray();
-                    System.out.println(i + "," + j);
                     if(candies[i][j].getColour() != null){
                         candies[i][j] = new Regular(candies[i][j].getColour());
                         cells[i][j].setCandy(candies[i][j]);
@@ -101,7 +96,6 @@ public class GameGrid extends Actor {
                         candies[i][j] = new Regular(colours.get((int)(Math.random() * colours.size())));
                         cells[i][j].setCandy(candies[i][j]);
                     }
-                    printArray();
                 }
                 getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
@@ -244,39 +238,30 @@ public class GameGrid extends Actor {
      */
     private boolean validCoor(int i, int j) {return i >= 0 && i < candies.length && j >= 0 && j < candies[i].length;}
     
-    public void printArray() {
-        for (int i = 0; i < candies.length; i++) {
-            for (int j = 0; j < candies[i].length; j++)
-                System.out.print(candies[i][j] + "\t");
-            System.out.println();
-        }
-        System.out.println("---------------------------------------------------");
-    }
-    
     /**
      * Check if user made a valid swap and swap back if not valid
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        Pair<Integer, Integer> bomb = null, candy = null;
-        if (candies[a.x][a.y] instanceof ColourBomb){
-            bomb = a;
-            candy = b;
-        } else if (candies[b.x][b.y] instanceof ColourBomb){
-            bomb = b;
-            candy = a;
-        }
-        
-        if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y)) || bomb != null) {
-            swapGraphics(a,b);
-            if (bomb != null) {
-                clearColour(candies[candy.x][candy.y].getColour());
-                removeFromWorld(bomb);
-                removeFromWorld(candy);
-                drop();
+        if ((candies[a.x][a.y].getType() == Specials.ColourBomb) && (candies[b.x][b.y].getType() == Specials.ColourBomb)) clearAll();
+        else if ((candies[a.x][a.y].getType() ==  Specials.ColourBomb) || (candies[b.x][b.y].getType() ==  Specials.ColourBomb)) {
+            if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
+                clearColour(candies[b.x][b.y].getColour());
+                removeFromWorld(a);
+            } else if (candies[b.x][b.y].getType() == Specials.ColourBomb) {
+                clearColour(candies[a.x][a.y].getColour());
+                removeFromWorld(b);
             }
+            drop();
             removeMatching();
             return true;
+        }
+        else {
+            if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
+                swapGraphics(a,b);
+                removeMatching();
+                return true;
+            }
         }
         swap(a, b);
         return false;
@@ -288,10 +273,15 @@ public class GameGrid extends Actor {
     }
     
     public void drop() {
-        Pair<Integer, Integer> candyNullCoor = checkNullCandy();
-        while (candyNullCoor != null) {
-            moveDown(candyNullCoor.x, candyNullCoor.y);
-            candyNullCoor = checkNullCandy();
+        Pair<Integer, Integer> nullCoor = checkNullCandy();
+        while (nullCoor != null) {
+            if(nullCoor.x == 0)
+                addCandy(nullCoor.x, nullCoor.y);
+            else {
+                swap(new Pair(nullCoor.x, nullCoor.y), new Pair(nullCoor.x-1, nullCoor.y));
+                swapGraphics(new Pair(nullCoor.x, nullCoor.y), new Pair(nullCoor.x-1, nullCoor.y));
+            }
+            nullCoor = checkNullCandy();
         }
     }
     
@@ -301,15 +291,6 @@ public class GameGrid extends Actor {
                 if(candies[i][j] == null)
                     return new Pair(i,j);
         return null;
-    }
-    
-    private void moveDown(int row, int col) {
-        if(row == 0)
-            addCandy(row, col);
-        else {
-            swap(new Pair(row, col), new Pair(row-1, col));
-            swapGraphics(new Pair(row, col), new Pair(row-1, col));
-        }
     }
     
     /**
@@ -327,8 +308,14 @@ public class GameGrid extends Actor {
         if(candies[b.x][b.y] != null)
             cells[b.x][b.y].setCandy(candies[b.x][b.y]);
     }
+    
+    private void clearAll() {
+        for (int i = 0; i < candies.length; i++)
+            for (int j = 0; j < candies[i].length; j++)
+                removeFromWorld(new Pair(i, j));
+        drop();
+    }
 
-    //getters
     public void clearRow(Candy c) {
         for (int i = 0; i < candies.length; i++) {
             for (int j = 0; j < candies[i].length; j++)
@@ -363,8 +350,6 @@ public class GameGrid extends Actor {
         }
     }
     
-    public Candy[] getRow(int row) {return candies[row];}
-    
     public void clearColour(Colour c){
         for(int i = 0; i < candies.length; i++) {
             for(int j = 0; j < candies[i].length; j++) {
@@ -374,6 +359,10 @@ public class GameGrid extends Actor {
                 }
             }
         }
+    }
+    
+    public Candy[] getRow(int row) {
+        return candies[row];
     }
     
     public void getExploGrid(Candy c) {
@@ -387,7 +376,6 @@ public class GameGrid extends Actor {
                 }
             }
         }
-        removeMatching();
     }
     
     public Candy[] getCandies() {

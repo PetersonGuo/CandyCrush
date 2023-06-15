@@ -21,6 +21,7 @@ public class Regular extends Candy
         super(colour);
         image = new GreenfootImage(colour + "_Candy.png");
         setCandyImage();
+        type = Specials.Normal;
     }
     
     /**

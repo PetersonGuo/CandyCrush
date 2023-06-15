@@ -29,6 +29,7 @@ public class Striped extends Special {
         else
             image = new GreenfootImage(colour + "_HStripe.png");
         setCandyImage();
+        type = Specials.Striped;
     }
     
     /**

@@ -17,6 +17,7 @@ public class ColourBomb extends Special {
         super(null);
         image = new GreenfootImage("Colour_Bomb.png");
         setCandyImage();
+        type = Specials.ColourBomb;
     }
     
     /**
