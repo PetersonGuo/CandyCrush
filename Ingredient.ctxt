@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Ingredient
+comment0.text=\r\n\ A\ subclass\ of\ Candy\ called\ Ingredient\ that\ is\ a\ type\ of\ candy\r\n\ that\ is\ dropped\ to\ the\ bottom\ of\ the\ screen\ to\ complete\ the\ ingredients\r\n\ objective\ in\ the\ game.\ Ingredients\ come\ as\ either\ cherries\ or\ chestnuts\r\n\ and\ cannot\ be\ destroyed\ unless\ they\ reach\ the\ bottom\ row\ of\ the\ game\ grid.\r\n\ \r\n\ @author\ Kevin\ Luo\ \r\n\ @version\ June\ 15,\ 2023\r\n
+comment1.params=totalIngredients
+comment1.target=Ingredient(int)
+comment1.text=\r\n\ A\ constructor\ method\ that\ takes\ an\ integer\ of\ the\ total\ ingredients\ in\ \r\n\ the\ game\ that\ must\ be\ collected\ for\ the\ objective\ to\ be\ complete\ and\r\n\ creates\ a\ total\ of\ that\ many\ ingredients.\r\n\ \r\n\ @param\ totalIngredients\ \ The\ number\ of\ ingredients\ required\ to\ complete\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ game's\ objective\r\n
+comment2.params=
+comment2.target=void\ useAbility()
+comment2.text=\r\n\ A\ method\ that\ does\ nothing\ for\ ingredients\ since\ they\ dont\ have\ \r\n\ any\ special\ abilities.\r\n
+comment3.params=
+comment3.target=void\ destroy()
+comment3.text=\r\n\ A\ method\ that\ allows\ ingredients\ to\ be\ destroyed\ from\ the\ world.\r\n
+numComments=4

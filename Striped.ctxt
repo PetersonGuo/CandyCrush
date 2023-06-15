@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Striped
+comment0.text=\r\n\ A\ subclass\ of\ Special\ called\ Stripe\ that\ has\ the\ ability\ to\ break\ \r\n\ all\ candies\ in\ its\ row\ or\ column\ depending\ on\ the\ type\ of\ striped\ \r\n\ candy\ this\ candy\ is\ defined\ by.\ Like\ other\ candies,\ this\ candy\ has\ \r\n\ a\ defining\ colour.\ Additionally,\ they\ can\ be\ made\ if\ the\ match\ is\ 4\ \r\n\ candies.\r\n\ \r\n\ @author\ Peterson\ Guo,\ Kelby\ To,\ Isaac\ Chan\ \r\n\ @version\ June\ 15,\ 2023\r\n
+comment1.params=colour\ vertical
+comment1.target=Striped(Colour,\ boolean)
+comment1.text=\r\n\ A\ constructor\ method\ that\ takes\ a\ colour\ and\ direction\ of\ the\r\n\ stripe\ and\ creates\ a\ striped\ candy\ and\ setting\ it\ image.\r\n\ \r\n\ @param\ colour\ \ \ \ The\ colour\ of\ this\ candy\r\n\ @param\ vertical\ \ If\ true,\ the\ stripe\ is\ vertical\ and\ if\ false,\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ stripe\ is\ horizontal\r\n
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ Striped\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment3.params=
+comment3.target=void\ useAbility()
+comment3.text=\r\n\ A\ method\ that\ allows\ this\ candy\ to\ break\ either\ a\ row\ or\ column\r\n\ depending\ on\ the\ direction\ of\ the\ stripe.\r\n
+numComments=4
