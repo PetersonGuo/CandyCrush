@@ -125,7 +125,7 @@ public class GameGrid extends Actor {
     public void removeMatching() {
         while (checkMatching()) {
             for (Triple<Integer, Integer, Integer> entry : horizontal) {
-                Colour col = null;
+                Colour col = Colour.random();
                 for (int i = entry.y; i <= entry.z; i++) {
                     if (candies[entry.x][i] != null) {
                         col = candies[entry.x][i].getColour();
