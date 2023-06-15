@@ -51,8 +51,8 @@ public class GameGrid extends Actor {
     
     private void addCandy(int i, int j) { //basic candy
         candies[i][j] = new Regular(Colour.random());
+        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY()-50);
         cells[i][j].setCandy(candies[i][j]);
-        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
@@ -70,8 +70,8 @@ public class GameGrid extends Actor {
                 candies[i][j] = new Striped(c, vertical);
                 break;
         }
+        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY()-50);        
         cells[i][j].setCandy(candies[i][j]);
-        if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());        
     }
     
     public void addCandies() {
@@ -243,16 +243,13 @@ public class GameGrid extends Actor {
      */
     public boolean validSwap(Pair<Integer, Integer> a, Pair<Integer, Integer> b) {
         swap(a, b);
-        if ((candies[a.x][a.y].getType() == Specials.ColourBomb) && (candies[b.x][b.y].getType() == Specials.ColourBomb)) {
+        if (candies[a.x][a.y].getType() == Specials.ColourBomb && candies[b.x][b.y].getType() == Specials.ColourBomb) {
             clearAll();
-        }else if ((candies[a.x][a.y].getType() ==  Specials.ColourBomb) || (candies[b.x][b.y].getType() ==  Specials.ColourBomb)) {
-            if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
-                clearColour(candies[b.x][b.y].getColour());
-                removeFromWorld(a);
-            } else if (candies[b.x][b.y].getType() == Specials.ColourBomb) {
-                clearColour(candies[a.x][a.y].getColour());
-                removeFromWorld(b);
-            }
+            removeMatching();
+            return true;
+        } else if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
+            clearColour(candies[b.x][b.y].getColour());
+            removeFromWorld(a);
             drop();
             removeMatching();
             return true;
