@@ -147,7 +147,7 @@ public abstract class Candy extends Actor {
      *                                  the candy in the game grid
      */
     public Pair<Integer, Integer> getOrigin() {
-        return new Pair(x, y);
+        return new Pair<>(x, y);
     }
     
 	/**

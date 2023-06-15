@@ -18,7 +18,7 @@ public class DropIngredients extends Objectives {
      *                          drop
      */
     public DropIngredients(int totalIngredients){
-        this.totalIngredients = totalIngredients;
+        DropIngredients.totalIngredients = totalIngredients;
     }
     
     /**
@@ -33,7 +33,7 @@ public class DropIngredients extends Objectives {
     /**
      * A method that checks if teh objective is completed or not.
      * 
-     * @return 
+     * @return boolean A boolean that is true if the objective is completed
      */
     public boolean checkObj(){
         if (totalIngredients == 0){

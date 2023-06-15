@@ -17,8 +17,6 @@ public class CandyCount extends Objectives {
      * 
      * @param colour    The required colour that is destroyed for the 
      *                  objective
-	 *
-	 * @return objComplete  A boolean that is true if the objective is completed
      */
     public CandyCount(Colour colour){
         objComplete = false;
@@ -40,9 +38,8 @@ public class CandyCount extends Objectives {
      * @return objComplete  A boolean that is true if the objective is completed
      */
     public boolean checkObj(){
-        if (counter >= totalCandy){
+        if (counter >= totalCandy)
             objComplete = true;
-        }
         return objComplete;
     }
     

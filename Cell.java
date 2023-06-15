@@ -46,22 +46,18 @@ public class Cell extends Actor {
     }
     
     /**
-     * A method that compares if a candy within this cell is the same colour.
-     * as the candy within another cell.
+     * A setter method that sets the candy within this cell.
      * 
-     * @param c         The cell that contains another candy
-     * @return boolean  If the colours are the same, return true otherwise false
+     * @param c         The candy being set
      */
     public void setCandy(Candy c){
         candy = c;
-        //candy.setLocation(getX(), getY());
-        candy.setOrigin(new Pair(getX(), getY()));
+        candy.setOrigin(new Pair<>(getX(), getY()));
     }
     
     /**
-     * A setter method that sets the candy within this cell to another candy.
+     * A getter method that sets the candy within this cell to another candy.
      * 
-     * @param c     The candy being put into this cell
      * @return Candy   The candy that this cell contains
      */
     public Candy getCandy(){
@@ -71,7 +67,8 @@ public class Cell extends Actor {
     /**
      * A getter method that returns the candy within this cell.
      * 
-     * @return Candy    The candy that this cell contains
+     * @param c             The candy being compared to
+     * @return boolean      The candy that this cell contains
      */
     public boolean comp(Cell c) {
         return candy.comp(c.getCandy());
