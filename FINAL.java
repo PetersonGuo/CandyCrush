@@ -1,7 +1,7 @@
 /**
  * An interface that contains all constant variables in the program.
  * 
- * @author Peterson Guo
+ * @author Peterson Guo, Kelby To
  * @version June 15, 2023
  */
 public interface FINAL  

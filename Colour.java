@@ -33,7 +33,11 @@ public enum Colour  {
     public static Colour random() {
         return values[(int)(Math.random() * values.length)];
     }
-    
+    /**
+     * A method to get all the available colours in an array
+     * 
+     * @return Colour[] All available colours
+     */
     public static Colour[] getColours(){
         return values;
     }
