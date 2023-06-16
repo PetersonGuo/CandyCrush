@@ -3,6 +3,8 @@ import greenfoot.*;
 /**
  * Add a Text box to the world
  * Choose between no background, different colors and font sizes
+ * 
+ * @author Jordan Cohen
 */
 public class Text extends Actor {
     private final double P_TO_PX = 4/3; // Ratio of pixels to points

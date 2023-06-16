@@ -2,7 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
  * A subclass of Candy and superclass of different types of special candies
- * called Sepcial. Types include ColourBomb, Striped, and Wrapper candies 
+ * called Special. Types include ColourBomb, Striped, and Wrapper candies 
  * that each have special abilities when they are destroyed.
  * 
  * @author Kelby To, Isaac Chan

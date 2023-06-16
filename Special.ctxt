@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Special
-comment0.text=\r\n\ A\ subclass\ of\ Candy\ and\ superclass\ of\ different\ types\ of\ special\ candies\r\n\ called\ Sepcial.\ Types\ include\ ColourBomb,\ Striped,\ and\ Wrapper\ candies\ \r\n\ that\ each\ have\ special\ abilities\ when\ they\ are\ destroyed.\r\n\ \r\n\ @author\ Kelby\ To,\ Isaac\ Chan\r\n\ @version\ June\ 15,\ 2023\r\n
+comment0.text=\r\n\ A\ subclass\ of\ Candy\ and\ superclass\ of\ different\ types\ of\ special\ candies\r\n\ called\ Special.\ Types\ include\ ColourBomb,\ Striped,\ and\ Wrapper\ candies\ \r\n\ that\ each\ have\ special\ abilities\ when\ they\ are\ destroyed.\r\n\ \r\n\ @author\ Kelby\ To,\ Isaac\ Chan\r\n\ @version\ June\ 15,\ 2023\r\n
 comment1.params=colour
 comment1.target=Special(Colour)
 comment1.text=\r\n\ A\ constructor\ method\ that\ takes\ a\ colour\ and\ finds\ its\ location\r\n\ in\ the\ game\ grid.\r\n

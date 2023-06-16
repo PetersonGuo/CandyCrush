@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Text
-comment0.text=\r\n\ Add\ a\ Text\ box\ to\ the\ world\r\n\ Choose\ between\ no\ background,\ different\ colors\ and\ font\ sizes\r\n
+comment0.text=\r\n\ Add\ a\ Text\ box\ to\ the\ world\r\n\ Choose\ between\ no\ background,\ different\ colors\ and\ font\ sizes\r\n\ \r\n\ @author\ Jordan\ Cohen\r\n
 comment1.params=value\ color\ size
 comment1.target=Text(int,\ greenfoot.Color,\ int)
 comment1.text=\r\n\ Create\ a\ text\ object\r\n\ @param\ value\ The\ value\ to\ display\r\n\ @param\ color\ The\ color\ of\ the\ text\r\n\ @param\ size\ The\ size\ of\ the\ text\r\n

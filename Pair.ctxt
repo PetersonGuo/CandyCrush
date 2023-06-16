@@ -3,5 +3,5 @@ comment0.target=Pair
 comment0.text=\r\n\ A\ class\ that\ contains\ 2\ generics\ that\ are\ stored\ as\ x\ and\ y.\r\n\ \r\n\ @author\ Peterson\ Guo\r\n\ @version\ June\ 15,\ 2023\r\n
 comment1.params=x\ y
 comment1.target=Pair(java.lang.Object,\ java.lang.Object)
-comment1.text=\r\n\ A\ constructor\ that\ takes\ 2\ generic\ types\ and\ sets\ them\ as\ x\ and\ y.\r\n\ \r\n\ @param\ x\ \ \ \ \ One\ generic\ type\ (generally\ in\ integer)\r\n\ @param\ y\ \ \ \ \ Another\ generic\ type\ (generally\ an\ integer)\r\n
+comment1.text=\r\n\ A\ constructor\ that\ takes\ 2\ generic\ types\ and\ sets\ them\ as\ x\ and\ y.\r\n\ \r\n\ @param\ x\ \ \ \ \ One\ generic\ type\r\n\ @param\ y\ \ \ \ \ Another\ generic\ type\r\n
 numComments=2

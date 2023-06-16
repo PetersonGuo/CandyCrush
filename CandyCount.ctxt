@@ -1,15 +1,15 @@
 #BlueJ class context
 comment0.target=CandyCount
-comment0.text=\r\n\ A\ subclass\ called\ CandyCount\ that\ is\ an\ objective\ that\ requires\r\n\ the\ player\ to\ break\ a\ certain\ number\ of\ candies\ of\ a\ given\ colour.\ \r\n\ If\ the\ player\ manages\ to\ complete\ the\ objective\ they\ win.\r\n\ \r\n\ @author\ Kevin\ Luo,\ Kelby\ To\r\n\ @version\ June\ 15,\ 2023\r\n
+comment0.text=\r\n\ A\ subclass\ called\ CandyCount\ that\ is\ an\ objective\ that\ requires\r\n\ the\ player\ to\ break\ a\ certain\ number\ of\ candies\ of\ a\ given\ colour.\ \r\n\ If\ the\ player\ manages\ to\ complete\ the\ objective\ they\ win.\r\n\ \r\n\ @author\ Kevin\ Luo,\ Kelby\ To,\ Peterson\ Guo\r\n\ @version\ June\ 15,\ 2023\r\n
 comment1.params=colour
-comment1.target=CandyCount(int)
+comment1.target=CandyCount(Colour)
 comment1.text=\r\n\ A\ constructor\ method\ that\ takes\ the\ colour\ of\ the\ required\ colour\r\n\ that\ must\ be\ destroyed\ to\ complete\ the\ objective.\r\n\ \r\n\ @param\ colour\ \ \ \ The\ required\ colour\ that\ is\ destroyed\ for\ the\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ objective\r\n
 comment2.params=
 comment2.target=void\ act()
 comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ CandyCount\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 comment3.params=
 comment3.target=boolean\ checkObj()
-comment3.text=\r\n\ A\ method\ that\ checks\ if\ the\ objective\ is\ completed\ or\ not.\r\n
+comment3.text=\r\n\ A\ method\ that\ checks\ if\ the\ objective\ is\ completed\ or\ not.\r\n\r\n\ @return\ objComplete\ \ A\ boolean\ that\ is\ true\ if\ the\ objective\ is\ completed\r\n
 comment4.params=add
 comment4.target=void\ increaseCandyCounter(int)
 comment4.text=\r\n\ A\ method\ that\ adds\ to\ a\ counter\ that\ keeps\ track\ of\ the\ number\ of\r\n\ candies\ destroyed.\r\n\ \r\n\ @param\ add\ \ \ The\ number\ of\ candies\ destroyed\r\n

@@ -40,7 +40,7 @@ public abstract class Candy extends Actor {
      * Act - do whatever the Candy wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act() {  
+    public void act() {
         if(getY() < y) setLocation(getX(), getY()+((y-getY())/5)+1);
         else if(getY() > y) setLocation(getX(), getY()-5);
         if(getX() < x) setLocation(getX()+5, getY());
@@ -136,6 +136,11 @@ public abstract class Candy extends Actor {
         y = p.y;
     }
     
+	/**
+	 * A getter method that checks if the candy is at is expected coordinate.
+	 *
+	 * @return boolean  True if the candy is at its expected coordinate,
+	 */
     public boolean atOrigin(){
         return getX() == x && getY() == y;
     }
@@ -147,13 +152,29 @@ public abstract class Candy extends Actor {
      *                                  the candy in the game grid
      */
     public Pair<Integer, Integer> getOrigin() {
-        return new Pair(x, y);
+        return new Pair<>(x, y);
     }
     
+	/**
+	 * A getter method that returns the type of this candy.
+	 *
+	 * @return Specials The type of this candy
+	 * @see Specials
+	 * @see Ingredient
+	 * @see Regular
+	 * @see ColourBomb
+	 * @see Wrapped
+	 * @see Striped
+	 */
     public Specials getType() {
         return type;
     }
     
+	/**
+	 * A getter method that returns the candy that is intersecting with this candy.
+	 *
+	 * @return Candy    The candy that is intersecting with this candy
+	 */
     public Candy getIntersectingCandy(){
         return (Candy)getOneIntersectingObject(Candy.class);
     }

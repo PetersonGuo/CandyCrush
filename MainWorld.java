@@ -18,31 +18,31 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * <p>
  * Sources: <br>
  * Candy Visuals: King (developers of Candy Crush) <br>
- * Game Sounds: 
+ * Game Sounds: King (developers of Candy Crush) <br>
  * 
  * @author Peterson Guo, Kevin Luo, Kelby To 
  * @version June 15, 2023
  */
-public class MainWorld extends World {
+public class MainWorld extends Worlds {
     private static GameGrid grid;
     private static Candy clicked;
     //Candy Count variables
     private static Counter score, moves;
-    private static int counter, totalCandy, colour, objective;
+    private static int counter, totalCandy, colour;
     private static boolean objComplete;
     private Objectives obj;
+    private Sound ingredient, background;
     
     //Ingredients variables
-    //private static int totalIngredients;
+    //private int totalIngredients;
     /**
      * Constructor for objects of class MyWorld.
      */
-    public MainWorld() {
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(800, 800, 1); 
-        
+    public MainWorld(boolean choice) {
         score = new Counter("Score: ");
         moves = new Counter("Moves: ");
+        background = new Sound("background.mp3");
+        background.play(20);
         moves.setValue(25);
 
         addObject(score, 100, 50);
@@ -52,21 +52,19 @@ public class MainWorld extends World {
         addObject(grid, 400, 400);
         grid.addCandies();
         
-        new DropIngredients(2);
+        obj = StartWorld.getObj();
         if (getObjects(Ingredient.class).size() == 0)
             grid.addIngredient();
         
         clicked = null;
         objComplete = false;
-        /*
-        objective = (int)(Math.random() * 2);
-        if(objective == 1){
-            obj = new CandyCount((int)(Math.random()*6));
-        }else if(objective == 2){
-            obj = new DropIngredients(2);
-        }
-        */
-       obj = new DropIngredients(2);
+        
+        //objective = (int)(Math.random() * 2);
+        //if (objective == 1) {
+            //obj = new CandyCount(Colour.random());
+        //} else if(objective == 2) {
+            //obj = new DropIngredients(2);
+        //
         //totalIngredients = 2;
     }
     
@@ -74,9 +72,10 @@ public class MainWorld extends World {
      * Act - do whatever the MainWorld wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act(){
+    public void act() {
         if(moves.getValue() == 0){
-            //nextWorld
+            background.stop();
+            Greenfoot.setWorld(new EndWorld(false));
         }
         if (obj instanceof CandyCount){ //if the objective is candy count
             //something
@@ -85,15 +84,24 @@ public class MainWorld extends World {
             for(Candy c : grid.getRow(9)){
                 if(c instanceof Ingredient){
                     grid.removeFromWorld(new Pair(9, grid.getGridCoor(c).y));
-                    //((Ingredient)c).destroy();
                     ((DropIngredients)obj).decreaseIngredients();
                     grid.drop();
+                    ingredient = new Sound("ingredient.mp3");
+                    ingredient.play();
                 }
             }
         }
         if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() == 0){
             grid.addIngredient();
         }
+        background.loop();
+    }
+
+    /**
+     * A method that runs when the world is stopped.
+     */
+    public void stopped(){
+        background.stop();
     }
     
     /**
@@ -141,6 +149,10 @@ public class MainWorld extends World {
         objComplete = true;
     }
     
+    public static boolean isObjectiveCompleted(){
+        return objComplete;
+    }
+    
     /**
      * A method that returns the world's GameGrid
      * 
@@ -159,4 +171,7 @@ public class MainWorld extends World {
         return clicked;
     }
     
+    public static int getPoints() {
+        return score.getValue();
+    }
 }
