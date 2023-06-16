@@ -18,7 +18,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * <p>
  * Sources: <br>
  * Candy Visuals: King (developers of Candy Crush) <br>
- * Game Sounds: 
+ * Game Sounds: King (developers of Candy Crush) <br>
  * 
  * @author Peterson Guo, Kevin Luo, Kelby To 
  * @version June 15, 2023
