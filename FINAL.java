@@ -5,7 +5,7 @@
  * @version June 15, 2023
  */
 public interface FINAL {
-    int WORLD_HEIGHT = 600;
+    int WORLD_HEIGHT = 800;
     int WORLD_WIDTH = 800;
     int CELL_SIZE = 50;
     boolean CHEAT = false;

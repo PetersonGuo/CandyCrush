@@ -57,7 +57,6 @@ public class GameGrid extends Actor {
         background.loop();
     }
 
-    //@Override
     /**
      * A method that runs when the world is stopped
      */
