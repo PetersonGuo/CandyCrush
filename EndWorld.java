@@ -27,7 +27,6 @@ public class EndWorld extends Worlds {
     private ArrayList<Integer> scoreboard;
     /**
      * Constructor for objects of class EndWorld.
-     * 
      */
     
     public EndWorld(boolean win) {
@@ -124,13 +123,13 @@ public class EndWorld extends Worlds {
             hScore1 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);
         }
         try{
-            hScore2 = new Text("Score: " + Integer.toString(scoreboard.get(0)), Color.BLUE, 30);
+            hScore2 = new Text("Score: " + Integer.toString(scoreboard.get(1)), Color.BLUE, 30);
         }
         catch(IndexOutOfBoundsException e){
             hScore2 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);
         }
         try{
-            hScore3 = new Text("Score: " + Integer.toString(scoreboard.get(0)), Color.BLUE, 30);
+            hScore3 = new Text("Score: " + Integer.toString(scoreboard.get(2)), Color.BLUE, 30);
         }
         catch(IndexOutOfBoundsException e){
             hScore3 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);
