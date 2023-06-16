@@ -71,11 +71,12 @@ public class GameGrid extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        if(Candy.isMoving() && checkMatching()){
+        if(!Candy.isMoving() && checkMatching()){
             removeMatching();
             horizontal.clear();
             vertical.clear();
             wraps.clear();
+            printArray();
         }
         if (!checkCandies())
             reshuffle();
@@ -115,6 +116,7 @@ public class GameGrid extends Actor {
      * @param vertical Whether the candy is vertical or not
      */
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
+        if(c == null) c = Colour.random();
         switch (type) {
             case ColourBomb:
                 colourBomb = new Sound("colourbomb.mp3");

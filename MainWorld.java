@@ -97,7 +97,7 @@ public class MainWorld extends World {
     public static boolean setClicked(Candy c) {
         boolean valid = false;
         if (clicked == null || c == null || clicked.equals(c)) clicked = c; //first click
-        else {
+        else if(clicked.getWorld() != null && c.getWorld() != null){
             //checks if the second click can be swapped with the first click
             if ((Math.abs(c.getX() - clicked.getX()) <= FINAL.CELL_SIZE && c.getX() != clicked.getX() && c.getY() == clicked.getY()) || 
                 (Math.abs(c.getY() - clicked.getY()) <= FINAL.CELL_SIZE && c.getY() != clicked.getY() && c.getX() == clicked.getX())) {
