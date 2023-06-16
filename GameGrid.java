@@ -1,8 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
- * Write a description of class GameGrid here.
- * For efficiency only check x dir and upwards y direction of box of lowest changed candy
+ * This class called GameGrid is where the game mainly takes place.
+ * It allows the game to do the matching, dropping, creation of special
+ * candies, removal of candies, and completing objectives. Additionally, 
+ * they allow special candies to use their abilities.
  * 
  * @author Peterson Guo, Kelby To 
  * @version June 15, 2023

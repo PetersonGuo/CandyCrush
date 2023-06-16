@@ -68,7 +68,6 @@ public class MainWorld extends Worlds {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        background.play(20);
         if(moves.getValue() == 0){
             background.stop();
             Greenfoot.setWorld(new EndWorld(false));
@@ -90,7 +89,14 @@ public class MainWorld extends Worlds {
     }
     
     /**
-     * A method that runs when the world is stopped
+     * A method that runs when the world is started.
+     */
+    public void started(){
+        background.play(20);
+    }
+    
+    /**
+     * A method that runs when the world is stopped.
      */
     public void stopped(){
         background.stop();

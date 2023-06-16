@@ -3,10 +3,13 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Write a description of class EndWorld here.
+ * This is the world that appears when the game has ended. There are 2 different screens
+ * depending on whether the player has succeeded in completing the objective or if they
+ * failed to complete it. There is also a scoreboard that keeps track of the players' 
+ * scores and allows the player to play again.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Isaac Chan, Jett Miyasaki 
+ * @version June 15, 2023
  * 
  * Background: Same creator as previosly mentioned in StartWorld, edited by Jett M.
  */
@@ -53,6 +56,10 @@ public class EndWorld extends Worlds {
         addObject(play, FINAL.WORLD_WIDTH / 2, FINAL.WORLD_HEIGHT - 100);
     }
     
+    /**
+     * Act - do whatever the EndWorld wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
     public void act() {
         if(Greenfoot.isKeyDown("space")) {
             sound.stop();
@@ -60,14 +67,23 @@ public class EndWorld extends Worlds {
         }
     }
     
+    /**
+     * A method that runs when the world is started.
+     */
     public void started(){
         sound.play();
     }
     
+    /**
+     * A method that runs when the world is stopped.
+     */
     public void stopped(){
         sound.stop();
     }
     
+    /**
+     * A method that saves the score to a file.
+     */
     public void updateScore() {
         try{
             userScore = new FileWriter("score.txt", true);
@@ -79,6 +95,10 @@ public class EndWorld extends Worlds {
             System.out.println("No File Found...Cannot update scoreboard");
         }
     }
+    
+    /**
+     * A method that displays the score to the player.
+     */
     public void displayScore() {
         try {
             scan = new Scanner(new File("score.txt"));
