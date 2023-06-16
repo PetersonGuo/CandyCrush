@@ -42,6 +42,7 @@ public class MainWorld extends Worlds {
         score = new Counter("Score: ");
         moves = new Counter("Moves: ");
         background = new Sound("background.mp3");
+        background.play(20);
         moves.setValue(25);
 
         addObject(score, 100, 50);
@@ -87,14 +88,7 @@ public class MainWorld extends Worlds {
         }
         background.loop();
     }
-    
-    /**
-     * A method that runs when the world is started.
-     */
-    public void started(){
-        background.play(20);
-    }
-    
+
     /**
      * A method that runs when the world is stopped.
      */
