@@ -3,33 +3,39 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Write a description of class EndWorld here.
+ * This is the world that appears when the game has ended. There are 2 different screens
+ * depending on whether the player has succeeded in completing the objective or if they
+ * failed to complete it. There is also a scoreboard that keeps track of the players' 
+ * scores and allows the player to play again.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Isaac Chan, Jett Miyasaki 
+ * @version June 15, 2023
  * 
  * Background: Same creator as previosly mentioned in StartWorld, edited by Jett M.
  */
 public class EndWorld extends Worlds {
-    GreenfootImage background;
-    Text endResult, score, hScore1, hScore2, hScore3;
+    private GreenfootImage background;
+    private Text endResult, score, hScore1, hScore2, hScore3;
+    private Sound sound;
     
     //used to display score
-    FileWriter userScore;
-    PrintWriter output;
-    Scanner scan;
+    private FileWriter userScore;
+    private PrintWriter output;
+    private Scanner scan;
     private int lines;
-    private boolean linesLeft;
+    private boolean linesLeft, win;
     private ArrayList<Integer> scoreboard;
     /**
      * Constructor for objects of class EndWorld.
-     * 
      */
     
-    public EndWorld() {
+    public EndWorld(boolean win) {
         background = new GreenfootImage("CandyEndScreen.png");
         background.scale(FINAL.WORLD_WIDTH, FINAL.WORLD_HEIGHT);
         setBackground(background);
+        
+        if(win) sound = new Sound("victory.mp3");
+        else sound = new Sound("lose.mp3");
         
         //text visuals
         if(MainWorld.isObjectiveCompleted()) endResult = new Text("Mission Completed!", Color.WHITE, 50);
@@ -49,12 +55,34 @@ public class EndWorld extends Worlds {
         addObject(play, FINAL.WORLD_WIDTH / 2, FINAL.WORLD_HEIGHT - 100);
     }
     
+    /**
+     * Act - do whatever the EndWorld wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
     public void act() {
         if(Greenfoot.isKeyDown("space")) {
+            sound.stop();
             Greenfoot.setWorld(new StartWorld());
         }
     }
     
+    /**
+     * A method that runs when the world is started.
+     */
+    public void started(){
+        sound.play();
+    }
+    
+    /**
+     * A method that runs when the world is stopped.
+     */
+    public void stopped(){
+        sound.stop();
+    }
+    
+    /**
+     * A method that saves the score to a file.
+     */
     public void updateScore() {
         try{
             userScore = new FileWriter("score.txt", true);
@@ -66,6 +94,10 @@ public class EndWorld extends Worlds {
             System.out.println("No File Found...Cannot update scoreboard");
         }
     }
+    
+    /**
+     * A method that displays the score to the player.
+     */
     public void displayScore() {
         try {
             scan = new Scanner(new File("score.txt"));
@@ -91,13 +123,13 @@ public class EndWorld extends Worlds {
             hScore1 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);
         }
         try{
-            hScore2 = new Text("Score: " + Integer.toString(scoreboard.get(0)), Color.BLUE, 30);
+            hScore2 = new Text("Score: " + Integer.toString(scoreboard.get(1)), Color.BLUE, 30);
         }
         catch(IndexOutOfBoundsException e){
             hScore2 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);
         }
         try{
-            hScore3 = new Text("Score: " + Integer.toString(scoreboard.get(0)), Color.BLUE, 30);
+            hScore3 = new Text("Score: " + Integer.toString(scoreboard.get(2)), Color.BLUE, 30);
         }
         catch(IndexOutOfBoundsException e){
             hScore3 = new Text("Score: " + Integer.toString(0), Color.BLUE, 30);

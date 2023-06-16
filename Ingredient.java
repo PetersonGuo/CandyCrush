@@ -21,6 +21,14 @@ public class Ingredient extends Candy
      */
     public Ingredient(int totalIngredients){
         super(null);
+        
+        int num = (int) (Math.random() * 2 + 1);
+        if (num == 1){
+            image = new GreenfootImage("Cherry.png");
+        }else if (num == 2){
+            image = new GreenfootImage("hazelNut.png");
+        }
+        setCandyImage();
     }
     
     /**

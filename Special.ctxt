@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Special
+comment0.text=\n\ A\ subclass\ of\ Candy\ and\ superclass\ of\ different\ types\ of\ special\ candies\n\ called\ Special.\ Types\ include\ ColourBomb,\ Striped,\ and\ Wrapper\ candies\ \n\ that\ each\ have\ special\ abilities\ when\ they\ are\ destroyed.\n\ \n\ @author\ Kelby\ To,\ Isaac\ Chan\n\ @version\ June\ 15,\ 2023\n
+comment1.params=colour
+comment1.target=Special(Colour)
+comment1.text=\n\ A\ constructor\ method\ that\ takes\ a\ colour\ and\ finds\ its\ location\n\ in\ the\ game\ grid.\n
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\n\ Act\ -\ do\ whatever\ the\ Special\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+numComments=3

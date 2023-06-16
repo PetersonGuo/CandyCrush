@@ -1,8 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
- * Write a description of class GameGrid here.
- * For efficiency only check x dir and upwards y direction of box of lowest changed candy
+ * This class called GameGrid is where the game mainly takes place.
+ * It allows the game to do the matching, dropping, creation of special
+ * candies, removal of candies, and completing objectives. Additionally, 
+ * they allow special candies to use their abilities.
  * 
  * @author Peterson Guo, Kelby To 
  * @version June 15, 2023
@@ -15,7 +17,7 @@ public class GameGrid extends Actor {
     private Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> swap;
     private Set<Triple<Integer, Integer, Colour>> wraps;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
-    private Sound match, colourBomb, stripe, wrapper, background;
+    private Sound match, colourBomb, stripe, wrapper;
     private static Queue<ArrayList<Candy>> changes;
     
     /**
@@ -53,15 +55,6 @@ public class GameGrid extends Actor {
                 w.addObject(cells[i][j], FINAL.CELL_SIZE*j + shiftAmountX, FINAL.CELL_SIZE*i + shiftAmountY);
             }
         }
-        background = new Sound("background.mp3");
-        background.loop();
-    }
-
-    /**
-     * A method that runs when the world is stopped
-     */
-    public void stopped(){
-        background.stop();
     }
     
     @Override
@@ -92,6 +85,18 @@ public class GameGrid extends Actor {
         candies[i][j] = new Regular(Colour.random());
         if(!init) getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY()-50);
         cells[i][j].setCandy(candies[i][j]);
+    }
+    
+    private void addIngredient(int i, int j){
+        candies[i][j] = new Ingredient(2);
+        cells[i][j].setCandy(candies[i][j]);
+        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+    }
+    
+    public void addIngredient(){
+        int j = (int) (Math.random() * 9);
+        addIngredient(0, j);
+        //getWorld().removeObject(candies[0][j]);
     }
     
     /**
@@ -381,7 +386,7 @@ public class GameGrid extends Actor {
      * 
      * @param p The coordinates of the candy to remove
      */
-    private void removeFromWorld(Pair<Integer, Integer> p) {
+    public void removeFromWorld(Pair<Integer, Integer> p) {
         getWorld().removeObject(candies[p.x][p.y]);
         if(!init)MainWorld.addPoints(100);
         candies[p.x][p.y] = null;
@@ -471,8 +476,10 @@ public class GameGrid extends Actor {
      */
     public void clearRow(int row) {
         for (int i = 0; i < candies[row].length; i++) {
-            removeFromWorld(new Pair<>(row, i));
-            drop();
+            if (candies[row][i] instanceof Ingredient == false){
+                removeFromWorld(new Pair<>(row, i));
+                drop();
+            }
         }
     }
     
@@ -496,8 +503,10 @@ public class GameGrid extends Actor {
      */
     public void clearCol(int col) {
         for (int i = 0; i < candies.length; i++) {
-            removeFromWorld(new Pair<>(i, col));
-            drop();
+            if (candies[i][col] instanceof Ingredient == false){
+                removeFromWorld(new Pair<>(i, col));
+                drop();
+            }
         }
     }
     
@@ -534,9 +543,11 @@ public class GameGrid extends Actor {
         for (int i = p.x - 1; i <= p.x + 1; i++) {
             for (int j = p.y - 1; j <= p.y + 1; j++) {
                 if (validCoor(i, j)) {
-                    getWorld().removeObject(candies[i][j]);
-                    candies[i][j] = null;
-                    drop();
+                    if (candies[i][j] instanceof Ingredient == false){
+                        getWorld().removeObject(candies[i][j]);
+                        candies[i][j] = null;
+                        drop();
+                    }
                 }
             }
         }

@@ -18,9 +18,18 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * <p>
  * Sources: <br>
  * Candy Visuals: King (developers of Candy Crush) <br>
- * Game Sounds: 
+ * Game Sounds: King (developers of Candy Crush) <br>
  * 
- * @author Peterson Guo, Kevin Luo, Kelby To 
+ * Current Bugs: <br>
+ * - Random occurances of striped candies returning null and randomly using ability <br>
+ * - Simultaneous unexpected generations of special candies <br>
+ * - Small glitches with animation <br>
+ * 
+ * Unfinished Code: <br>
+ * - Candy Count Objective <br>
+ * - Instruction World Images <br>
+ * 
+ * @author Peterson Guo, Kevin Luo, Kelby To, Isaac Chan 
  * @version June 15, 2023
  */
 public class MainWorld extends Worlds {
@@ -28,10 +37,10 @@ public class MainWorld extends Worlds {
     private static Candy clicked;
     //Candy Count variables
     private static Counter score, moves;
-    private static int counter, totalCandy, colour, objective;
+    private static int counter, totalCandy, colour;
     private static boolean objComplete;
     private Objectives obj;
-    private Sound ingredient;
+    private Sound ingredient, background;
     
     //Ingredients variables
     //private int totalIngredients;
@@ -41,6 +50,8 @@ public class MainWorld extends Worlds {
     public MainWorld(boolean choice) {
         score = new Counter("Score: ");
         moves = new Counter("Moves: ");
+        background = new Sound("background.mp3");
+        background.play(20);
         moves.setValue(25);
 
         addObject(score, 100, 50);
@@ -50,15 +61,19 @@ public class MainWorld extends Worlds {
         addObject(grid, 400, 400);
         grid.addCandies();
         
+        obj = StartWorld.getObj();
+        if (getObjects(Ingredient.class).size() == 0)
+            grid.addIngredient();
+        
         clicked = null;
         objComplete = false;
         
-        objective = (int)(Math.random() * 2);
-        if (objective == 1) {
-            obj = new CandyCount(Colour.random());
-        } else if(objective == 2) {
-            obj = new DropIngredients(2);
-        }
+        //objective = (int)(Math.random() * 2);
+        //if (objective == 1) {
+            //obj = new CandyCount(Colour.random());
+        //} else if(objective == 2) {
+            //obj = new DropIngredients(2);
+        //
         //totalIngredients = 2;
     }
     
@@ -68,7 +83,8 @@ public class MainWorld extends Worlds {
      */
     public void act() {
         if(moves.getValue() == 0){
-            //nextWorld
+            background.stop();
+            Greenfoot.setWorld(new EndWorld(false));
         }
         if (obj instanceof CandyCount){ //if the objective is candy count
             //something
@@ -76,13 +92,25 @@ public class MainWorld extends Worlds {
         if (obj instanceof DropIngredients){ //if the objective is getting ingredients
             for(Candy c : grid.getRow(9)){
                 if(c instanceof Ingredient){
-                    ((Ingredient)c).destroy();
+                    grid.removeFromWorld(new Pair(9, grid.getGridCoor(c).y));
                     ((DropIngredients)obj).decreaseIngredients();
+                    grid.drop();
                     ingredient = new Sound("ingredient.mp3");
                     ingredient.play();
                 }
             }
         }
+        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() == 0){
+            grid.addIngredient();
+        }
+        background.loop();
+    }
+
+    /**
+     * A method that runs when the world is stopped.
+     */
+    public void stopped(){
+        background.stop();
     }
     
     /**

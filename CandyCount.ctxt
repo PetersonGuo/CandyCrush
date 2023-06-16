@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=CandyCount
+comment0.text=\n\ A\ subclass\ called\ CandyCount\ that\ is\ an\ objective\ that\ requires\n\ the\ player\ to\ break\ a\ certain\ number\ of\ candies\ of\ a\ given\ colour.\ \n\ If\ the\ player\ manages\ to\ complete\ the\ objective\ they\ win.\n\ \n\ @author\ Kevin\ Luo,\ Kelby\ To,\ Peterson\ Guo\n\ @version\ June\ 15,\ 2023\n
+comment1.params=colour
+comment1.target=CandyCount(Colour)
+comment1.text=\n\ A\ constructor\ method\ that\ takes\ the\ colour\ of\ the\ required\ colour\n\ that\ must\ be\ destroyed\ to\ complete\ the\ objective.\n\ \n\ @param\ colour\ \ \ \ The\ required\ colour\ that\ is\ destroyed\ for\ the\ \n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ objective\n
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\n\ Act\ -\ do\ whatever\ the\ CandyCount\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+comment3.params=
+comment3.target=boolean\ checkObj()
+comment3.text=\n\ A\ method\ that\ checks\ if\ the\ objective\ is\ completed\ or\ not.\n\n\ @return\ objComplete\ \ A\ boolean\ that\ is\ true\ if\ the\ objective\ is\ completed\n
+comment4.params=add
+comment4.target=void\ increaseCandyCounter(int)
+comment4.text=\n\ A\ method\ that\ adds\ to\ a\ counter\ that\ keeps\ track\ of\ the\ number\ of\n\ candies\ destroyed.\n\ \n\ @param\ add\ \ \ The\ number\ of\ candies\ destroyed\n
+numComments=5

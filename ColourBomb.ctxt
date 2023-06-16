@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=ColourBomb
+comment0.text=\n\ A\ subclass\ of\ Special\ called\ ColourBomb\ that\ has\ the\ ability\ to\ \n\ break\ all\ candies\ of\ a\ certain\ colour\ that\ are\ currently\ on\ the\ \n\ grid\ if\ matched\ with\ the\ specified\ colour.\ These\ candies\ are\ \n\ created\ when\ a\ match\ of\ 5\ or\ greater\ is\ made.\n\ \n\ @author\ Kelby\ To,\ Isaac\ Chan\n\ @version\ June\ 15,\ 2023\n
+comment1.params=
+comment1.target=ColourBomb()
+comment1.text=\n\ A\ constructor\ method\ that\ creates\ a\ colour\ bomb\ and\ sets\ its\ image.\n
+comment2.params=
+comment2.target=void\ useAbility()
+comment2.text=\n\ A\ method\ that\ allows\ this\ candy\ to\ break\ all\ candies\ of\ a\ \n\ random\ colour.\n
+numComments=3

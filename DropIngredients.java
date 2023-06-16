@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version June 15, 2023
  */
 public class DropIngredients extends Objectives {
-    private static int totalIngredients;    
+    protected static int totalIngredients;    
     /**
      * A constructor method that takes an integer of the total ingredients 
      * required to drop to complete the objective.

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Triple
+comment0.text=\r\n\ A\ class\ that\ contains\ 3\ generics\ that\ are\ stored\ as\ x,\ y,\ and\ z.\r\n\ \r\n\ @author\ Peterson\ Guo\r\n\ @version\ June\ 15,\ 2023\r\n
+comment1.params=x\ y\ z
+comment1.target=Triple(java.lang.Object,\ java.lang.Object,\ java.lang.Object)
+comment1.text=\r\n\ A\ constructor\ that\ takes\ 3\ generic\ types\ and\ sets\ them\ as\ x,\ y,\ and\ z.\r\n\ \r\n\ @param\ x\ \ \ \ \ One\ generic\ type\r\n\ @param\ y\ \ \ \ \ Another\ generic\ type\r\n\ @param\ z\ \ \ \ \ Another\ genertic\ type\r\n
+comment2.params=
+comment2.target=java.lang.String\ toString()
+comment2.text=\r\n\ A\ method\ that\ returns\ x,\ y,\ and\ z\ as\ a\ string\r\n\ \r\n\ @return\ String\ \ \ A\ string\ that\ contains\ x,\ y,\ and\ z\r\n
+numComments=3
