@@ -15,7 +15,7 @@ public class GameGrid extends Actor {
     private Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> swap;
     private Set<Triple<Integer, Integer, Colour>> wraps;
     private Set<Triple<Integer, Integer, Integer>> horizontal, vertical;
-    private Sound match, colourBomb, stripe, wrapper, background;
+    private Sound match, colourBomb, stripe, wrapper;
     private static Queue<ArrayList<Candy>> changes;
     
     /**
@@ -53,15 +53,6 @@ public class GameGrid extends Actor {
                 w.addObject(cells[i][j], FINAL.CELL_SIZE*j + shiftAmountX, FINAL.CELL_SIZE*i + shiftAmountY);
             }
         }
-        background = new Sound("background.mp3");
-        background.loop();
-    }
-
-    /**
-     * A method that runs when the world is stopped
-     */
-    public void stopped(){
-        background.stop();
     }
     
     @Override

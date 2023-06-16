@@ -11,25 +11,29 @@ import java.util.*;
  * Background: Same creator as previosly mentioned in StartWorld, edited by Jett M.
  */
 public class EndWorld extends Worlds {
-    GreenfootImage background;
-    Text endResult, score, hScore1, hScore2, hScore3;
+    private GreenfootImage background;
+    private Text endResult, score, hScore1, hScore2, hScore3;
+    private Sound sound;
     
     //used to display score
-    FileWriter userScore;
-    PrintWriter output;
-    Scanner scan;
+    private FileWriter userScore;
+    private PrintWriter output;
+    private Scanner scan;
     private int lines;
-    private boolean linesLeft;
+    private boolean linesLeft, win;
     private ArrayList<Integer> scoreboard;
     /**
      * Constructor for objects of class EndWorld.
      * 
      */
     
-    public EndWorld() {
+    public EndWorld(boolean win) {
         background = new GreenfootImage("CandyEndScreen.png");
         background.scale(FINAL.WORLD_WIDTH, FINAL.WORLD_HEIGHT);
         setBackground(background);
+        
+        if(win) sound = new Sound("victory.mp3");
+        else sound = new Sound("lose.mp3");
         
         //text visuals
         if(MainWorld.isObjectiveCompleted()) endResult = new Text("Mission Completed!", Color.WHITE, 50);
@@ -51,8 +55,17 @@ public class EndWorld extends Worlds {
     
     public void act() {
         if(Greenfoot.isKeyDown("space")) {
+            sound.stop();
             Greenfoot.setWorld(new StartWorld());
         }
+    }
+    
+    public void started(){
+        sound.play();
+    }
+    
+    public void stopped(){
+        sound.stop();
     }
     
     public void updateScore() {

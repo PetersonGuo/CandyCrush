@@ -13,6 +13,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class StartWorld extends Worlds {
     private Text candy, ingredient;
     private int screen;
+    private Sound beginning;
     /**
      * Constructor for objects of class StartWorld.
      */
@@ -22,6 +23,7 @@ public class StartWorld extends Worlds {
     
     public StartWorld(int screen) {
         GreenfootImage background = new GreenfootImage("StartBackground2.png");
+        beginning = new Sound("beginning.mp3");
         background.scale(FINAL.WORLD_WIDTH, FINAL.WORLD_HEIGHT);
         setBackground(background);
         if (screen == 0) drawScreen();
@@ -33,12 +35,23 @@ public class StartWorld extends Worlds {
             drawInstructions();        
         else if (Greenfoot.isKeyDown("enter")) //checks to see if user starts the game
             screen = 1;
-        else if (Greenfoot.mouseClicked(candy))
+        else if (Greenfoot.mouseClicked(candy)){
             Greenfoot.setWorld(new MainWorld(true));
-        else if (Greenfoot.mouseClicked(ingredient))
+            beginning.stop();
+        }else if (Greenfoot.mouseClicked(ingredient)){
             Greenfoot.setWorld(new MainWorld(false));
-        else if (screen == 0) drawScreen();
+            beginning.stop();
+        }else if (screen == 0) drawScreen();
         else if (screen == 1) drawSelection();
+        beginning.loop();
+    }
+    
+    public void started(){
+        beginning.play(30);
+    }
+    
+    public void stopped(){
+        beginning.stop();
     }
     
     private void drawScreen() {

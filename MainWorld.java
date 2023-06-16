@@ -31,7 +31,7 @@ public class MainWorld extends Worlds {
     private static int counter, totalCandy, colour, objective;
     private static boolean objComplete;
     private Objectives obj;
-    private Sound ingredient;
+    private Sound ingredient, background;
     
     //Ingredients variables
     //private int totalIngredients;
@@ -41,6 +41,7 @@ public class MainWorld extends Worlds {
     public MainWorld(boolean choice) {
         score = new Counter("Score: ");
         moves = new Counter("Moves: ");
+        background = new Sound("background.mp3");
         moves.setValue(25);
 
         addObject(score, 100, 50);
@@ -67,8 +68,10 @@ public class MainWorld extends Worlds {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        background.play(20);
         if(moves.getValue() == 0){
-            //nextWorld
+            background.stop();
+            Greenfoot.setWorld(new EndWorld(false));
         }
         if (obj instanceof CandyCount){ //if the objective is candy count
             //something
@@ -83,6 +86,14 @@ public class MainWorld extends Worlds {
                 }
             }
         }
+        background.loop();
+    }
+    
+    /**
+     * A method that runs when the world is stopped
+     */
+    public void stopped(){
+        background.stop();
     }
     
     /**
