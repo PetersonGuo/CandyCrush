@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Objectives
+comment0.text=\r\n\ A\ superclass\ called\ Objectives\ that\ contains\ all\ the\ different\ types\r\n\ of\ objectives\ in\ the\ game.\ Objective\ help\ add\ to\ your\ score\ and\ can\ \r\n\ be\ either\ counting\ the\ type\ of\ candy\ destroyed\ or\ dropping\ ingredients.\r\n\ \r\n\ @author\ Kevin\ Luo\r\n\ @version\ \ June\ 15,\ 2023\r\n
+comment1.params=
+comment1.target=boolean\ checkObj()
+comment1.text=\r\n\ An\ abstract\ class\ that\ determines\ what\ the\ objective\ of\ the\ main\r\n\ world\ should\ be.\r\n
+numComments=2

@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Cell
+comment0.text=\r\n\ A\ class\ called\ Cell\ that\ is\ generated\ by\ the\ game\ grid\ that\ acts\ as\ both\r\n\ a\ storage\ for\ candies\ but\ also\ a\ visual\ representation\ of\ the\ game\ grid.\r\n\ Cells\ have\ easy\ access\ to\ the\ candies\ that\ it\ contains.\r\n\ \r\n\ @author\ Kelby\ To,\ Isaac\ Chan,\ Peterson\ Guo\r\n\ @version\ June\ 15,\ 2023\r\n
+comment1.params=
+comment1.target=Cell()
+comment1.text=\r\n\ A\ constructor\ that\ creates\ a\ cell\ and\ draws\ it.\r\n
+comment2.params=c
+comment2.target=void\ draw(greenfoot.Color)
+comment2.text=\r\n\ A\ method\ that\ draws\ a\ square\ based\ on\ the\ colour\ it\ takes.\r\n\ \r\n\ @param\ c\ \ \ \ \ The\ colour\ of\ the\ square\r\n
+comment3.params=
+comment3.target=void\ act()
+comment3.text=\r\n\ Act\ -\ do\ whatever\ the\ Cell\ wants\ to\ do.\ This\ method\ is\ called\ whenever.\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment4.params=c
+comment4.target=void\ setCandy(Candy)
+comment4.text=\r\n\ A\ setter\ method\ that\ sets\ the\ candy\ within\ this\ cell.\r\n\ \r\n\ @param\ c\ \ \ \ \ \ \ \ \ The\ candy\ being\ set\r\n
+comment5.params=
+comment5.target=Candy\ getCandy()
+comment5.text=\r\n\ A\ getter\ method\ that\ sets\ the\ candy\ within\ this\ cell\ to\ another\ candy.\r\n\ \r\n\ @return\ Candy\ \ \ The\ candy\ that\ this\ cell\ contains\r\n
+comment6.params=c
+comment6.target=boolean\ comp(Cell)
+comment6.text=\r\n\ A\ getter\ method\ that\ returns\ the\ candy\ within\ this\ cell.\r\n\ \r\n\ @param\ c\ \ \ \ \ \ \ \ \ \ \ \ \ The\ candy\ being\ compared\ to\r\n\ @return\ boolean\ \ \ \ \ \ The\ candy\ that\ this\ cell\ contains\r\n
+numComments=7

@@ -82,6 +82,18 @@ public class GameGrid extends Actor {
         cells[i][j].setCandy(candies[i][j]);
     }
     
+    private void addIngredient(int i, int j){
+        candies[i][j] = new Ingredient(2);
+        cells[i][j].setCandy(candies[i][j]);
+        getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+    }
+    
+    public void addIngredient(){
+        int j = (int) (Math.random() * 9);
+        addIngredient(0, j);
+        //getWorld().removeObject(candies[0][j]);
+    }
+    
     /**
      * A method that adds a special candy to the grid
      * @param i The row of the candy
@@ -377,7 +389,7 @@ public class GameGrid extends Actor {
      * 
      * @param p The coordinates of the candy to remove
      */
-    private void removeFromWorld(Pair<Integer, Integer> p) {
+    public void removeFromWorld(Pair<Integer, Integer> p) {
         getWorld().removeObject(candies[p.x][p.y]);
         if(!init)MainWorld.addPoints(100);
         candies[p.x][p.y] = null;
@@ -467,8 +479,10 @@ public class GameGrid extends Actor {
      */
     public void clearRow(int row) {
         for (int i = 0; i < candies[row].length; i++) {
-            removeFromWorld(new Pair<>(row, i));
-            drop();
+            if (candies[row][i] instanceof Ingredient == false){
+                removeFromWorld(new Pair<>(row, i));
+                drop();
+            }
         }
     }
     
@@ -492,8 +506,10 @@ public class GameGrid extends Actor {
      */
     public void clearCol(int col) {
         for (int i = 0; i < candies.length; i++) {
-            removeFromWorld(new Pair<>(i, col));
-            drop();
+            if (candies[i][col] instanceof Ingredient == false){
+                removeFromWorld(new Pair<>(i, col));
+                drop();
+            }
         }
     }
     
@@ -533,9 +549,11 @@ public class GameGrid extends Actor {
         for (int i = p.x - 1; i <= p.x + 1; i++) {
             for (int j = p.y - 1; j <= p.y + 1; j++) {
                 if (validCoor(i, j)) {
-                    getWorld().removeObject(candies[i][j]);
-                    candies[i][j] = null;
-                    drop();
+                    if (candies[i][j] instanceof Ingredient == false){
+                        getWorld().removeObject(candies[i][j]);
+                        candies[i][j] = null;
+                        drop();
+                    }
                 }
             }
         }

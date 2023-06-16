@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=DropIngredients
+comment0.text=\r\n\ A\ subclass\ called\ DropIngredients\ that\ is\ an\ objective\ that\ requires\r\n\ the\ player\ to\ drop\ an\ ingredient\ from\ the\ top\ of\ the\ screen\ to\ the\ bottom.\r\n\ If\ the\ player\ manages\ to\ complete\ the\ objective\ they\ win\ the\ game.\r\n\ \r\n\ @author\ Kevin\ Luo,\ Kelby\ To\ \r\n\ @version\ June\ 15,\ 2023\r\n
+comment1.params=totalIngredients
+comment1.target=DropIngredients(int)
+comment1.text=\r\n\ A\ constructor\ method\ that\ takes\ an\ integer\ of\ the\ total\ ingredients\ \r\n\ required\ to\ drop\ to\ complete\ the\ objective.\r\n\ \r\n\ @param\ totalIngredients\ \ The\ total\ number\ of\ ingredients\ required\ to\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ drop\r\n
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ DropIngredients\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment3.params=
+comment3.target=boolean\ checkObj()
+comment3.text=\r\n\ A\ method\ that\ checks\ if\ teh\ objective\ is\ completed\ or\ not.\r\n\ \r\n\ @return\ boolean\ A\ boolean\ that\ is\ true\ if\ the\ objective\ is\ completed\r\n
+comment4.params=
+comment4.target=void\ decreaseIngredients()
+comment4.text=\r\n\ A\ method\ that\ counts\ down\ the\ number\ of\ ingredients\ required\r\n
+numComments=5

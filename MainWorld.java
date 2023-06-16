@@ -37,7 +37,7 @@ public class MainWorld extends Worlds {
     private static Candy clicked;
     //Candy Count variables
     private static Counter score, moves;
-    private static int counter, totalCandy, colour, objective;
+    private static int counter, totalCandy, colour;
     private static boolean objComplete;
     private Objectives obj;
     private Sound ingredient, background;
@@ -61,15 +61,19 @@ public class MainWorld extends Worlds {
         addObject(grid, 400, 400);
         grid.addCandies();
         
+        obj = StartWorld.getObj();
+        if (getObjects(Ingredient.class).size() == 0)
+            grid.addIngredient();
+        
         clicked = null;
         objComplete = false;
         
-        objective = (int)(Math.random() * 2);
-        if (objective == 1) {
-            obj = new CandyCount(Colour.random());
-        } else if(objective == 2) {
-            obj = new DropIngredients(2);
-        }
+        //objective = (int)(Math.random() * 2);
+        //if (objective == 1) {
+            //obj = new CandyCount(Colour.random());
+        //} else if(objective == 2) {
+            //obj = new DropIngredients(2);
+        //
         //totalIngredients = 2;
     }
     
@@ -88,12 +92,16 @@ public class MainWorld extends Worlds {
         if (obj instanceof DropIngredients){ //if the objective is getting ingredients
             for(Candy c : grid.getRow(9)){
                 if(c instanceof Ingredient){
-                    ((Ingredient)c).destroy();
+                    grid.removeFromWorld(new Pair(9, grid.getGridCoor(c).y));
                     ((DropIngredients)obj).decreaseIngredients();
+                    grid.drop();
                     ingredient = new Sound("ingredient.mp3");
                     ingredient.play();
                 }
             }
+        }
+        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() == 0){
+            grid.addIngredient();
         }
         background.loop();
     }

@@ -14,6 +14,7 @@ public class StartWorld extends Worlds {
     private Text candy, ingredient;
     private int screen;
     private Sound beginning;
+    private static Objectives objective;
     /**
      * Constructor for objects of class StartWorld.
      */
@@ -49,10 +50,15 @@ public class StartWorld extends Worlds {
             beginning.stop();
         }else if (Greenfoot.mouseClicked(ingredient)){
             Greenfoot.setWorld(new MainWorld(false));
+            objective = new DropIngredients(2);
             beginning.stop();
         }else if (screen == 0) drawScreen();
         else if (screen == 1) drawSelection();
         beginning.loop();
+    }
+    
+    public static Objectives getObj(){
+        return objective;
     }
     
     /**
