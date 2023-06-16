@@ -25,7 +25,6 @@ public abstract class Candy extends Actor {
     public Candy(Colour colour) {
         this.colour = colour;
         moving = false;
-        notMovingCounter = 0;
     }
     
     /**
