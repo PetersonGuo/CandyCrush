@@ -10,7 +10,7 @@ import java.util.*;
 public class GameGrid extends Actor {
     private Candy[][] candies;
     private Cell[][] cells;
-    private int width, height, counter;
+    private int width, height;
     private boolean init;
     private Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> swap;
     private Set<Triple<Integer, Integer, Colour>> wraps;
@@ -48,10 +48,11 @@ public class GameGrid extends Actor {
     public void act() {
         if (!checkCandies())
             reshuffle();
-        getWorld().removeObjects(getWorld().getObjects(Candy.class));
+        //getWorld().removeObjects(getWorld().getObjects(Candy.class));
         for (int i = 0; i < candies.length; i++)
             for (int j = 0; j < candies[i].length; j++)
-                getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
+                if(candies[i][j] != null && candies[i][j].getIntersectingCandy() != null && candies[i][j].atOrigin() && candies[i][j].getIntersectingCandy().atOrigin()) getWorld().removeObject(candies[i][j].getIntersectingCandy());
+                //getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
     }
     
     private void addCandy(int i, int j) { //basic candy
@@ -69,7 +70,7 @@ public class GameGrid extends Actor {
     public void addIngredient(){
         int j = (int) (Math.random() * 9);
         addIngredient(0, j);
-        getWorld().removeObject(candies[0][j]);
+        //getWorld().removeObject(candies[0][j]);
     }
     
     private void addCandy(int i, int j, Specials type, Colour c, boolean vertical) {
@@ -94,9 +95,10 @@ public class GameGrid extends Actor {
     public void addCandies() {
         for (int i = 0; i < candies.length; i++)
             for (int j = 0; j < candies[i].length; j++)
-                if (candies[i][j] instanceof Ingredient == false)
+            if (candies[i][j] instanceof Ingredient == false)
                     addCandy(i, j);
         removeMatching();
+        candies[0][(int)(Math.random() * 10)] = new Ingredient(2);
         for (int i = 0; i < candies.length; i++)
             for (int j = 0; j < candies[i].length; j++){
                 if(candies[i][j] instanceof Special && !FINAL.CHEAT){
@@ -117,6 +119,7 @@ public class GameGrid extends Actor {
                 }
                 getWorld().addObject(candies[i][j], cells[i][j].getX(), cells[i][j].getY());
             }
+        
         init = false;
     }
     
@@ -315,7 +318,7 @@ public class GameGrid extends Actor {
         return false;
     }
     
-    private void removeFromWorld(Pair<Integer, Integer> p) {
+    public void removeFromWorld(Pair<Integer, Integer> p) {
         getWorld().removeObject(candies[p.x][p.y]);
         if(!init)MainWorld.addPoints(100);
         candies[p.x][p.y] = null;
@@ -397,9 +400,10 @@ public class GameGrid extends Actor {
     public void clearCol(int col) {
         for (int i = 0; i < candies.length; i++) {
             if (candies[i][col] instanceof Ingredient == false){
-            removeFromWorld(new Pair(i, col));
-            drop();
-        }
+                removeFromWorld(new Pair(i, col));
+            
+                drop();
+            }
         }
     }
     
@@ -423,9 +427,11 @@ public class GameGrid extends Actor {
         for (int i = (int)p.x - 1; i <= (int)p.x + 1; i++) {
             for (int j = (int)p.y - 1; j <= (int)p.y + 1; j++) {
                 if (validCoor(i, j)) {
-                    getWorld().removeObject(candies[i][j]);
-                    candies[i][j] = null;
-                    drop();
+                    if (candies[i][j] instanceof Ingredient == false){
+                        getWorld().removeObject(candies[i][j]);
+                        candies[i][j] = null;
+                        drop();
+                    }
                 }
             }
         }

@@ -30,11 +30,10 @@ public class MainWorld extends World {
     private static Counter score, moves;
     private static int counter, totalCandy, colour, objective;
     private static boolean objComplete;
-    private int count;
     private Objectives obj;
     
     //Ingredients variables
-    //private int totalIngredients;
+    //private static int totalIngredients;
     /**
      * Constructor for objects of class MyWorld.
      */
@@ -51,21 +50,23 @@ public class MainWorld extends World {
         
         grid = new GameGrid(10,10);
         addObject(grid, 400, 400);
+        grid.addCandies();
         
         new DropIngredients(2);
-        
-        grid.addIngredient();
-        grid.addCandies();
+        if (getObjects(Ingredient.class).size() == 0)
+            grid.addIngredient();
         
         clicked = null;
         objComplete = false;
-        
+        /*
         objective = (int)(Math.random() * 2);
         if(objective == 1){
             obj = new CandyCount((int)(Math.random()*6));
         }else if(objective == 2){
             obj = new DropIngredients(2);
         }
+        */
+       obj = new DropIngredients(2);
         //totalIngredients = 2;
     }
     
@@ -83,13 +84,14 @@ public class MainWorld extends World {
         if (obj instanceof DropIngredients){ //if the objective is getting ingredients
             for(Candy c : grid.getRow(9)){
                 if(c instanceof Ingredient){
-                    count++;
-                    ((Ingredient)c).destroy();
+                    grid.removeFromWorld(new Pair(9, grid.getGridCoor(c).y));
+                    //((Ingredient)c).destroy();
                     ((DropIngredients)obj).decreaseIngredients();
+                    grid.drop();
                 }
             }
         }
-        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() < 1){
+        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() == 0){
             grid.addIngredient();
         }
     }
