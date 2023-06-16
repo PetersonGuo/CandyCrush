@@ -62,7 +62,7 @@ public class MainWorld extends Worlds {
         grid.addCandies();
         
         obj = StartWorld.getObj();
-        if (getObjects(Ingredient.class).size() == 0)
+        if (getObjects(Ingredient.class).size() == 0 && obj instanceof DropIngredients)
             grid.addIngredient();
         
         clicked = null;
@@ -102,6 +102,10 @@ public class MainWorld extends Worlds {
         }
         if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() == 0){
             grid.addIngredient();
+        }
+        if (DropIngredients.totalIngredients == 0){
+            objComplete = true;
+            Greenfoot.setWorld(new EndWorld(true));
         }
         background.loop();
     }
