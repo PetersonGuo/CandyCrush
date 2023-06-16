@@ -13,4 +13,6 @@ comment3.text=\n\ A\ method\ that\ checks\ if\ teh\ objective\ is\ completed\ or
 comment4.params=
 comment4.target=void\ decreaseIngredients()
 comment4.text=\n\ A\ method\ that\ counts\ down\ the\ number\ of\ ingredients\ required\n
-numComments=5
+comment5.params=
+comment5.target=int\ getTotalIngredients()
+numComments=6

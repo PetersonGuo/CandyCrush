@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class EndWorld extends Worlds {
     private GreenfootImage background;
-    private Text endResult, score, hScore1, hScore2, hScore3;
+    private Text endResult, scoreText, hScore1, hScore2, hScore3;
     private Sound sound;
     
     //used to display score
@@ -29,7 +29,7 @@ public class EndWorld extends Worlds {
      * Constructor for objects of class EndWorld.
      */
     
-    public EndWorld(boolean win) {
+    public EndWorld(boolean win, int score) {
         background = new GreenfootImage("CandyEndScreen.png");
         background.scale(FINAL.WORLD_WIDTH, FINAL.WORLD_HEIGHT);
         setBackground(background);
@@ -42,8 +42,8 @@ public class EndWorld extends Worlds {
         else endResult = new Text("Mission Failed...", Color.WHITE, 50);
         addObject(endResult, FINAL.WORLD_WIDTH /2, FINAL.WORLD_HEIGHT/ 8);    
         
-        score = new Text("Score: ", Color.BLUE, 30);
-        addObject(score, FINAL.WORLD_WIDTH / 2, FINAL.WORLD_HEIGHT/ 4);
+        scoreText = new Text("Score: " + score, Color.BLUE, 30);
+        addObject(scoreText, FINAL.WORLD_WIDTH / 2, FINAL.WORLD_HEIGHT/ 4);
         
         scoreboard = new ArrayList<Integer>();
         Text topScores = new Text("Top Scores:", Color.BLUE, 30);

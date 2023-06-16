@@ -24,7 +24,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * - Random occurances of striped candies returning null and randomly using ability <br>
  * - Simultaneous unexpected generations of special candies <br>
  * - Small glitches with animation <br>
- * 
+ * - Randomly generated candy is sometimes not very random <br>
+ * - Candy selection can randomly stop working (rare) <br>
  * Unfinished Code: <br>
  * - Candy Count Objective <br>
  * - Instruction World Images <br>
@@ -43,7 +44,6 @@ public class MainWorld extends Worlds {
     private Sound ingredient, background;
     
     //Ingredients variables
-    //private int totalIngredients;
     /**
      * Constructor for objects of class MyWorld.
      */
@@ -52,7 +52,7 @@ public class MainWorld extends Worlds {
         moves = new Counter("Moves: ");
         background = new Sound("background.mp3");
         background.play(20);
-        moves.setValue(25);
+        moves.setValue(20);
 
         addObject(score, 100, 50);
         addObject(moves, 300, 50);
@@ -67,14 +67,6 @@ public class MainWorld extends Worlds {
         
         clicked = null;
         objComplete = false;
-        
-        //objective = (int)(Math.random() * 2);
-        //if (objective == 1) {
-            //obj = new CandyCount(Colour.random());
-        //} else if(objective == 2) {
-            //obj = new DropIngredients(2);
-        //
-        //totalIngredients = 2;
     }
     
     /**
@@ -84,7 +76,7 @@ public class MainWorld extends Worlds {
     public void act() {
         if(moves.getValue() == 0){
             background.stop();
-            Greenfoot.setWorld(new EndWorld(false));
+            Greenfoot.setWorld(new EndWorld(false, score.getValue()));
         }
         if (obj instanceof CandyCount){ //if the objective is candy count
             //something
@@ -92,7 +84,7 @@ public class MainWorld extends Worlds {
         if (obj instanceof DropIngredients){ //if the objective is getting ingredients
             for(Candy c : grid.getRow(9)){
                 if(c instanceof Ingredient){
-                    grid.removeFromWorld(new Pair(9, grid.getGridCoor(c).y));
+                    grid.removeFromWorld(grid.getGridCoor(c));
                     ((DropIngredients)obj).decreaseIngredients();
                     grid.drop();
                     ingredient = new Sound("ingredient.mp3");
@@ -100,12 +92,12 @@ public class MainWorld extends Worlds {
                 }
             }
         }
-        if (DropIngredients.totalIngredients != 0 && getObjects(Ingredient.class).size() == 0){
+        if (DropIngredients.getTotalIngredients() != 0 && getObjects(Ingredient.class).size() == 0){
             grid.addIngredient();
         }
-        if (DropIngredients.totalIngredients == 0){
+        if (DropIngredients.getTotalIngredients() == 0){
             objComplete = true;
-            Greenfoot.setWorld(new EndWorld(true));
+            Greenfoot.setWorld(new EndWorld(true, score.getValue()));
         }
         background.loop();
     }

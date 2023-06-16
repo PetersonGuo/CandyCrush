@@ -47,7 +47,11 @@ public class DropIngredients extends Objectives {
     /**
      * A method that counts down the number of ingredients required
      */
-    public void decreaseIngredients(){
+    public static void decreaseIngredients(){
         totalIngredients--;
+    }
+    
+    public static int getTotalIngredients(){
+        return totalIngredients;
     }
 }
