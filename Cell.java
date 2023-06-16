@@ -16,7 +16,7 @@ public class Cell extends Actor {
     /**
      * A constructor that creates a cell and draws it.
      */
-    public Cell(){
+    public Cell() {
         size = FINAL.CELL_SIZE;
         img = new GreenfootImage(size, size);
         draw(normal);

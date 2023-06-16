@@ -13,8 +13,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public abstract class Candy extends Actor {
     protected GreenfootImage image;
     protected Colour colour;
+    private boolean animate;
     private int x, y;
     protected Specials type;
+    private static boolean moving;
     
     /**
      * A constructor method that creates any type of candy based on its defined colour.
@@ -23,6 +25,8 @@ public abstract class Candy extends Actor {
      */
     public Candy(Colour colour) {
         this.colour = colour;
+        moving = false;
+        animate = true;
     }
     
     /**
@@ -41,8 +45,19 @@ public abstract class Candy extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        moving = !atOrigin();
+        if (animate && !atOrigin()) {
+            if (Math.abs(getY() - y) < 5)   setLocation(getX(), y);
+            else if (getY() < y)            setLocation(getX(), getY()+5);
+            else if (getY() > y)            setLocation(getX(), getY()-5);
+            if (Math.abs(getX() - x) < 5)   setLocation(x, getY());
+            else if (getX() < x)            setLocation(getX()+5, getY());
+            else if (getX() > x)            setLocation(getX()-5, getY());
+        }
+        
         if (Greenfoot.mousePressed(this)) {
             MainWorld.setClicked(this);
+            animate = false;
         } else if (Greenfoot.mouseDragged(this)) {
             MouseInfo m = Greenfoot.getMouseInfo();
             int offX = Math.abs(m.getX() - x), offY = Math.abs(m.getY() - y);
@@ -58,12 +73,15 @@ public abstract class Candy extends Actor {
                     setLocation(x, m.getY());
             else
                 setLocation(x, y);
-        } else if (Greenfoot.mouseClicked(null) && this.equals(MainWorld.getClicked())) {
-            Candy overlap = (Candy) getOneIntersectingObject(Candy.class);
-            if (overlap == null || !MainWorld.setClicked(overlap))
-                setLocation(x, y);
-        } else if (Greenfoot.mouseClicked(this))
-            MainWorld.setClicked(this);
+        } else if (Greenfoot.mouseClicked(null)) {
+            animate = true;
+            if (Greenfoot.mouseClicked(null) && this.equals(MainWorld.getClicked())) {
+                Candy overlap = (Candy) getOneIntersectingObject(Candy.class);
+                if (overlap == null || !MainWorld.setClicked(overlap))
+                    setLocation(x, y);
+            } else if (Greenfoot.mouseClicked(this))
+                MainWorld.setClicked(this);
+        }
     }
     
     /**
@@ -131,11 +149,11 @@ public abstract class Candy extends Actor {
         y = p.y;
     }
     
-	/**
-	 * A getter method that checks if the candy is at is expected coordinate.
-	 *
-	 * @return boolean  True if the candy is at its expected coordinate,
-	 */
+    /**
+     * A getter method that checks if the candy is at is expected coordinate.
+     *
+     * @return boolean  True if the candy is at its expected coordinate,
+     */
     public boolean atOrigin(){
         return getX() == x && getY() == y;
     }
@@ -150,27 +168,31 @@ public abstract class Candy extends Actor {
         return new Pair<>(x, y);
     }
     
-	/**
-	 * A getter method that returns the type of this candy.
-	 *
-	 * @return Specials The type of this candy
-	 * @see Specials
-	 * @see Ingredient
-	 * @see Regular
-	 * @see ColourBomb
-	 * @see Wrapped
-	 * @see Striped
-	 */
+    /**
+     * A getter method that returns the type of this candy.
+     *
+     * @return Specials The type of this candy
+     * @see Specials
+     * @see Ingredient
+     * @see Regular
+     * @see ColourBomb
+     * @see Wrapped
+     * @see Striped
+     */
     public Specials getType() {
         return type;
     }
     
-	/**
-	 * A getter method that returns the candy that is intersecting with this candy.
-	 *
-	 * @return Candy    The candy that is intersecting with this candy
-	 */
+    /**
+     * A getter method that returns the candy that is intersecting with this candy.
+     *
+     * @return Candy    The candy that is intersecting with this candy
+     */
     public Candy getIntersectingCandy(){
         return (Candy)getOneIntersectingObject(Candy.class);
+    }
+    
+    public static boolean isMoving(){
+        return moving;
     }
 }
