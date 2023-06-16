@@ -31,6 +31,7 @@ public enum Colour  {
      * @return Colour   A random colour
      */
     public static Colour random() {
+        Math.random();
         return values[(int)(Math.random() * values.length)];
     }
     /**

@@ -44,12 +44,13 @@ public abstract class Candy extends Actor {
      */
     public void act() {
         moving = !atOrigin();
+        if(!atOrigin() && (!Greenfoot.mousePressed(this)&&!Greenfoot.mouseDragged(this))){
+            if(getY() < y) setLocation(getX(), getY()+((y-getY())/5)+1);
+            else if(getY() > y) setLocation(getX(), getY()-5);
+            if(getX() < x) setLocation(getX()+5, getY());
+            else if(getX() > x) setLocation(getX()-5, getY());
+        }
         
-        if(getY() < y) setLocation(getX(), getY()+((y-getY())/5)+1);
-        else if(getY() > y) setLocation(getX(), getY()-5);
-        if(getX() < x) setLocation(getX()+5, getY());
-        else if(getX() > x) setLocation(getX()-5, getY());
-
         if (Greenfoot.mousePressed(this)) {
             MainWorld.setClicked(this);
         } else if (Greenfoot.mouseDragged(this)) {
