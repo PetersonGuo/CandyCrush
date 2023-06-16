@@ -48,7 +48,7 @@ public abstract class Candy extends Actor {
         moving = !atOrigin();
         if (animate && !atOrigin()) {
             if (Math.abs(getY() - y) < 5)   setLocation(getX(), y);
-            else if (getY() < y)            setLocation(getX(), getY()+5);
+            else if (getY() < y)            setLocation(getX(), getY()+((y-getY())/10)+1);
             else if (getY() > y)            setLocation(getX(), getY()-5);
             if (Math.abs(getX() - x) < 5)   setLocation(x, getY());
             else if (getX() < x)            setLocation(getX()+5, getY());
