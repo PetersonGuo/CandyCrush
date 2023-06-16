@@ -57,7 +57,6 @@ public class GameGrid extends Actor {
         background.loop();
     }
 
-    //@Override
     /**
      * A method that runs when the world is stopped
      */
@@ -76,7 +75,6 @@ public class GameGrid extends Actor {
             horizontal.clear();
             vertical.clear();
             wraps.clear();
-            printArray();
         }
         if (!checkCandies())
             reshuffle();
@@ -84,16 +82,6 @@ public class GameGrid extends Actor {
             for (int j = 0; j < candies[i].length; j++)
                 if (candies[i][j].getIntersectingCandy() != null && candies[i][j].atOrigin() && candies[i][j].getIntersectingCandy().atOrigin())
                     getWorld().removeObject(candies[i][j].getIntersectingCandy());
-    }
-    
-    public void printArray() {
-        for(int i = 0; i < candies.length; i++) {
-            for(int j = 0; j < candies[i].length; j++){
-                //System.out.print(i + "," + j);
-                System.out.print(candies[i][j] + "\t");}
-            System.out.println();
-        }
-        System.out.println("---------------------------------------------------");
     }
     
     /**
@@ -178,70 +166,68 @@ public class GameGrid extends Actor {
      * A method that removes all matching candies from the grid
      */
     public void removeMatching() {
-        //if (checkMatching()) {
-            for (Triple<Integer, Integer, Integer> entry : horizontal) {
-                Colour col = Colour.random();
-                for (int i = entry.y; i <= entry.z; i++) {
-                    if (candies[entry.x][i] != null) {
-                        col = candies[entry.x][i].getColour();
-                        candies[entry.x][i].useAbility();
-                        removeFromWorld(new Pair<>(entry.x, i));
-                    }
+        for (Triple<Integer, Integer, Integer> entry : horizontal) {
+            Colour col = Colour.random();
+            for (int i = entry.y; i <= entry.z; i++) {
+                if (candies[entry.x][i] != null) {
+                    col = candies[entry.x][i].getColour();
+                    candies[entry.x][i].useAbility();
+                    removeFromWorld(new Pair<>(entry.x, i));
                 }
-                if (swap != null && swap.y.x == entry.x && entry.y <= swap.y.y && swap.y.y <= entry.z) {
-                    if (entry.z-entry.y >= 4)
-                        addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
-                    else if (entry.z-entry.y >= 3)
-                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
-                    swap = null;
-                } else if (swap != null && swap.x.x == entry.x && entry.y <= swap.x.y && swap.x.y <= entry.z) {
-                    if (entry.z-entry.y >= 4)
-                        addCandy(swap.x.x, swap.x.y, Specials.ColourBomb, col, false);
-                    else if (entry.z-entry.y >= 3)
-                        addCandy(swap.x.x, swap.x.y, Specials.Striped, col, true);
-                    swap = null;
-                } else if (entry.z-entry.y >= 4)
-                    addCandy(entry.x, entry.y, Specials.ColourBomb, col, false);
-                else if (entry.z-entry.y >= 3)
-                    addCandy(entry.x, entry.y, Specials.Striped, col, true);
-                match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
-                if(!init) match.play();
             }
-            horizontal.clear();
-            for (Triple<Integer, Integer, Integer> entry : vertical) {
-                Colour col = null;
-                for (int i = entry.y; i <= entry.z; i++) {
-                    if (candies[i][entry.x] != null) {
-                        col = candies[i][entry.x].getColour();
-                        candies[i][entry.x].useAbility();
-                        removeFromWorld(new Pair<>(i, entry.x));
-                    }
+            if (swap != null && swap.y.x == entry.x && entry.y <= swap.y.y && swap.y.y <= entry.z) {
+                if (entry.z-entry.y >= 4)
+                    addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)
+                    addCandy(swap.y.x, swap.y.y, Specials.Striped, col, true);
+                swap = null;
+            } else if (swap != null && swap.x.x == entry.x && entry.y <= swap.x.y && swap.x.y <= entry.z) {
+                if (entry.z-entry.y >= 4)
+                    addCandy(swap.x.x, swap.x.y, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)
+                    addCandy(swap.x.x, swap.x.y, Specials.Striped, col, true);
+                swap = null;
+            } else if (entry.z-entry.y >= 4)
+                addCandy(entry.x, entry.y, Specials.ColourBomb, col, false);
+            else if (entry.z-entry.y >= 3)
+                addCandy(entry.x, entry.y, Specials.Striped, col, true);
+            match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
+            if(!init) match.play();
+        }
+        horizontal.clear();
+        for (Triple<Integer, Integer, Integer> entry : vertical) {
+            Colour col = null;
+            for (int i = entry.y; i <= entry.z; i++) {
+                if (candies[i][entry.x] != null) {
+                    col = candies[i][entry.x].getColour();
+                    candies[i][entry.x].useAbility();
+                    removeFromWorld(new Pair<>(i, entry.x));
                 }
-                if (swap != null && entry.y <= swap.y.x && swap.y.x <= entry.z && swap.y.y == entry.x) {
-                    if (entry.z-entry.y >= 4)
-                        addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
-                    else if (entry.z-entry.y >= 3)
-                        addCandy(swap.y.x, swap.y.y, Specials.Striped, col, false);
-                    swap = null;
-                } else if (swap != null && entry.y <= swap.x.x && swap.x.x <= entry.z && swap.x.y == entry.x) {
-                    if (entry.z-entry.y >= 4)
-                        addCandy(swap.x.x, swap.x.y, Specials.ColourBomb, col, false);
-                    else if (entry.z-entry.y >= 3)
-                        addCandy(swap.x.x, swap.x.y, Specials.Striped, col, false);
-                    swap = null;
-                } else if (entry.z-entry.y >= 4)
-                    addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
-                else if (entry.z-entry.y >= 3)
-                    addCandy(entry.y, entry.x, Specials.Striped, col, false);
-                match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
-                if(!init) match.play();
             }
-            vertical.clear();
-            for (Triple<Integer, Integer, Colour> t : wraps)
-                addCandy(t.x, t.y, Specials.Wrapped, t.z, false);
-            wraps.clear();
-            drop();
-        //}
+            if (swap != null && entry.y <= swap.y.x && swap.y.x <= entry.z && swap.y.y == entry.x) {
+                if (entry.z-entry.y >= 4)
+                    addCandy(swap.y.x, swap.y.y, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)
+                    addCandy(swap.y.x, swap.y.y, Specials.Striped, col, false);
+                swap = null;
+            } else if (swap != null && entry.y <= swap.x.x && swap.x.x <= entry.z && swap.x.y == entry.x) {
+                if (entry.z-entry.y >= 4)
+                    addCandy(swap.x.x, swap.x.y, Specials.ColourBomb, col, false);
+                else if (entry.z-entry.y >= 3)
+                    addCandy(swap.x.x, swap.x.y, Specials.Striped, col, false);
+                swap = null;
+            } else if (entry.z-entry.y >= 4)
+                addCandy(entry.y, entry.x, Specials.ColourBomb, col, false);
+            else if (entry.z-entry.y >= 3)
+                addCandy(entry.y, entry.x, Specials.Striped, col, false);
+            match = new Sound("match" + (int)(Math.random() * 4 + 1) + ".mp3");
+            if(!init) match.play();
+        }
+        vertical.clear();
+        for (Triple<Integer, Integer, Colour> t : wraps)
+            addCandy(t.x, t.y, Specials.Wrapped, t.z, false);
+        wraps.clear();
+        drop();
     }
         
     /**
@@ -276,7 +262,6 @@ public class GameGrid extends Actor {
         int counter = 0;
         for (Candy i : list)
             candies[counter/candies.length][counter%candies.length] = i;
-        //removeMatching();
     }
     
     /**
@@ -373,23 +358,19 @@ public class GameGrid extends Actor {
         swap(a, b);
         if (candies[a.x][a.y].getType() == Specials.ColourBomb && candies[b.x][b.y].getType() == Specials.ColourBomb) {
             clearAll();
-            //removeMatching();
             return true;
         } else if (candies[a.x][a.y].getType() == Specials.ColourBomb) {
             clearColour(candies[b.x][b.y].getColour());
             removeFromWorld(a);
             drop();
-            //removeMatching();
             return true;
         } else if (candies[b.x][b.y].getType() == Specials.ColourBomb) {
             clearColour(candies[a.x][a.y].getColour());
             removeFromWorld(b);
             drop();
-            //removeMatching();
             return true;
         } else if (checkMatching(Math.min(a.x, b.x), Math.max(a.x, b.y), Math.max(a.y, b.y))) {
             swapGraphics(a,b);
-            //removeMatching();
             return true;
         }
         swap(a, b);
@@ -526,17 +507,14 @@ public class GameGrid extends Actor {
      * @param c The colour to clear
      */
     public void clearColour(Colour c){
-        //ArrayList<Candy> remove = new ArrayList<Candy>();
         for(int i = 0; i < candies.length; i++) {
             for(int j = 0; j < candies[i].length; j++) {
                 if (candies[i][j] != null && candies[i][j].getColour() == c) {
-                    //remove.add(candies[i][j]);
                     removeFromWorld(new Pair<>(i, j));
                     drop();
                 }
             }
         }
-        //changes.add(remove);
     }
     
     /**
