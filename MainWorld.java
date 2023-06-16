@@ -20,7 +20,16 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Candy Visuals: King (developers of Candy Crush) <br>
  * Game Sounds: King (developers of Candy Crush) <br>
  * 
- * @author Peterson Guo, Kevin Luo, Kelby To 
+ * Current Bugs: <br>
+ * - Random occurances of striped candies returning null and randomly using ability <br>
+ * - Simultaneous unexpected generations of special candies <br>
+ * - Small glitches with animation <br>
+ * 
+ * Unfinished Code: <br>
+ * - Candy Count Objective <br>
+ * - Instruction World Images <br>
+ * 
+ * @author Peterson Guo, Kevin Luo, Kelby To, Isaac Chan 
  * @version June 15, 2023
  */
 public class MainWorld extends Worlds {
